@@ -13,21 +13,31 @@ namespace BL
 
     public class game
     {
+        public string GameID;
         public LinkedList<player> players;
-        public Queue<player> WantToJoinPlayers;
-        public player CurrentPlayer;
-        public Deck deck;
-        public int num_of_want_to_join;
-        public GamePreferences preferences;
-        public int playersNumber;
-        public int cashOnTheTable = 0;
-        public int GameID;
-        public int CurrentBet;
-        public LinkedList<User> user_waches;
-        public card[] table;
-        public int cardsOnTable;
+        public LinkedList<player> activePlayers;
         public int blindBit;
-        public LinkedList<player> folded = new LinkedList<player>();
+        public String CurrentPlayer;
+        public int cardsOnTable;
+        public card[] table;
+        public int MaxPlayers;
+        public int cashOnTable;
+        public int CurrentBet;
+        public int cashOnTheTable = 0;
+        
+        
+        
+        
+
+        /**
+
+* PLAYERS = "*PLAYER USER NAME*,*Player Name*,"{0,n} 
+*  CARDS = "*CARD NUMBER*,*CARD TYPE*,"{0,n}
+*  GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+* table=*CARDS*&MaxPlayers=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+* @param request is string that has this format: "JOINGAME *GAME ID* *USER NAME*"
+* @return "JOINGAME *GAME ID* *USER NAME* DONE *GAME FULL DETAILS*", "JOINGAME *GAME ID* *USER NAME* FAILED *MSG*"
+*/
 
         public game()
         {

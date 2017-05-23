@@ -39,14 +39,17 @@ namespace GUI
             */
             bool function_succeed;
             function_succeed = BL.register(id_textBox.Text, pass_textBox.Text, name_textBox.Text, email_textBox.Text);
-            if(!function_succeed)
+            if (!function_succeed)
             {
-                //TODO: show appropriate error message
+                MessageBox.Show("Registeration Failed, try to change the ID or to write stronger password", "Registeration Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                
             }
-            
-            MainWindow MW = new MainWindow(BL);
-            MW.Show();
-            this.Close(); 
+            else
+            {
+                MainWindow MW = new MainWindow(BL);
+                MW.Show();
+                this.Close();
+            }
         }
 
         private void radioButton_Checked(object sender, RoutedEventArgs e)

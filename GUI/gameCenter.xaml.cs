@@ -32,7 +32,7 @@ namespace GUI
 
         private void logout_button_Click(object sender, RoutedEventArgs e)
         {
-         //   BL.logout(user.ID);
+            BL.logout(user.ID);
             MainWindow MW = new MainWindow(BL);
             MW.Show();
             this.Close();
@@ -119,7 +119,7 @@ namespace GUI
                  }
 
                 if (!result)
-                    MessageBox.Show("an error was occurred, \n please enter valid parametes");
+                    MessageBox.Show("an error was occurred, \n please enter valid parameters");
                 else
                 MessageBox.Show("success! \n the profile was changed");
             }
@@ -164,21 +164,18 @@ namespace GUI
             {
                 games_table.Visibility = System.Windows.Visibility.Visible;
 
-                LinkedList<BL.game> can_join = new LinkedList<BL.game>();
+                LinkedList<string> can_join = new LinkedList<string>();
                 DataTable dt = new DataTable();
 
                     //create table dynamically
-                    dt.Columns.Add("game id", typeof(int));
-                    dt.Columns.Add("number of players", typeof(int));
-                    dt.Columns.Add("game type", typeof(string));
-                    dt.Columns.Add("min bet", typeof(int));
+                    dt.Columns.Add("game id", typeof(string));
 
 
                 if (search_by_pot_size.IsSelected)
                 {
                     int pot_size;
                     pot_size = int.Parse(game_box.Text);
-                    can_join = BL.searchGames(pot_size);
+                    can_join = BL.searchGamesByPotSize(pot_size);
                 }
                 else if (joinable_list.IsSelected)
                     can_join = BL.listOfJoinableGames(this.user.ID);
@@ -187,13 +184,13 @@ namespace GUI
 
 
                 if (can_join == null)
-                        MessageBox.Show("error \n cant find any games");
+                        MessageBox.Show("Can't find any games");
                     else
                     {
                         //add rows
-                        foreach (BL.game i_game in can_join)
+                        foreach (string i_game in can_join)
                         {
-                            dt.Rows.Add(i_game.GameID, i_game.playersNumber, i_game.preferences.gameTypePolicy, i_game.preferences.minBet);
+                            dt.Rows.Add(i_game);
                         }
                     }
 
@@ -201,7 +198,7 @@ namespace GUI
             }
             else if (ok_button.Content.Equals("join"))
             {
-              //   BL.joinGame(game_box.Text, this.user.ID);
+                BL.joinGame(game_box.Text, this.user.ID);
                 BL.game choosenGame = BL.getGameByID(game_box.Text);
                 game g = new game(BL, choosenGame);
                 g.Show();

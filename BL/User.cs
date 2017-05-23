@@ -9,19 +9,24 @@ namespace BL
     public class User
     {
         public string ID;
-        public string password;
         public string UserName;
-        public string Email;
         public int totalCash;
         public int score;
+        public int league;
 
-
-        public User(string id, string name, string email, string pass)
+        public User(string id, string name,int totalCash,int score,int league)
         {
             this.ID = id;
             this.UserName = name;
-            this.Email = email;
-            this.password = pass;
+            this.totalCash = totalCash;
+            this.score = score;
+            this.league = league;
+        }
+
+        public User(string id, string name) {
+
+            this.ID = id;
+            this.UserName = name;
         }
     }
 }

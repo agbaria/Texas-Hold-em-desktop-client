@@ -8,13 +8,10 @@ namespace BL
 {
     public class player
     {
-        public card[] hand;
-        public int cash;
         public User user;
-        public game Game;
         public player()
         {
-
+            
         }
     }
 }

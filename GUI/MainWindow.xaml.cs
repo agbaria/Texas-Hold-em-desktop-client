@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BL;
-
 namespace GUI
 {
     /// <summary>
@@ -25,8 +24,10 @@ namespace GUI
 
         public MainWindow()
         {
+            this.BL = businessLayer.getBL();
             InitializeComponent();
-                this.BL = new businessLayer(); 
+            
+            
         }
         public MainWindow(businessLayer bl)
         {
@@ -46,18 +47,20 @@ namespace GUI
             bool isUserExist;
             User user=null;
             isUserExist = BL.login(id_textBox.Text, pass_textBox.Text);
-            if(!isUserExist)
+            if (!isUserExist)
             {
-                //TODO: show appropriate message to the user
+                MessageBox.Show("Logging in Failed, ID or password wrong", "Logging in Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
             else
             {
                 user = BL.getUser(id_textBox.Text);
-            }
 
-            gameCenter GC = new gameCenter(BL, user);
-            GC.Show();
-            this.Close();
+
+                gameCenter GC = new gameCenter(BL, user);
+                GC.Show();
+                this.Close();
+            }
         }
     }
 }

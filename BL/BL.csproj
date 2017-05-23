@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="businessLayer.cs" />
     <Compile Include="card.cs" />
+    <Compile Include="communicationLayer.cs" />
     <Compile Include="game.cs" />
     <Compile Include="player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
