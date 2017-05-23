@@ -89,9 +89,46 @@ namespace BL
   */
         public void searchedGamesByPotSize(string msg)
         {
-            if (msg.Contains("SEARCHGAMESBYPOTSIZE") && msg.Contains("DONE"))
+            if (msg.Contains("DONE"))
             {
                 this.recived = msg;
+                isDone = 1;
+            }
+
+            else isDone = 2;
+        }
+
+
+        /** 
+* PLAYERS = "*PLAYER USER NAME* "{0,n}
+* CARDS = "*CARD NUMBER* *CARD TYPE* "{0,n}
+* GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+* table=*CARDS*&MaxPlayers=*NUMBER*&activePlayersNumber=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+* @param request is string that has this format: "SPECTATEGAME *GAME ID* *USER NAME*"
+* @return "SPECTATEGAME *GAME ID* *USER NAME* DONE *GAME FULL DETAILS*", "SPECTATEGAME FAILED *GAME ID* *USER NAME* *MSG*"
+*/
+        public void spectated(string msg)
+        {
+            if (msg.Contains("SPECTATEGAME") && msg.Contains("DONE"))
+            {
+                String part2 = msg.Substring(msg.IndexOf("DONE "));
+                game newGame = new game();
+                string players = extractString(part2, "players=");
+                LinkedList<player> playerss = extractPlayers(players);
+                players = extractString(part2, "activePlayers=");
+                LinkedList<player> activePlayers = extractPlayers(players);
+                card[] table = extractCards(extractString(part2, "table="));
+
+                newGame.GameID = extractString(part2, "GameID=");
+                newGame.players = playerss;
+                newGame.activePlayers = activePlayers;
+                newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
+                newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                newGame.table = table;
+                newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
+                newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
+                newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                this.games.AddFirst(newGame);
                 isDone = 1;
             }
 
@@ -115,18 +152,64 @@ namespace BL
                 game newGame = new game();
                 string players = extractString(part2, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
-                players = extractString(part2, "activePlayers");
+                players = extractString(part2, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
+                card[] table = extractCards(extractString(part2, "table="));
+
                 newGame.GameID = extractString(part2, "GameID=");
-                
-
-
+                newGame.players = playerss;
+                newGame.activePlayers = activePlayers;
+                newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
+                newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                newGame.table = table;
+                newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
+                newGame.cashOnTheTable= Int32.Parse(extractString(part2, "cashOnTheTable="));
+                newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
                 this.games.AddFirst(newGame);
                 isDone = 1;
             }
 
             else isDone = 2;
         }
+
+        /** 
+* PLAYERS = "*PLAYER USER NAME* "{0,n}
+* CARDS = "*CARD NUMBER* *CARD TYPE* "{0,n}
+* GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+* table=*CARDS*&MaxPlayers=*NUMBER*&activePlayersNumber=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+* GAME PREF = gameTypePolicy=*GAME TYPE POLICY*&potLimit=*POT LIMIT*&buyInPolicy=*BUY IN POLICY*&chipPolicy=*CHIP POLICY*&minBet=*MIN BET*&minPlayersNum=*MIN PLAY NUM*&maxPlayersNum=*MAX PLAYER NUMBER*&spectatable=*T/F*&leaguable=*T/F*&league=*NUNBER*
+* @param request is string that has this format: "CREATEGAME *USER NAME* *GAME PREF*"
+* @return "CREATEGAME *USER NAME* DONE *GAME FULL DETAILS*", "CREATEGAME FAILED" else
+*/
+        public void createdGame(string msg)
+        {
+            if (msg.Contains("CREATEGAME") && msg.Contains("DONE"))
+            {
+                String part2 = msg.Substring(msg.IndexOf("DONE "));
+                game newGame = new game();
+                string players = extractString(part2, "players=");
+                LinkedList<player> playerss = extractPlayers(players);
+                players = extractString(part2, "activePlayers=");
+                LinkedList<player> activePlayers = extractPlayers(players);
+                card[] table = extractCards(extractString(part2, "table="));
+
+                newGame.GameID = extractString(part2, "GameID=");
+                newGame.players = playerss;
+                newGame.activePlayers = activePlayers;
+                newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
+                newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                newGame.table = table;
+                newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
+                newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
+                newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                this.games.AddFirst(newGame);
+                this.recived = newGame.GameID;
+                isDone = 1;
+            }
+
+            else isDone = 2;
+        }
+
 
         private LinkedList<player> extractPlayers(string players)
         {
@@ -139,11 +222,49 @@ namespace BL
                 ID = players.Substring(i,players.IndexOf(",",i) - i);
                 i = players.IndexOf(",", i)+1;
                 name = players.Substring(i, players.IndexOf(",", i) - i);
+                i = players.IndexOf(",", i) + 1;
                 player p = new player();
                 p.user = new User(ID,name);
-                result.AddFirst(p);
+                result.AddLast(p);
             }
             return result;
+        }
+
+        private card[] extractCards(string cards)
+        {
+            int i = 0;
+            string cardType;
+            string CardNumber;
+            List<card> result = new List<card>();
+            while (i < cards.Length - 1)
+            {
+
+                CardNumber = cards.Substring(i, cards.IndexOf(",", i) - i);
+                i = cards.IndexOf(",", i) + 1;
+                cardType = cards.Substring(i, cards.IndexOf(",", i) - i);
+                i = cards.IndexOf(",", i) + 1;
+                card p = new card();
+                p.number = Int32.Parse(CardNumber);
+                //SPADES, HEARTS, DIAMONDS, CLUBS
+                if (cardType.Equals("SPADES"))
+                {
+                    p.type = CardType.SPADES;
+                }
+                if (cardType.Equals("HEARTS"))
+                {
+                    p.type = CardType.HEARTS;
+                }
+                if (cardType.Equals("DIAMONDS"))
+                {
+                    p.type = CardType.DIAMONDS;
+                }
+                if (cardType.Equals("CLUBS"))
+                {
+                    p.type = CardType.CLUBS;
+                }
+                result.Add(p);
+            }
+            return result.ToArray();
         }
 
         private string extractString(string input,string splitter) {
@@ -309,15 +430,47 @@ namespace BL
 
         public game getGameByID(String gameID)
         {
-            //TODO: call function via communication layer
-            return new game();
+            foreach(game currentGame in games){
+                if (currentGame.GameID.Equals(gameID))
+                    return currentGame;
+            }
+            return null;
         }
 
+        /** 
+     * PLAYERS = "*PLAYER USER NAME* "{0,n}
+     * CARDS = "*CARD NUMBER* *CARD TYPE* "{0,n}
+     * GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+     * table=*CARDS*&MaxPlayers=*NUMBER*&activePlayersNumber=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+     * GAME PREF = gameTypePolicy=*GAME TYPE POLICY*&potLimit=*POT LIMIT*&buyInPolicy=*BUY IN POLICY*&chipPolicy=*CHIP POLICY*&minBet=*MIN BET*&minPlayersNum=*MIN PLAY NUM*&maxPlayersNum=*MAX PLAYER NUMBER*&spectatable=*T/F*&leaguable=*T/F*&league=*NUNBER*
+     * @param request is string that has this format: "CREATEGAME *USER NAME* *GAME PREF*"
+     * @return "CREATEGAME *USER NAME* *GAME FULL DETAILS*", "CREATEGAME FAILED" else
+ */
+
         public String createGame(String UserID, GameType type, int Limit, int buyIn, int chipPolicy, int minBet,
-              int minPlayers, int maxPlayers, bool spectatable, bool leaguable)
+              int minPlayers, int maxPlayers, bool spectatable, bool leaguable,int league)
         {
-            //TODO: call function via communication layer
-            return "";
+            string result = null; 
+            isDone = 0;
+            string spect = "";
+            string leagu = "";
+            if (spectatable) spect = "T";
+            else spect = "F";
+            if (leaguable) leagu = "T";
+            else leagu = "F";
+            if (CL.send("CREATEGAME " + UserID + " gameTypePolicy=" + type + "&potLimit=" + Limit + "&buyInPolicy=" +buyIn+
+                "&chipPolicy="+ chipPolicy + "&minBet="+ minBet + "&minPlayersNum="+ minPlayers + "&maxPlayersNum="+ maxPlayers + "&spectatable="+spect+ "&leaguable="+leagu+ "&league="+ league + "\n"))
+            {
+                while (isDone == 0) ;
+                if (isDone == 1) {
+                    result = recived;
+                    this.recived = "";
+                    return result; }
+                this.recived = "";
+                return null;
+            }
+            this.recived = "";
+            return null;
         }
 
         /** 
@@ -392,9 +545,23 @@ namespace BL
             return null;
         }
 
+        /** 
+ * PLAYERS = "*PLAYER USER NAME* "{0,n}
+ * CARDS = "*CARD NUMBER* *CARD TYPE* "{0,n}
+ * GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+ * table=*CARDS*&MaxPlayers=*NUMBER*&activePlayersNumber=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+ * @param request is string that has this format: "SPECTATEGAME *GAME ID* *USER NAME*"
+ * @return "SPECTATEGAME *GAME ID* *USER NAME* DONE *GAME FULL DETAILS*", "SPECTATEGAME FAILED *GAME ID* *USER NAME* *MSG*"
+ */
         public bool spectateGame(String UserID, String GameID)
         {
-            //TODO: call function via communication layer
+            isDone = 0;
+            if (CL.send("SPECTATEGAME " + GameID + " " + UserID + "\n"))
+            {
+                while (isDone == 0) ;
+                if (isDone == 1) return true;
+                return false;
+            }
             return false;
         }
 

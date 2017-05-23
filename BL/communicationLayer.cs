@@ -77,8 +77,13 @@ namespace BL
                         businessLayer.getBL().searchedGamesByPotSize(recived);
                     if (recived.Contains("LISTJOINABLEGAMES"))
                         businessLayer.getBL().searchedGamesByPotSize(recived);
+                    if(recived.Contains("JOINGAME"))
+                        businessLayer.getBL().joinedGame(recived);
+                    if (recived.Contains("SPECTATEGAME"))
+                        businessLayer.getBL().spectated(recived);
+                    if (recived.Contains("CREATEGAME"))
+                        businessLayer.getBL().createdGame(recived);
 
-                    
 
 
                 }
