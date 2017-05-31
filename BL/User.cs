@@ -10,14 +10,16 @@ namespace BL
     {
         public string ID;
         public string UserName;
+        public string avatar;
         public int totalCash;
         public int score;
         public int league;
 
-        public User(string id, string name,int totalCash,int score,int league)
+        public User(string id, string name, string avatar, int totalCash,int score,int league)
         {
             this.ID = id;
             this.UserName = name;
+            this.avatar = avatar;
             this.totalCash = totalCash;
             this.score = score;
             this.league = league;

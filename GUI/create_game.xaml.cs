@@ -64,7 +64,7 @@ namespace GUI
                 MessageBox.Show("error \n one or more of the parameters is invalid");
 
             BL.game game = BL.getGameByID(gameID);
-            game g = new game(BL, game);
+            game g = new game(BL, game, user);
             g.Show();
             this.Close();
         }

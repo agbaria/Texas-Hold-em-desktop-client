@@ -6,6 +6,8 @@ namespace BL
 {
     public class businessLayer
     {
+        
+
         private static businessLayer singelton = new businessLayer();
         public static businessLayer getBL() {
             return singelton;
@@ -22,6 +24,8 @@ namespace BL
             recived = "";
             games = new LinkedList<game>();
         }
+
+
         public void registered(string msg){
             if (msg.Contains("REG") && msg.Contains("DONE"))
                 isDone = 1;
@@ -38,10 +42,10 @@ namespace BL
             {
                 string [] parts =msg.Split(' ');
                 Console.WriteLine(msg.ToString());
-                user = new User(parts[2],parts[3],Int32.Parse(parts[4]), Int32.Parse(parts[5]), Int32.Parse(parts[6]));
+             //   user = new User(parts[2],parts[3],Int32.Parse(parts[4]), Int32.Parse(parts[5]), Int32.Parse(parts[6]));
                 isDone = 1;
             }
-                
+               
             else isDone = 2;
         }
         /**
@@ -562,6 +566,35 @@ namespace BL
                 if (isDone == 1) return true;
                 return false;
             }
+            return false;
+        }
+
+
+        public bool leaveGame(String GameID, String UserID)
+        {
+            //TODO
+            return false;
+        }
+
+        public bool check(String userID, String gameID)
+        {
+            //TODO
+            return false;
+        }
+    
+        public bool fold(String userID, String gameID)
+        {
+            //TODO
+            return false;
+        }
+        public bool raise(String userID, String gameID, int money)
+        {
+            //TODO
+            return false;
+        }
+        public bool call(String userID, String gameID, int money)
+        {
+            //TODO
             return false;
         }
 

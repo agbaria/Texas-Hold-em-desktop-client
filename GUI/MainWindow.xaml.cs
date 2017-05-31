@@ -46,13 +46,13 @@ namespace GUI
         {
             bool isUserExist;
             User user=null;
-       //     isUserExist = BL.login(id_textBox.Text, pass_textBox.Text);
-        //    if (!isUserExist)
+            isUserExist = BL.login(id_textBox.Text, pass_textBox.Text);
+            if (!isUserExist)
             {
-      //          MessageBox.Show("Logging in Failed, ID or password wrong", "Logging in Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Logging in Failed, ID or password wrong", "Logging in Failed", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
-      //      else
+            else
             {
                 user = BL.getUser(id_textBox.Text);
 

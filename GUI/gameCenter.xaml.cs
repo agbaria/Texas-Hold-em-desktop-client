@@ -200,7 +200,7 @@ namespace GUI
             {
                 BL.joinGame(game_box.Text, this.user.ID);
                 BL.game choosenGame = BL.getGameByID(game_box.Text);
-                game g = new game(BL, choosenGame);
+                game g = new game(BL, choosenGame, user);
                 g.Show();
                 this.Close();
             }
@@ -237,7 +237,7 @@ namespace GUI
 
           //  BL.spectateGame(this.user.ID, game_box.Text);
             BL.game choosenGame = BL.getGameByID(game_box.Text);
-            game g = new game(BL, choosenGame);
+            game g = new game(BL, choosenGame, user);
             g.Show();
             this.Close();
         }

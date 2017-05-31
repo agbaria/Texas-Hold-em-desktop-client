@@ -12,7 +12,7 @@ namespace BL
     }
 
 
-    public class card
+    public class card 
     {
 
         public int number;

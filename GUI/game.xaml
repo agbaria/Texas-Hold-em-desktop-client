@@ -18,7 +18,6 @@
         <Border Name="card3" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="440,268,0,0" VerticalAlignment="Top" Width="100"/>
         <Border Name="card4" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="559,268,0,0" VerticalAlignment="Top" Width="100"/>
         <Border Name="card5" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="150" Margin="678,268,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="shuffle" Content="Shuffle" HorizontalAlignment="Left" Height="37" Margin="425,567,0,0" VerticalAlignment="Top" Width="134" Click="shuffle_Click" FontSize="16"/>
         <Border Name="player1_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="709,55,0,0" VerticalAlignment="Top" Width="96"/>
         <Label x:Name="player1_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="709,29,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
         <Label x:Name="player1_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="709,154,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
@@ -28,8 +27,45 @@
         <Border Name="player3_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="868,360,0,0" VerticalAlignment="Top" Width="96"/>
         <Label x:Name="player3_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="868,334,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
         <Label x:Name="player3_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="868,459,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
-        <Border Name="player4_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="709,531,0,0" VerticalAlignment="Top" Width="96"/>
-        <Label x:Name="player4_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="709,505,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
-        <Label x:Name="player4_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="709,630,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
+        <Border Name="player4_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="709,561,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="player4_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="709,535,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
+        <Label x:Name="player4_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="709,660,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
+        <Border x:Name="player5_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="194,561,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="player5_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="194,535,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
+        <Label x:Name="player5_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="194,660,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
+        <Border x:Name="player6_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="28,360,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="player6_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="28,334,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
+        <Label x:Name="player6_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="28,459,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
+        <Border x:Name="player7_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="28,140,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="player7_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="28,114,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
+        <Label x:Name="player7_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="28,237,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
+        <Border x:Name="player8_avatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="194,55,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="player8_name" Visibility="Hidden" Content="palyer1_name" HorizontalAlignment="Left" Margin="194,29,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" FontWeight="Bold" Height="26"/>
+        <Label x:Name="player8_cash" Visibility="Hidden" Content="      $ 1000" HorizontalAlignment="Left" Margin="194,154,0,0" VerticalAlignment="Top" Width="96" Background="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" Foreground="#FFFFF4F4" Height="22" FontWeight="Bold"/>
+        <Button x:Name="leave_game" Content="Leave game" HorizontalAlignment="Left" Margin="852,19,0,0" VerticalAlignment="Top" Width="112" Height="36" FontSize="14" Click="leave_game_Click"/>
+        <Button x:Name="fold_button" Visibility="Hidden" Content="" HorizontalAlignment="Left" Margin="232,472,0,0" VerticalAlignment="Top" Width="89" Height="31" Click="fold_button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="pictures/fold.PNG" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="check_button" Visibility="Hidden" Content="Check" HorizontalAlignment="Left" Margin="348,472,0,0" VerticalAlignment="Top" Width="91" Height="31" RenderTransformOrigin="-0.193,0.452" Background="{DynamicResource {x:Static SystemColors.AppWorkspaceBrushKey}}" Click="check_button_Click"/>
+        <Button x:Name="call_button" Visibility="Hidden" Content="" HorizontalAlignment="Left" Margin="465,472,0,0" VerticalAlignment="Top" Width="91" Height="31" Click="call_button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="pictures/call.PNG" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Button x:Name="raise_button" Visibility="Hidden" Content="" HorizontalAlignment="Left" Margin="588,472,0,0" VerticalAlignment="Top" Width="88" Height="31" Click="raise_button_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="pictures/raise.PNG" Stretch="Uniform"/>
+            </Button.Background>
+        </Button>
+        <Slider x:Name="slider" Visibility="Hidden" IsSnapToTickEnabled="True" TickFrequency="1"  HorizontalAlignment="Left" Margin="688,488,0,0"  VerticalAlignment="Top" Width="102" Background="#FF113E9E"/>
+        <TextBlock x:Name="raiseBet" Visibility="Hidden" Text="{Binding ElementName=slider,Path=Value}" HorizontalAlignment="Left" Margin="750,465,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="61" Height="20" Foreground="#FFFDFAFA"/>
+        <TextBlock x:Name="Raise_to" Visibility="Hidden" HorizontalAlignment="Left" Margin="690,464,0,0" TextWrapping="Wrap" Text="Raise to:" VerticalAlignment="Top" Foreground="#FFF9F7F7" FontWeight="Bold"/>
+        <TextBlock x:Name="now_playing" HorizontalAlignment="Left" Margin="404,431,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="179" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run Text="now playing: "/></TextBlock>
+        <TextBlock x:Name="cashOnTheTable" HorizontalAlignment="Left" Margin="440,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="179" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run Text="cash: 0$"/></TextBlock>
+        <Border x:Name="my_first_card"  BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="92" Margin="415,581,0,0" VerticalAlignment="Top" Width="69"/>
+        <Border x:Name="my_second_card"  BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="92" Margin="514,581,0,0" VerticalAlignment="Top" Width="69"/>
+        <TextBlock x:Name="your_cards" HorizontalAlignment="Left" Margin="456,545,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="93" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run FlowDirection="RightToLeft" Text="your cards"/><Run Text=": "/></TextBlock>
     </Grid>
 </Window>

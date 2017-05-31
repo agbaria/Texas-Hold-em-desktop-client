@@ -16,12 +16,12 @@ namespace BL
         public string GameID;
         public LinkedList<player> players;
         public LinkedList<player> activePlayers;
+        public int activePlayersNumber;
         public int blindBit;
         public String CurrentPlayer;
         public int cardsOnTable;
         public card[] table;
         public int MaxPlayers;
-        public int cashOnTable;
         public int CurrentBet;
         public int cashOnTheTable = 0;
         

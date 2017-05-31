@@ -205,6 +205,11 @@
   <ItemGroup>
     <Resource Include="pictures\as-holdem.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="pictures\call.PNG" />
+    <Resource Include="pictures\fold.PNG" />
+    <Resource Include="pictures\raise.PNG" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

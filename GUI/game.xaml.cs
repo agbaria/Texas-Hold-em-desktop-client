@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL;
+using System.Threading;
 
 namespace GUI
 {
@@ -22,99 +23,342 @@ namespace GUI
     {
         businessLayer BL;
         BL.game Game;
-        BitmapImage[] image = new BitmapImage[52];
+        User user;
+
+        BitmapImage[] cards = new BitmapImage[52];
         BitmapImage[] avatars = new BitmapImage[4];
-        int[] cards = new int[52];
-        int[] avatarsIndex = new int[4];
-        String[] royalFamily = { "jack", "queen", "king", "ace" };
-        public game(businessLayer bl, BL.game Game)
+        Border[] playerAvatar = new Border[8];
+        Label[] playerName = new Label[8];
+        Label[] playerCash = new Label[8];
+
+        public game(businessLayer bl, BL.game Game, User user)
         {
             InitializeComponent();
             this.BL = bl;
             this.Game = Game;
+            this.user = user;
 
-            avatars[0] = new BitmapImage(new Uri("avatar1.jpg", UriKind.Relative));
-            avatars[1] = new BitmapImage(new Uri("avatar2.png", UriKind.Relative));
-            avatars[2] = new BitmapImage(new Uri("avatar3.jpg", UriKind.Relative));
-            avatars[3] = new BitmapImage(new Uri("avatar4.jpg", UriKind.Relative));
+            InitializeAvatrsImages();
+            InitializeCardsImages();
+            InitializePlayersComponents();
 
-            for (int i = 0; i < 52; i++)
-                cards[i] = i;
+              Thread newThread = new Thread(new ThreadStart(Run));
+              newThread.Start(); 
+        }
 
-            for (int i = 0; i < 4; i++)
-                avatarsIndex[i] = i;
-
-            for (int i=0; i<9; i++)
+        private void Run()
+        {
+            while(Game.activePlayersNumber>0)
             {
-                image[i] = new BitmapImage(new Uri((i+2)+ "_of_clubs.png", UriKind.Relative));
-                image[i+13] = new BitmapImage(new Uri((i + 2) + "_of_diamonds.png", UriKind.Relative));
-                image[i+26] = new BitmapImage(new Uri((i + 2) + "_of_hearts.png", UriKind.Relative));
-                image[i+39] = new BitmapImage(new Uri((i + 2) + "_of_spades.png", UriKind.Relative));
-            }
-
-            for (int i = 9; i < 13; i++)
-            {
-                image[i] = new BitmapImage(new Uri(royalFamily[i - 9] + "_of_clubs.png", UriKind.Relative));
-                image[i + 13] = new BitmapImage(new Uri(royalFamily[i - 9] + "_of_diamonds.png", UriKind.Relative));
-                image[i + 26] = new BitmapImage(new Uri(royalFamily[i - 9] + "_of_hearts.png", UriKind.Relative));
-                image[i + 39] = new BitmapImage(new Uri(royalFamily[i - 9] + "_of_spades.png", UriKind.Relative));
+                if(this.Game.CurrentPlayer==this.user.ID)
+                {
+                    myTurn();
+                }
+                updateGame();
             }
         }
 
-        private void shuffle_Click(object sender, RoutedEventArgs e)
+        private void InitializeAvatrsImages()
         {
-            shuffle_the_deck(cards);
-            card1.Background = new ImageBrush(image[cards[0]]);
-            card2.Background = new ImageBrush(image[cards[1]]);
-            card3.Background = new ImageBrush(image[cards[2]]);
-            card4.Background = new ImageBrush(image[cards[3]]);
-            card5.Background = new ImageBrush(image[cards[4]]);
-
-            player1_avatar.Background = new ImageBrush(avatars[avatarsIndex[0]]);
-            player2_avatar.Background = new ImageBrush(avatars[avatarsIndex[1]]);
-            player3_avatar.Background = new ImageBrush(avatars[avatarsIndex[2]]);
-            player4_avatar.Background = new ImageBrush(avatars[avatarsIndex[3]]);
-
-            player1_name.Visibility = System.Windows.Visibility.Visible;
-            player1_cash.Visibility = System.Windows.Visibility.Visible;
-            player2_name.Visibility = System.Windows.Visibility.Visible;
-            player2_cash.Visibility = System.Windows.Visibility.Visible;
-            player3_name.Visibility = System.Windows.Visibility.Visible;
-            player3_cash.Visibility = System.Windows.Visibility.Visible;
-            player4_name.Visibility = System.Windows.Visibility.Visible;
-            player4_cash.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void update_cards_images(card[] cards)
-        {
-
-        }
-        private void shuffle_the_deck(int [] cards)
-        {
-            int newI;
-            int temp;
-            Random randIndex = new Random();
-
-            for (int i = 0; i < 52; i++)
-            {
-                newI = randIndex.Next(52);
-
-                // swap cards[i] and cards[newI]
-                temp = cards[i];
-                cards[i] = cards[newI];
-                cards[newI] = temp;
-            }
-            
             for (int i = 0; i < 4; i++)
             {
-                newI = randIndex.Next(4);
-
-                // swap 
-                temp = avatarsIndex[i];
-                avatarsIndex[i] = avatarsIndex[newI];
-                avatarsIndex[newI] = temp;
+                if(i==1)
+                avatars[1] = new BitmapImage(new Uri("avatar" + (i + 1) + ".png", UriKind.Relative));
+                else
+                avatars[i] = new BitmapImage(new Uri("avatar"+(i+1)+".jpg", UriKind.Relative));
             }
-            
         }
+
+        private void InitializePlayersComponents()
+        {
+            playerAvatar[0] = player1_avatar;
+            playerAvatar[1] = player2_avatar;
+            playerAvatar[2] = player3_avatar;
+            playerAvatar[3] = player4_avatar;
+            playerAvatar[4] = player5_avatar;
+            playerAvatar[5] = player6_avatar;
+            playerAvatar[6] = player7_avatar;
+            playerAvatar[7] = player8_avatar;
+
+            playerName[0] = player1_name;
+            playerName[1] = player2_name;
+            playerName[2] = player3_name;
+            playerName[3] = player4_name;
+            playerName[4] = player5_name;
+            playerName[5] = player6_name;
+            playerName[6] = player7_name;
+            playerName[7] = player8_name;
+
+            playerCash[0] = player1_cash;
+            playerCash[1] = player2_cash;
+            playerCash[2] = player3_cash;
+            playerCash[3] = player4_cash;
+            playerCash[4] = player5_cash;
+            playerCash[5] = player6_cash;
+            playerCash[6] = player7_cash;
+            playerCash[7] = player8_cash;
+        }
+
+        private void InitializeCardsImages()
+        {
+            String[] royalFamily = { "jack", "queen", "king"};
+
+            cards[0] = new BitmapImage(new Uri("ace_of_clubs.png", UriKind.Relative));
+            cards[13] = new BitmapImage(new Uri("ace_of_diamonds.png", UriKind.Relative));
+            cards[26] = new BitmapImage(new Uri("ace_of_hearts.png", UriKind.Relative));
+            cards[39] = new BitmapImage(new Uri("ace_of_spades.png", UriKind.Relative));
+
+            for (int i = 1; i < 10; i++)
+            {
+                cards[i] = new BitmapImage(new Uri((i + 1) + "_of_clubs.png", UriKind.Relative));
+                cards[i + 13] = new BitmapImage(new Uri((i + 1) + "_of_diamonds.png", UriKind.Relative));
+                cards[i + 26] = new BitmapImage(new Uri((i + 1) + "_of_hearts.png", UriKind.Relative));
+                cards[i + 39] = new BitmapImage(new Uri((i + 1) + "_of_spades.png", UriKind.Relative));
+            }
+
+            for (int i = 10; i < 13; i++)
+            {
+                cards[i] = new BitmapImage(new Uri(royalFamily[i - 10] + "_of_clubs.png", UriKind.Relative));
+                cards[i + 13] = new BitmapImage(new Uri(royalFamily[i - 10] + "_of_diamonds.png", UriKind.Relative));
+                cards[i + 26] = new BitmapImage(new Uri(royalFamily[i - 10] + "_of_hearts.png", UriKind.Relative));
+                cards[i + 39] = new BitmapImage(new Uri(royalFamily[i - 10] + "_of_spades.png", UriKind.Relative));
+            }
+        }
+
+        private void updateTableCards()
+        {
+            int numOfCards = Game.cardsOnTable;
+            int[] cardIndex=new int[numOfCards];
+
+            for(int i=0; i<numOfCards; i++)
+            {
+               if(Game.table[i].type.Equals(CardType.CLUBS))
+                   cardIndex[i] = Game.table[i].number - 1;
+               if (Game.table[i].type.Equals(CardType.DIAMONDS))
+                   cardIndex[i] = Game.table[i].number - 1 + 13;
+               if (Game.table[i].type.Equals(CardType.HEARTS))
+                   cardIndex[i] = Game.table[i].number - 1 + 26;
+               if (Game.table[i].type.Equals(CardType.SPADES))
+                   cardIndex[i] = Game.table[i].number - 1 + 39;
+            }
+
+            if(numOfCards>0)
+            {
+                if(numOfCards==1)
+                {
+                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
+                    card2.Background = new ImageBrush();
+                    card3.Background = new ImageBrush();
+                    card4.Background = new ImageBrush();
+                    card5.Background = new ImageBrush();
+                }
+                if (numOfCards == 2)
+                {
+                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
+                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
+                    card3.Background = new ImageBrush();
+                    card4.Background = new ImageBrush();
+                    card5.Background = new ImageBrush();
+                }
+                if (numOfCards == 3)
+                {
+                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
+                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
+                    card3.Background = new ImageBrush(cards[cardIndex[2]]);
+                    card4.Background = new ImageBrush();
+                    card5.Background = new ImageBrush();
+                }
+                if (numOfCards == 4)
+                {
+                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
+                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
+                    card3.Background = new ImageBrush(cards[cardIndex[2]]);
+                    card4.Background = new ImageBrush(cards[cardIndex[3]]);
+                    card5.Background = new ImageBrush();
+                }
+                if (numOfCards == 5)
+                {
+                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
+                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
+                    card3.Background = new ImageBrush(cards[cardIndex[2]]);
+                    card4.Background = new ImageBrush(cards[cardIndex[3]]);
+                    card5.Background = new ImageBrush(cards[cardIndex[4]]);
+                }
+            }
+        }
+
+        private void updateMyCards(player myPlayer)
+        {
+            int[] cardIndex = new int[2];
+
+            if (myPlayer.hand[0] != null && myPlayer.hand[1] != null)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (myPlayer.hand[i].type.Equals(CardType.CLUBS))
+                        cardIndex[i] = Game.table[i].number - 1;
+                    if (myPlayer.hand[i].type.Equals(CardType.DIAMONDS))
+                        cardIndex[i] = Game.table[i].number - 1 + 13;
+                    if (myPlayer.hand[i].type.Equals(CardType.HEARTS))
+                        cardIndex[i] = Game.table[i].number - 1 + 26;
+                    if (myPlayer.hand[i].type.Equals(CardType.SPADES))
+                        cardIndex[i] = Game.table[i].number - 1 + 39;
+                }
+
+                my_first_card.Background = new ImageBrush(cards[cardIndex[0]]);
+                my_second_card.Background = new ImageBrush(cards[cardIndex[1]]);
+            }
+        }
+
+
+        public void updatePlayers()
+        {
+            player1_name.Visibility = System.Windows.Visibility.Hidden;
+            player1_cash.Visibility = System.Windows.Visibility.Hidden;
+            player2_name.Visibility = System.Windows.Visibility.Hidden;
+            player2_cash.Visibility = System.Windows.Visibility.Hidden;
+            player3_name.Visibility = System.Windows.Visibility.Hidden;
+            player3_cash.Visibility = System.Windows.Visibility.Hidden;
+            player4_name.Visibility = System.Windows.Visibility.Hidden;
+            player4_cash.Visibility = System.Windows.Visibility.Hidden;
+            player5_name.Visibility = System.Windows.Visibility.Hidden;
+            player5_cash.Visibility = System.Windows.Visibility.Hidden;
+            player6_name.Visibility = System.Windows.Visibility.Hidden;
+            player6_cash.Visibility = System.Windows.Visibility.Hidden;
+            player7_name.Visibility = System.Windows.Visibility.Hidden;
+            player7_cash.Visibility = System.Windows.Visibility.Hidden;
+            player8_name.Visibility = System.Windows.Visibility.Hidden;
+            player8_cash.Visibility = System.Windows.Visibility.Hidden;
+
+            int numOfPlayers = Game.activePlayersNumber;
+  
+            for (int i = 0; i < 8; i++)
+                playerAvatar[i].Background = new ImageBrush();
+
+            for (int i = 0; i < numOfPlayers; i++)
+            {
+               if(Game.activePlayers.ElementAt(i).user.avatar.Equals("avatar1"))
+                playerAvatar[i].Background = new ImageBrush(avatars[0]);
+               if (Game.activePlayers.ElementAt(i).user.avatar.Equals("avatar2"))
+                playerAvatar[i].Background = new ImageBrush(avatars[1]);
+               if (Game.activePlayers.ElementAt(i).user.avatar.Equals("avatar3"))
+                playerAvatar[i].Background = new ImageBrush(avatars[2]);
+               if (Game.activePlayers.ElementAt(i).user.avatar.Equals("avatar4"))
+                playerAvatar[i].Background = new ImageBrush(avatars[3]);
+
+                playerName[i].Visibility = System.Windows.Visibility.Visible;
+                playerName[i].Content = Game.activePlayers.ElementAt(i).user.UserName;
+
+                playerCash[i].Visibility = System.Windows.Visibility.Visible;
+                playerCash[i].Content ="      $ "+Game.activePlayers.ElementAt(i).cash;
+            }
+
+        }
+
+        private void updateGame()
+        {
+            this.Game=BL.getGameByID(Game.GameID);
+            updateTableCards();
+            updatePlayers();
+            cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
+            now_playing.Text = "now playing: "+BL.getUser(this.Game.CurrentPlayer);
+
+            foreach (player myPlayer in this.Game.activePlayers)
+                if(myPlayer.user.ID==this.user.ID)
+                {
+                    updateMyCards(myPlayer);
+                    break;
+                }
+        }
+
+        private  void myTurn()
+        {
+            fold_button.Visibility = System.Windows.Visibility.Visible;
+            check_button.Visibility = System.Windows.Visibility.Visible;
+            call_button.Visibility = System.Windows.Visibility.Visible;
+            raise_button.Visibility = System.Windows.Visibility.Visible;
+            Raise_to.Visibility = System.Windows.Visibility.Visible;
+            raiseBet.Visibility = System.Windows.Visibility.Visible;
+            slider.Visibility = System.Windows.Visibility.Visible;
+
+            slider.Minimum = this.Game.CurrentBet;
+            foreach (player myPlayer in this.Game.activePlayers)
+                if (myPlayer.user.ID == this.user.ID)
+                {
+                    slider.Maximum = myPlayer.cash;
+                    break;
+                }
+        }
+
+
+        private void leave_game_Click(object sender, RoutedEventArgs e)
+        {
+            BL.leaveGame(Game.GameID, user.ID);
+            gameCenter GC = new gameCenter(BL, user);
+            GC.Show();
+            this.Close();
+        }
+
+        private void fold_button_Click(object sender, RoutedEventArgs e)
+        {
+            BL.fold(user.ID, this.Game.GameID);
+
+            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            check_button.Visibility = System.Windows.Visibility.Hidden;
+            call_button.Visibility = System.Windows.Visibility.Hidden;
+            raise_button.Visibility = System.Windows.Visibility.Hidden;
+            Raise_to.Visibility = System.Windows.Visibility.Hidden;
+            raiseBet.Visibility = System.Windows.Visibility.Hidden;
+            slider.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void check_button_Click(object sender, RoutedEventArgs e)
+        {
+            BL.check(user.ID, this.Game.GameID);
+
+            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            check_button.Visibility = System.Windows.Visibility.Hidden;
+            call_button.Visibility = System.Windows.Visibility.Hidden;
+            raise_button.Visibility = System.Windows.Visibility.Hidden;
+            Raise_to.Visibility = System.Windows.Visibility.Hidden;
+            raiseBet.Visibility = System.Windows.Visibility.Hidden;
+            slider.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void call_button_Click(object sender, RoutedEventArgs e)
+        {
+            int bet=this.Game.CurrentBet;
+
+            foreach (player myPlayer in this.Game.activePlayers)
+                if (myPlayer.user.ID == this.user.ID)
+                 if(bet>myPlayer.cash)
+                    {
+                        bet = myPlayer.cash;
+                    }
+
+            BL.call(user.ID, this.Game.GameID, bet);
+
+            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            check_button.Visibility = System.Windows.Visibility.Hidden;
+            call_button.Visibility = System.Windows.Visibility.Hidden;
+            raise_button.Visibility = System.Windows.Visibility.Hidden;
+            Raise_to.Visibility = System.Windows.Visibility.Hidden;
+            raiseBet.Visibility = System.Windows.Visibility.Hidden;
+            slider.Visibility = System.Windows.Visibility.Hidden;
+        }
+
+        private void raise_button_Click(object sender, RoutedEventArgs e)
+        {
+            BL.raise(user.ID, this.Game.GameID, int.Parse(raiseBet.Text));
+
+            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            check_button.Visibility = System.Windows.Visibility.Hidden;
+            call_button.Visibility = System.Windows.Visibility.Hidden;
+            raise_button.Visibility = System.Windows.Visibility.Hidden;
+            Raise_to.Visibility = System.Windows.Visibility.Hidden;
+            raiseBet.Visibility = System.Windows.Visibility.Hidden;
+            slider.Visibility = System.Windows.Visibility.Hidden;
+        }
+
     }
 }
