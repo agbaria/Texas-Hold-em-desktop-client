@@ -92,3 +92,6 @@ C:\Users\hom\Desktop\Texas-Hold-em-desktop-client-master\GUI\obj\Debug\signUp.ba
 C:\Users\hom\Desktop\Texas-Hold-em-desktop-client-master\GUI\obj\Debug\GUI.g.resources
 C:\Users\hom\Desktop\Texas-Hold-em-desktop-client-master\GUI\obj\Debug\GUI.Properties.Resources.resources
 C:\Users\hom\Desktop\Texas-Hold-em-desktop-client-master\GUI\obj\Debug\GUI.csproj.GenerateResource.Cache
+C:\Users\hom\Desktop\poker\GUI\bin\Debug\GUI.exe.config
+C:\Users\hom\Desktop\poker\GUI\obj\Debug\GUI.exe
+C:\Users\hom\Desktop\poker\GUI\obj\Debug\GUI.pdb
