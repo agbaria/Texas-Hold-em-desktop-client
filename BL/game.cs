@@ -41,7 +41,9 @@ namespace BL
 
         public game()
         {
-
+            players = new LinkedList<player>();
+            activePlayers = new LinkedList<player>();
+            table = new card[5];
         }
     }
 

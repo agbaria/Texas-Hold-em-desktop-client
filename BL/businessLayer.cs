@@ -42,7 +42,7 @@ namespace BL
             {
                 string [] parts =msg.Split(' ');
                 Console.WriteLine(msg.ToString());
-             //   user = new User(parts[2],parts[3],Int32.Parse(parts[4]), Int32.Parse(parts[5]), Int32.Parse(parts[6]));
+                user = new User(parts[2],parts[3],"avatar1",Int32.Parse(parts[4]), Int32.Parse(parts[5]), Int32.Parse(parts[6])); /////////////////////chnage here from "avatar1" to user's avatar 
                 isDone = 1;
             }
                
@@ -471,10 +471,10 @@ namespace BL
                     this.recived = "";
                     return result; }
                 this.recived = "";
-                return null;
+                return "one";
             }
             this.recived = "";
-            return null;
+            return "two";
         }
 
         /** 

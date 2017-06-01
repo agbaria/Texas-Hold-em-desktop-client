@@ -56,7 +56,7 @@ namespace GUI
             {
                 user = BL.getUser(id_textBox.Text);
 
-
+    
                 gameCenter GC = new gameCenter(BL, user);
                 GC.Show();
                 this.Close();

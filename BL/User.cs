@@ -24,11 +24,12 @@ namespace BL
             this.score = score;
             this.league = league;
         }
-
+        
         public User(string id, string name) {
 
             this.ID = id;
             this.UserName = name;
         }
+        
     }
 }

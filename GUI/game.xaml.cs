@@ -24,6 +24,7 @@ namespace GUI
         businessLayer BL;
         BL.game Game;
         User user;
+        Thread newThread;
 
         BitmapImage[] cards = new BitmapImage[52];
         BitmapImage[] avatars = new BitmapImage[4];
@@ -42,7 +43,7 @@ namespace GUI
             InitializeCardsImages();
             InitializePlayersComponents();
 
-              Thread newThread = new Thread(new ThreadStart(Run));
+              newThread = new Thread(new ThreadStart(Run));
               newThread.Start(); 
         }
 
@@ -50,11 +51,12 @@ namespace GUI
         {
             while(Game.activePlayersNumber>0)
             {
-                if(this.Game.CurrentPlayer==this.user.ID)
+                updateGame();
+                if (this.Game.CurrentPlayer==this.user.ID)
                 {
                     myTurn();
+                    newThread.Abort();
                 }
-                updateGame();
             }
         }
 
@@ -142,9 +144,9 @@ namespace GUI
                    cardIndex[i] = Game.table[i].number - 1 + 39;
             }
 
-            if(numOfCards>0)
+            if (numOfCards>0)
             {
-                if(numOfCards==1)
+                    if (numOfCards==1)
                 {
                     card1.Background = new ImageBrush(cards[cardIndex[0]]);
                     card2.Background = new ImageBrush();
@@ -196,15 +198,14 @@ namespace GUI
                 for (int i = 0; i < 2; i++)
                 {
                     if (myPlayer.hand[i].type.Equals(CardType.CLUBS))
-                        cardIndex[i] = Game.table[i].number - 1;
+                        cardIndex[i] = myPlayer.hand[i].number - 1;
                     if (myPlayer.hand[i].type.Equals(CardType.DIAMONDS))
-                        cardIndex[i] = Game.table[i].number - 1 + 13;
+                        cardIndex[i] = myPlayer.hand[i].number - 1 + 13;
                     if (myPlayer.hand[i].type.Equals(CardType.HEARTS))
-                        cardIndex[i] = Game.table[i].number - 1 + 26;
+                        cardIndex[i] = myPlayer.hand[i].number - 1 + 26;
                     if (myPlayer.hand[i].type.Equals(CardType.SPADES))
-                        cardIndex[i] = Game.table[i].number - 1 + 39;
+                        cardIndex[i] = myPlayer.hand[i].number - 1 + 39;
                 }
-
                 my_first_card.Background = new ImageBrush(cards[cardIndex[0]]);
                 my_second_card.Background = new ImageBrush(cards[cardIndex[1]]);
             }
@@ -252,27 +253,40 @@ namespace GUI
                 playerCash[i].Visibility = System.Windows.Visibility.Visible;
                 playerCash[i].Content ="      $ "+Game.activePlayers.ElementAt(i).cash;
             }
-
         }
 
         private void updateGame()
         {
-            this.Game=BL.getGameByID(Game.GameID);
-            updateTableCards();
-            updatePlayers();
-            cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
-            now_playing.Text = "now playing: "+BL.getUser(this.Game.CurrentPlayer);
+            this.Game = BL.getGameByID(Game.GameID);
 
-            foreach (player myPlayer in this.Game.activePlayers)
+            this.Dispatcher.Invoke((Action)(() =>
+            {//this refer to form in WPF application 
+                updateTableCards();
+                updatePlayers();
+
+                cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
+
+                foreach (player currentPlayer in this.Game.activePlayers)
+                    if (currentPlayer.user.ID == this.Game.CurrentPlayer)
+                    {
+                        now_playing.Text = "now playing: " + currentPlayer.user.UserName;
+                        break;
+                    }
+
+
+                foreach (player myPlayer in this.Game.activePlayers)
                 if(myPlayer.user.ID==this.user.ID)
                 {
                     updateMyCards(myPlayer);
                     break;
                 }
-        }
+        }));
+            }
 
         private  void myTurn()
         {
+            this.Dispatcher.Invoke((Action)(() =>
+            {//this refer to form in WPF application 
             fold_button.Visibility = System.Windows.Visibility.Visible;
             check_button.Visibility = System.Windows.Visibility.Visible;
             call_button.Visibility = System.Windows.Visibility.Visible;
@@ -280,6 +294,7 @@ namespace GUI
             Raise_to.Visibility = System.Windows.Visibility.Visible;
             raiseBet.Visibility = System.Windows.Visibility.Visible;
             slider.Visibility = System.Windows.Visibility.Visible;
+            
 
             slider.Minimum = this.Game.CurrentBet;
             foreach (player myPlayer in this.Game.activePlayers)
@@ -288,12 +303,14 @@ namespace GUI
                     slider.Maximum = myPlayer.cash;
                     break;
                 }
+            }));
         }
 
 
         private void leave_game_Click(object sender, RoutedEventArgs e)
         {
             BL.leaveGame(Game.GameID, user.ID);
+            newThread.Abort();
             gameCenter GC = new gameCenter(BL, user);
             GC.Show();
             this.Close();
@@ -303,26 +320,39 @@ namespace GUI
         {
             BL.fold(user.ID, this.Game.GameID);
 
-            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            this.Dispatcher.Invoke((Action)(() =>
+            {//this refer to form in WPF application
+                fold_button.Visibility = System.Windows.Visibility.Hidden;
             check_button.Visibility = System.Windows.Visibility.Hidden;
             call_button.Visibility = System.Windows.Visibility.Hidden;
             raise_button.Visibility = System.Windows.Visibility.Hidden;
             Raise_to.Visibility = System.Windows.Visibility.Hidden;
             raiseBet.Visibility = System.Windows.Visibility.Hidden;
             slider.Visibility = System.Windows.Visibility.Hidden;
+            }));
+
+            newThread = new Thread(new ThreadStart(Run));
+            newThread.Start();
+
         }
 
         private void check_button_Click(object sender, RoutedEventArgs e)
         {
             BL.check(user.ID, this.Game.GameID);
 
-            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            this.Dispatcher.Invoke((Action)(() =>
+            {//this refer to form in WPF application
+                fold_button.Visibility = System.Windows.Visibility.Hidden;
             check_button.Visibility = System.Windows.Visibility.Hidden;
             call_button.Visibility = System.Windows.Visibility.Hidden;
             raise_button.Visibility = System.Windows.Visibility.Hidden;
             Raise_to.Visibility = System.Windows.Visibility.Hidden;
             raiseBet.Visibility = System.Windows.Visibility.Hidden;
             slider.Visibility = System.Windows.Visibility.Hidden;
+            }));
+ 
+            newThread = new Thread(new ThreadStart(Run));
+            newThread.Start();
         }
 
         private void call_button_Click(object sender, RoutedEventArgs e)
@@ -338,26 +368,39 @@ namespace GUI
 
             BL.call(user.ID, this.Game.GameID, bet);
 
-            fold_button.Visibility = System.Windows.Visibility.Hidden;
+
+            this.Dispatcher.Invoke((Action)(() =>
+            {//this refer to form in WPF application
+                fold_button.Visibility = System.Windows.Visibility.Hidden;
             check_button.Visibility = System.Windows.Visibility.Hidden;
             call_button.Visibility = System.Windows.Visibility.Hidden;
             raise_button.Visibility = System.Windows.Visibility.Hidden;
             Raise_to.Visibility = System.Windows.Visibility.Hidden;
             raiseBet.Visibility = System.Windows.Visibility.Hidden;
             slider.Visibility = System.Windows.Visibility.Hidden;
+            }));
+
+            newThread = new Thread(new ThreadStart(Run));
+            newThread.Start();
         }
 
         private void raise_button_Click(object sender, RoutedEventArgs e)
         {
             BL.raise(user.ID, this.Game.GameID, int.Parse(raiseBet.Text));
 
-            fold_button.Visibility = System.Windows.Visibility.Hidden;
+            this.Dispatcher.Invoke((Action)(() =>
+            {//this refer to form in WPF application
+                fold_button.Visibility = System.Windows.Visibility.Hidden;
             check_button.Visibility = System.Windows.Visibility.Hidden;
             call_button.Visibility = System.Windows.Visibility.Hidden;
             raise_button.Visibility = System.Windows.Visibility.Hidden;
             Raise_to.Visibility = System.Windows.Visibility.Hidden;
             raiseBet.Visibility = System.Windows.Visibility.Hidden;
             slider.Visibility = System.Windows.Visibility.Hidden;
+            }));
+
+            newThread = new Thread(new ThreadStart(Run));
+            newThread.Start();
         }
 
     }

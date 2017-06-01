@@ -28,6 +28,7 @@ namespace GUI
             InitializeComponent();
             this.BL = bl;
             this.user = user;
+            MessageBox.Show(user.UserName);
         }
 
         private void cancel_button_Click(object sender, RoutedEventArgs e)
@@ -59,14 +60,15 @@ namespace GUI
             if (comboBox.SelectedItem.Equals("NO_LIMIT"))
                 type = GameType.NO_LIMIT;
             
-            //gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable);
-            if(gameID.Length==0)
+            gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, 10);
+            if(gameID==null)
                 MessageBox.Show("error \n one or more of the parameters is invalid");
-
+            
             BL.game game = BL.getGameByID(gameID);
             game g = new game(BL, game, user);
             g.Show();
             this.Close();
+            
         }
     }
 }

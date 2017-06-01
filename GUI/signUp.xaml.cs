@@ -30,13 +30,16 @@ namespace GUI
 
         private void confirm_button_Click(object sender, RoutedEventArgs e)
         {
-            /*
+            string avatar;
             if (avatar1.IsChecked == true)
-            {
-                BitmapImage image = new BitmapImage(new Uri("avatar1.jpg", UriKind.Relative));
-                canvas1.Background = new ImageBrush(image);
-            }
-            */
+                avatar = "avatar1";
+            if (avatar2.IsChecked == true)
+                avatar = "avatar2";
+            if (avatar3.IsChecked == true)
+                avatar = "avatar3";
+            if (avatar4.IsChecked == true)
+                avatar = "avatar4";
+
             bool function_succeed;
             function_succeed = BL.register(id_textBox.Text, pass_textBox.Text, name_textBox.Text, email_textBox.Text);
             if (!function_succeed)
