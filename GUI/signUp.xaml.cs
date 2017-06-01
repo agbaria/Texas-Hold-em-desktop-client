@@ -30,7 +30,7 @@ namespace GUI
 
         private void confirm_button_Click(object sender, RoutedEventArgs e)
         {
-            string avatar;
+            string avatar="";
             if (avatar1.IsChecked == true)
                 avatar = "avatar1";
             if (avatar2.IsChecked == true)
@@ -41,7 +41,7 @@ namespace GUI
                 avatar = "avatar4";
 
             bool function_succeed;
-            function_succeed = BL.register(id_textBox.Text, pass_textBox.Text, name_textBox.Text, email_textBox.Text);
+            function_succeed = BL.register(id_textBox.Text, pass_textBox.Text, name_textBox.Text, email_textBox.Text, avatar);
             if (!function_succeed)
             {
                 MessageBox.Show("Registeration Failed, try to change the ID or to write stronger password", "Registeration Failed", MessageBoxButton.OK, MessageBoxImage.Error);

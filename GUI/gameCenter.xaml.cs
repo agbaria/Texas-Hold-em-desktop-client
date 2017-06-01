@@ -113,9 +113,19 @@ namespace GUI
                     result = BL.editUserName(this.user.ID, change_box.Text);
                 else if (change_email_selected.IsSelected)
                     result = BL.editUserEmail(this.user.ID, change_box.Text);
-                else
+                else //change avatar is selected
                  {
-                    //TODO change avatar
+                    string avatar = "";
+
+                    if (avatar1.IsChecked == true)
+                        avatar = "avatar1";
+                    if (avatar2.IsChecked == true)
+                        avatar = "avatar2";
+                    if (avatar3.IsChecked == true)
+                        avatar = "avatar3";
+                    if (avatar4.IsChecked == true)
+                        avatar = "avatar4";
+                    result = BL.editUserAvatar(this.user.ID, avatar);
                  }
 
                 if (!result)

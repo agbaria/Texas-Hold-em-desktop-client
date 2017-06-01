@@ -283,7 +283,7 @@ namespace BL
  * @param request is string That has this format: "REG *USER NAME* *PASSWORD* *NAME* *EMAIL*"
  * @return "REG DONE" if the registration done, "REG FAILED" else
  */
-        public bool register(String ID, String password, String name, String email)
+        public bool register(String ID, String password, String name, String email, String avatar)              ///////////////////////////////add support for avatar in CL.send="REG"
         {
 
             isDone = 0;
@@ -593,6 +593,12 @@ namespace BL
             return false;
         }
         public bool call(String userID, String gameID, int money)
+        {
+            //TODO
+            return false;
+        }
+
+        public bool editUserAvatar(String userID, String newAvatar)
         {
             //TODO
             return false;
