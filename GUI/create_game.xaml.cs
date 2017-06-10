@@ -60,7 +60,7 @@ namespace GUI
             if (comboBox.SelectedItem.Equals("NO_LIMIT"))
                 type = GameType.NO_LIMIT;
             
-            gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, 10);
+            gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, this.user.league);
             if(gameID==null)
                 MessageBox.Show("error \n one or more of the parameters is invalid");
             

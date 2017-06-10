@@ -16,18 +16,18 @@ namespace BL
         public string GameID;
         public LinkedList<player> players;
         public LinkedList<player> activePlayers;
-        public int activePlayersNumber;
         public int blindBit;
         public String CurrentPlayer;
         public int cardsOnTable;
         public card[] table;
         public int MaxPlayers;
+        public int cashOnTable;
         public int CurrentBet;
         public int cashOnTheTable = 0;
-        
-        
-        
-        
+        public bool isWaitingForYourAction;
+        public int isWaitingForLeaving;
+        public Queue<string> chat;
+
 
         /**
 
@@ -44,6 +44,21 @@ namespace BL
             players = new LinkedList<player>();
             activePlayers = new LinkedList<player>();
             table = new card[5];
+            chat = new Queue<string>();
+            isWaitingForYourAction = false;
+            isWaitingForLeaving = 0;
+        }
+
+        public string getNewMsgInChat()
+        {
+
+            return chat.Dequeue();
+
+        }
+
+        public void addMsg(string msg)
+        {
+            chat.Enqueue(msg);
         }
     }
 

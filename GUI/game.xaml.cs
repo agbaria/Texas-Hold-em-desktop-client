@@ -49,7 +49,7 @@ namespace GUI
 
         private void Run()
         {
-            while(Game.activePlayersNumber>0)
+            while(Game.activePlayers.Count > 0)
             {
                 updateGame();
                 if (this.Game.CurrentPlayer==this.user.ID)
@@ -231,7 +231,7 @@ namespace GUI
             player8_name.Visibility = System.Windows.Visibility.Hidden;
             player8_cash.Visibility = System.Windows.Visibility.Hidden;
 
-            int numOfPlayers = Game.activePlayersNumber;
+            int numOfPlayers = Game.activePlayers.Count;
   
             for (int i = 0; i < 8; i++)
                 playerAvatar[i].Background = new ImageBrush();
