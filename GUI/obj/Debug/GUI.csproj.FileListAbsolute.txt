@@ -116,3 +116,6 @@ C:\Users\hom\Desktop\poker\GUI\obj\Debug\signUp.baml
 C:\Users\hom\Desktop\poker\GUI\obj\Debug\GUI.g.resources
 C:\Users\hom\Desktop\poker\GUI\obj\Debug\GUI.Properties.Resources.resources
 C:\Users\hom\Desktop\poker\GUI\obj\Debug\GUI.csproj.GenerateResource.Cache
+C:\Users\ahmad\Source\Repos\fixes\GUI\bin\Debug\GUI.exe.config
+C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\GUI.exe
+C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\GUI.pdb

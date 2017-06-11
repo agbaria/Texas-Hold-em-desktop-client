@@ -18,8 +18,10 @@ namespace BL
         public int number;
         public CardType type;
 
-        public card()
+        public card(int number, CardType type)
         {
+            this.number = number;
+            this.type = type;
         }
 
 

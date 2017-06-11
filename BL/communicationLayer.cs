@@ -15,7 +15,7 @@ namespace BL
         Socket sender;
         public communicationLayer()
         {
-            
+
             try
             {
                 // Establish the remote endpoint for the socket.  
@@ -57,7 +57,7 @@ namespace BL
                     Console.WriteLine("Echoed test = {0}",
                         Encoding.ASCII.GetString(bytes, 0, bytesRec));
                     recived = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                    Console.WriteLine("Recived: "+recived);
+                    Console.WriteLine("Recived: " + recived);
                     // Release the socket.  
                     if (recived.Contains("LOGOUT") && recived.Contains("DONE"))
                         UserName = null;
@@ -77,12 +77,21 @@ namespace BL
                         businessLayer.getBL().searchedGamesByPotSize(recived);
                     if (recived.Contains("LISTJOINABLEGAMES"))
                         businessLayer.getBL().searchedGamesByPotSize(recived);
-                    if(recived.Contains("JOINGAME"))
+                    if (recived.Contains("JOINGAME"))
                         businessLayer.getBL().joinedGame(recived);
                     if (recived.Contains("SPECTATEGAME"))
                         businessLayer.getBL().spectated(recived);
                     if (recived.Contains("CREATEGAME"))
                         businessLayer.getBL().createdGame(recived);
+                    if (recived.Contains("EDITUSERAVATAR"))
+                        businessLayer.getBL().edittedUserAvatar(recived);
+                    if (recived.Contains("ACTION"))
+                        businessLayer.getBL().ActionMakedd(recived);
+                    if (recived.Contains("CHATMSG"))
+                        businessLayer.getBL().reciveMsgToChat(recived);
+
+
+
 
 
 
@@ -107,7 +116,8 @@ namespace BL
 
         }
 
-        public bool send(string msg) {
+        public bool send(string msg)
+        {
             byte[] bytes = new byte[4096];
             try
             { // Encode the data string into a byte array.  

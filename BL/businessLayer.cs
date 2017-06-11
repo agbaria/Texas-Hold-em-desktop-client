@@ -6,10 +6,9 @@ namespace BL
 {
     public class businessLayer
     {
-        
-
         private static businessLayer singelton = new businessLayer();
-        public static businessLayer getBL() {
+        public static businessLayer getBL()
+        {
             return singelton;
         }
         communicationLayer CL;
@@ -17,12 +16,15 @@ namespace BL
         User user;
         string recived;
         LinkedList<game> games;
-        private businessLayer() {
+        Dictionary<string, int> isActionMaked;
+        private businessLayer()
+        {
             CL = new communicationLayer();
             isDone = 0;
             user = null;
             recived = "";
             games = new LinkedList<game>();
+            isActionMaked = new Dictionary<string, int>();
         }
 
 
@@ -32,20 +34,20 @@ namespace BL
             else isDone = 2;
         }
         /**
- * 
- * @param request is string That has this format: "LOGIN *USER NAME* *PASSWORD*"
- * @return "LOGIN DONE *USER NAME* *NAME* *CASH* *SCORE* *LEAGUE*" if succeed to login, "LOGIN FAILED" else
- */
+         * 
+         * @param request is string That has this format: "LOGIN *USER NAME* *PASSWORD*"
+         * @return "LOGIN DONE *USER NAME* *NAME* *CASH* *SCORE* *LEAGUE* *AVATAR*" if succeed to login, "LOGIN FAILED" else
+         */
         public void loggedin(string msg)
         {
             if (msg.Contains("LOGIN") && msg.Contains("DONE"))
             {
-                string [] parts =msg.Split(' ');
+                string[] parts = msg.Split(' ');
                 Console.WriteLine(msg.ToString());
-                user = new User(parts[2],parts[3],"avatar1",Int32.Parse(parts[4]), Int32.Parse(parts[5]), Int32.Parse(parts[6])); /////////////////////chnage here from "avatar1" to user's avatar 
+                user = new User(parts[2], parts[3], Int32.Parse(parts[4]), Int32.Parse(parts[5]), Int32.Parse(parts[6]),parts[7]);
                 isDone = 1;
             }
-               
+
             else isDone = 2;
         }
         /**
@@ -56,13 +58,21 @@ namespace BL
         public void edittedUserPassword(string msg)
         {
             if (msg.Contains("EDITPASS") && msg.Contains("DONE"))
-            {   
+            {
                 isDone = 1;
             }
 
             else isDone = 2;
         }
 
+        public void takeAction(string msg)
+        {
+            string[] msgs = msg.Split(' ');
+            if (msg.Contains("takeAction"))
+            {
+                getGameByID(msgs[1]).isWaitingForYourAction = true;
+            }
+        }
 
         public void edittedUserName(string msg)
         {
@@ -78,6 +88,16 @@ namespace BL
         public void edittedUserEmail(string msg)
         {
             if (msg.Contains("EDITUSEREMAIL") && msg.Contains("DONE"))
+            {
+                isDone = 1;
+            }
+
+            else isDone = 2;
+        }
+
+        public void edittedUserAvatar(string msg)
+        {
+            if (msg.Contains("EDITUSERAVATAR") && msg.Contains("DONE"))
             {
                 isDone = 1;
             }
@@ -167,13 +187,51 @@ namespace BL
                 newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
                 newGame.table = table;
                 newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
-                newGame.cashOnTheTable= Int32.Parse(extractString(part2, "cashOnTheTable="));
+                newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
                 newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
                 this.games.AddFirst(newGame);
                 isDone = 1;
             }
 
             else isDone = 2;
+        }
+
+
+        /**
+
+* PLAYERS = "*PLAYER USER NAME*,*Player Name*,"{0,n} 
+*  CARDS = "*CARD NUMBER*,*CARD TYPE*,"{0,n}
+*  GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+* table=*CARDS*&MaxPlayers=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+* @param request is string that has this format: "JOINGAME *GAME ID* *USER NAME*"
+* @return "JOINGAME *GAME ID* *USER NAME* DONE *GAME FULL DETAILS*", "JOINGAME *GAME ID* *USER NAME* FAILED *MSG*"
+*/
+        public void gameUpdated(string msg)
+        {
+            if (msg.Contains("GAMEUPDATE"))
+            {
+                String part2 = msg.Substring(msg.IndexOf("GAMEUPDATE"));
+                game newGame;
+                string players = extractString(part2, "players=");
+                LinkedList<player> playerss = extractPlayers(players);
+                players = extractString(part2, "activePlayers=");
+                LinkedList<player> activePlayers = extractPlayers(players);
+                card[] table = extractCards(extractString(part2, "table="));
+                newGame = getGameByID(extractString(part2, "GameID="));
+                if (newGame != null)
+                {
+                    newGame.players = playerss;
+                    newGame.activePlayers = activePlayers;
+                    newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
+                    newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                    newGame.table = table;
+                    newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
+                    newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
+                    newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                    this.games.AddFirst(newGame);
+                }
+
+            }
         }
 
         /** 
@@ -215,23 +273,70 @@ namespace BL
         }
 
 
+        //PLAYERS = "*PLAYER USER NAME*,*PLAYER NAME*,*CASH*,*HAND*,*AVATAR*
         private LinkedList<player> extractPlayers(string players)
         {
             int i = 0;
             string name;
             string ID;
-            LinkedList<player> result = new LinkedList<player>();
-            while (i < players.Length-1) {
+            int cash;
 
-                ID = players.Substring(i,players.IndexOf(",",i) - i);
-                i = players.IndexOf(",", i)+1;
+            card card1 = null;
+            card card2 = null;
+            string avatar;
+            LinkedList<player> result = new LinkedList<player>();
+            while (i < players.Length - 1)
+            {
+
+                ID = players.Substring(i, players.IndexOf(",", i) - i);
+                i = players.IndexOf(",", i) + 1;
                 name = players.Substring(i, players.IndexOf(",", i) - i);
                 i = players.IndexOf(",", i) + 1;
-                player p = new player();
-                p.user = new User(ID,name);
+                cash = Int32.Parse(players.Substring(i, players.IndexOf(",", i) - i));
+                i = players.IndexOf(",", i) + 1;
+                string cards = players.Substring(i, players.IndexOf(",", i) - i);
+                i = players.IndexOf(",", i) + 1;
+                avatar = players.Substring(i, players.IndexOf(",", i) - i);
+                i = players.IndexOf(",", i) + 1;
+
+                string[] cardDetil = cards.Split(' ');
+                if (!cardDetil[0].Contains("NU"))
+                {
+                    card1 = new card(Int32.Parse(cardDetil[0]), toCardType(cardDetil[1]));
+                    card2 = new card(Int32.Parse(cardDetil[2]), toCardType(cardDetil[3]));
+                }
+                player p = new player(); ;
+                if (!this.user.ID.Equals(ID))
+                {
+
+                    p.user = new User(ID, name, cash, avatar, card1, card2);
+                    p.hand[0] = card1;
+                    p.hand[1] = card2;
+                }
+                else
+                {
+                    this.user.UserName = name;
+                    this.user.totalCash = cash;
+                    this.user.avatar = avatar;
+                    this.user.hand[0] = card1;
+                    this.user.hand[1] = card2;
+                    p.hand[0] = card1;
+                    p.hand[1] = card2;
+                    p.user = this.user;
+                }
                 result.AddLast(p);
             }
             return result;
+        }
+
+        private CardType toCardType(string type)
+        {
+
+            if (type.Contains("SPADES")) return CardType.SPADES;
+            else if (type.Contains("HEARTS")) return CardType.HEARTS;
+            else if (type.Contains("DIAMONDS")) return CardType.DIAMONDS;
+            else if (type.Contains("CLUBS")) return CardType.CLUBS;
+            else return CardType.SPADES;
         }
 
         private card[] extractCards(string cards)
@@ -247,47 +352,32 @@ namespace BL
                 i = cards.IndexOf(",", i) + 1;
                 cardType = cards.Substring(i, cards.IndexOf(",", i) - i);
                 i = cards.IndexOf(",", i) + 1;
-                card p = new card();
-                p.number = Int32.Parse(CardNumber);
-                //SPADES, HEARTS, DIAMONDS, CLUBS
-                if (cardType.Equals("SPADES"))
-                {
-                    p.type = CardType.SPADES;
-                }
-                if (cardType.Equals("HEARTS"))
-                {
-                    p.type = CardType.HEARTS;
-                }
-                if (cardType.Equals("DIAMONDS"))
-                {
-                    p.type = CardType.DIAMONDS;
-                }
-                if (cardType.Equals("CLUBS"))
-                {
-                    p.type = CardType.CLUBS;
-                }
+
+                card p = new card(Int32.Parse(CardNumber), toCardType(cardType));
+
                 result.Add(p);
             }
             return result.ToArray();
         }
 
-        private string extractString(string input,string splitter) {
+        private string extractString(string input, string splitter)
+        {
             int beginning = input.IndexOf(splitter) + splitter.Length;
-            int end = input.IndexOf("&", beginning) == -1 ? input.Length-1:input.IndexOf("&", beginning);
+            int end = input.IndexOf("&", beginning) == -1 ? input.Length - 1 : input.IndexOf("&", beginning);
             return input.Substring(beginning, end);
 
         }
 
         /**
- * 	
- * @param request is string That has this format: "REG *USER NAME* *PASSWORD* *NAME* *EMAIL*"
- * @return "REG DONE" if the registration done, "REG FAILED" else
- */
+         * 	
+         * @param request is string That has this format: "REG *USER NAME* *PASSWORD* *NAME* *EMAIL* *AVATAR*"
+         * @return "REG DONE" if the registration done, "REG FAILED" else
+         */
         public bool register(String ID, String password, String name, String email, String avatar)              ///////////////////////////////add support for avatar in CL.send="REG"
         {
 
             isDone = 0;
-            if (CL.send("REG " + ID + " " + password + " " + name + " " + email+"\n"))
+            if (CL.send("REG " + ID + " " + password + " " + name + " " + email+" "+avatar+"\n"))
             {
                 while (isDone == 0) ;
                 if (isDone == 1) return true;
@@ -351,6 +441,7 @@ namespace BL
 
 
 
+
         public bool editUserName(String userID, String newName)
         {
             //TODO: call function via communication layer
@@ -376,6 +467,19 @@ namespace BL
             }
             return false;
         }
+
+        public bool editUserAvatar(String userID, String avatar)
+        {
+            //TODO: call function via communication layer
+            isDone = 0;
+            if (CL.send("EDITUSERAVATAR " + userID + " " + avatar + "\n"))
+            {
+                while (isDone == 0) ;
+                if (isDone == 1) return true;
+                return false;
+            }
+            return false;
+        }
         /** 
          *  GAMES DETAILS = "*ONE GAME DETAILS*"{0,n} 
          *  ONE GAME DETAILS= "GAMEID=*GAME ID* ENDGAME"
@@ -385,21 +489,23 @@ namespace BL
         public LinkedList<string> searchGamesByPotSize(int potSize)
         {
             isDone = 0;
-            if (CL.send("SEARCHGAMESBYPOTSIZE " + potSize +"\n"))
+            if (CL.send("SEARCHGAMESBYPOTSIZE " + potSize + "\n"))
             {
                 while (isDone == 0) ;
-                if (isDone == 1) {
+                if (isDone == 1)
+                {
                     LinkedList<string> result = new LinkedList<string>();
-                    
-                        String part2 = recived.Substring(recived.IndexOf("GAMEID="));
+
+                    String part2 = recived.Substring(recived.IndexOf("GAMEID="));
                     if (!part2.StartsWith("GAMEID=")) return null;
                     int i = 0;
-                    while (i < part2.Length-1) {
+                    while (i < part2.Length - 1)
+                    {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
-                        result.AddFirst(part2.Substring(i,part2.IndexOf(" ENDGAME ",i)-i));
+                        result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
                         i = part2.IndexOf(" ENDGAME ", i);
                     }
-                   
+
                     this.recived = "";
                     return result;
                 }
@@ -425,7 +531,7 @@ namespace BL
             isDone = 0;
             if (CL.send("JOINGAME " + gameID + " " + UserID + "\n"))
             {
-                while (isDone == 0);
+                while (isDone == 0) ;
                 if (isDone == 1) return true;
                 return false;
             }
@@ -434,7 +540,8 @@ namespace BL
 
         public game getGameByID(String gameID)
         {
-            foreach(game currentGame in games){
+            foreach (game currentGame in games)
+            {
                 if (currentGame.GameID.Equals(gameID))
                     return currentGame;
             }
@@ -569,40 +676,133 @@ namespace BL
             return false;
         }
 
+        /** 
+* ACTION TYPE = FOLD/BET/CHECK
+* MONEY = NUMBER/NULL
+* @param action is string that has this format: "ACTION *ACTION TYPE* *GAME ID* *USER NAME* *MONEY*"
+* @return "ACTION *ACTION TYPE* *GAME ID* *USER NAME* DONE" if succeed to make the action,"ACTION *ACTION TYPE* *GAME ID* *USER NAME* FAILED" else
+*/
+        public bool Action(String UserID, String GameID, String actionType, int money)
+        {
+            if (this.isActionMaked.ContainsKey(GameID))
+                return false;
 
+            string toSend = "";
+            if (actionType.Equals("FOLD") || actionType.Equals("CHECK"))
+                toSend = "ACTION " + actionType + " " + GameID + " " + UserID;
+            else if (actionType.Equals("BET"))
+                toSend = "ACTION " + actionType + " " + GameID + " " + UserID + " " + money;
+            else return false;
+            this.isActionMaked.Add(GameID, 0);
+            int value = 0;
+            toSend += "\n";
+            if (CL.send(toSend))
+            {
+                while (value == 0)
+                {
+                    isActionMaked.TryGetValue(GameID, out value);
+                }
+                if (value == 1) return true;
+                return false;
+            }
+            return false;
+        }
+
+        /** 
+* ACTION TYPE = FOLD/BET/CHECK
+* MONEY = NUMBER/NULL
+* @param action is string that has this format: "ACTION *ACTION TYPE* *GAME ID* *USER NAME* *MONEY*"
+* @return "ACTION *ACTION TYPE* *GAME ID* *USER NAME* DONE" if succeed to make the action,"ACTION *ACTION TYPE* *GAME ID* *USER NAME* FAILED" else
+*/
+        public void ActionMakedd(string msg)
+        {
+            string[] parts = msg.Split(' ');
+            if (msg.Contains("ACTION") && msg.Contains("DONE"))
+            {
+
+                Console.WriteLine(msg.ToString());
+                this.isActionMaked[parts[2]] = 1;
+                getGameByID(parts[2]).isWaitingForYourAction = false;
+
+            }
+
+            else this.isActionMaked[parts[2]] = 2;
+        }
+
+        public void sendMsgToChar(string msg, string GameID, string UserID)
+        {
+            CL.send("CHATMSG " + GameID + " " + UserID + " " + msg);
+
+        }
+
+        public void reciveMsgToChat(string msg)
+        {
+            string[] partsMsg = msg.Split(' ');
+            getGameByID(partsMsg[1]).addMsg(partsMsg[2] + ": " + appendArray(partsMsg, 3));
+
+
+        }
+
+        private string appendArray(string[] partsMsg, int startIndex)
+        {
+            string result = "";
+            for (int i = startIndex; i < partsMsg.Length; i++)
+            {
+                result += partsMsg[i] + " ";
+            }
+            return result;
+        }
+
+        /**
+ * 
+ * @param request is string that has this format: "LEAVEGAME *GAME ID* *USER NAME*"
+ * @return "LEAVEGAME *GAME ID* *USER NAME* DONE" if succeed to leave, "LEAVEGAME *GAME ID* *USER NAME* FAILED *MSG*" else
+ */
         public bool leaveGame(String GameID, String UserID)
         {
-            //TODO
+            getGameByID(GameID).isWaitingForLeaving = 0; 
+            if (CL.send("LEAVEGAME " + GameID + " " + UserID + "\n"))
+            {
+                game currentGame = getGameByID(GameID);
+                while (currentGame.isWaitingForLeaving == 0) ;
+                if (currentGame.isWaitingForLeaving == 1) return true;
+                return false;
+            }
             return false;
+        }
+
+        public void leavedGame(string msg)
+        {
+            string[] parts = msg.Split(' ');
+            if (msg.Contains("LEAVEGAME") && msg.Contains("DONE"))
+            {
+
+                Console.WriteLine(msg.ToString());
+                getGameByID(parts[1]).isWaitingForLeaving = 1;
+
+            }
+
+            else getGameByID(parts[1]).isWaitingForLeaving = 2;
         }
 
         public bool check(String userID, String gameID)
         {
-            //TODO
-            return false;
+            return Action(userID, gameID, "CHECK", 0);
         }
-    
+
         public bool fold(String userID, String gameID)
         {
-            //TODO
-            return false;
+            return Action(userID, gameID, "FOLD", 0);
         }
         public bool raise(String userID, String gameID, int money)
         {
-            //TODO
-            return false;
+            return Action(userID, gameID, "BET", money);
         }
         public bool call(String userID, String gameID, int money)
         {
-            //TODO
-            return false;
+            return Action(userID, gameID, "BET", money);
         }
 
-        public bool editUserAvatar(String userID, String newAvatar)
-        {
-            //TODO
-            return false;
-        }
 
     }
 }
