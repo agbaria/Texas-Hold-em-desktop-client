@@ -89,7 +89,16 @@ namespace BL
                         businessLayer.getBL().ActionMakedd(recived);
                     if (recived.Contains("CHATMSG"))
                         businessLayer.getBL().reciveMsgToChat(recived);
+                    if (recived.Contains("LEAVEGAME"))
+                        businessLayer.getBL().leavedGame(recived);
+                    if (recived.Contains("GAMEUPDATE"))
+                        businessLayer.getBL().gameUpdated(recived);
+                    if (recived.Contains("TAKEACTION"))
+                        businessLayer.getBL().takeAction(recived);
+                    else Console.WriteLine("ERROR BAD INSTRUCTION:" + recived);
+                    
 
+                    
 
 
 

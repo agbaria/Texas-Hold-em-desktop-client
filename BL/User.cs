@@ -22,6 +22,7 @@ namespace BL
             this.totalCash = totalCash;
             this.score = score;
             this.league = league;
+            hand = new card[2];
         }
 
         public User(string id, string name, int totalcash, string avatar, card card1, card card2)
