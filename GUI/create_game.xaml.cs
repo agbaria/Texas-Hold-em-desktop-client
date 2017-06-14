@@ -51,13 +51,13 @@ namespace GUI
             minBet = int.Parse(minBet_textBox.Text);
             minPlayers = int.Parse(minPlayers_textBox.Text);
             MaxPlayers = int.Parse(maxPlayers_textBox.Text);
-            if (spectatable_comboBox.SelectedItem.Equals("true"))
+            if (spectatable_comboBox.SelectedIndex==0)
                 spectatable = true;
-            if (leaguable_comboBox.SelectedItem.Equals("true"))
+            if (leaguable_comboBox.SelectedIndex == 0)
                 leaguable = true;
-            if (comboBox.SelectedItem.Equals("LIMIT"))
+            if (comboBox.SelectedIndex == 0)
                 type = GameType.LIMIT;
-            if (comboBox.SelectedItem.Equals("NO_LIMIT"))
+            if (comboBox.SelectedIndex == 1)
                 type = GameType.NO_LIMIT;
             
             gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, this.user.league);

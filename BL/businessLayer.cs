@@ -71,6 +71,7 @@ namespace BL
             if (msg.Contains("takeAction"))
             {
                 getGameByID(msgs[1]).isWaitingForYourAction = true;
+               
             }
         }
 
@@ -172,23 +173,24 @@ namespace BL
         {
             if (msg.Contains("JOINGAME") && msg.Contains("DONE"))
             {
-                String part2 = msg.Substring(msg.IndexOf("DONE "));
+                String part2 = msg.Substring(msg.IndexOf("DONE ") + "DONE ".Length);
+                string[] msgs = part2.Split('&');
                 game newGame = new game();
-                string players = extractString(part2, "players=");
+                string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
-                players = extractString(part2, "activePlayers=");
+                players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
-                card[] table = extractCards(extractString(part2, "table="));
+                card[] table = extractCards(extractString2(msgs, "table="));
 
-                newGame.GameID = extractString(part2, "GameID=");
+                newGame.GameID = extractString2(msgs, "GameID=");
                 newGame.players = playerss;
                 newGame.activePlayers = activePlayers;
-                newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
-                newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
+                newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                 newGame.table = table;
-                newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
-                newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
-                newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
+                newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
+                newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
                 this.games.AddFirst(newGame);
                 isDone = 1;
             }
@@ -210,24 +212,25 @@ namespace BL
         {
             if (msg.Contains("GAMEUPDATE"))
             {
-                String part2 = msg.Substring(msg.IndexOf("GAMEUPDATE"));
+                String part2 = msg.Substring(msg.IndexOf("DONE ") + "DONE ".Length);
+                string[] msgs = part2.Split('&');
                 game newGame;
-                string players = extractString(part2, "players=");
+                string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
-                players = extractString(part2, "activePlayers=");
+                players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
                 card[] table = extractCards(extractString(part2, "table="));
-                newGame = getGameByID(extractString(part2, "GameID="));
+                newGame = getGameByID(extractString2(msgs, "GameID="));
                 if (newGame != null)
                 {
                     newGame.players = playerss;
                     newGame.activePlayers = activePlayers;
-                    newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
-                    newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                    newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
+                    newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                     newGame.table = table;
-                    newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
-                    newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
-                    newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                    newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
+                    newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
+                    newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
                     this.games.AddFirst(newGame);
                 }
 
@@ -245,25 +248,33 @@ namespace BL
 */
         public void createdGame(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("CREATEGAME") && msg.Contains("DONE"))
             {
-                String part2 = msg.Substring(msg.IndexOf("DONE "));
+                String part2 = msg.Substring(msg.IndexOf("DONE ")+"DONE ".Length);
+                string[] msgs = part2.Split('&');
                 game newGame = new game();
-                string players = extractString(part2, "players=");
+                Console.WriteLine(extractString(part2, "players="));
+                Console.WriteLine(extractString2(msgs, "players="));
+                string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
-                players = extractString(part2, "activePlayers=");
+                players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
-                card[] table = extractCards(extractString(part2, "table="));
+                card[] table = extractCards(extractString2(msgs, "table="));
 
-                newGame.GameID = extractString(part2, "GameID=");
+                newGame.GameID = extractString2(msgs, "GameID=");
                 newGame.players = playerss;
                 newGame.activePlayers = activePlayers;
-                newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
-                newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                string blindBitS = extractString2(msgs, "blindBit=");
+                newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
+                newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                 newGame.table = table;
-                newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
-                newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
-                newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                blindBitS = extractString2(msgs, "MaxPlayers=");
+                newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
+                blindBitS = extractString2(msgs, "cashOnTheTable=");
+                newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
+                blindBitS = extractString2(msgs, "CurrentBet=");
+                newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
                 this.games.AddFirst(newGame);
                 this.recived = newGame.GameID;
                 isDone = 1;
@@ -271,7 +282,24 @@ namespace BL
 
             else isDone = 2;
         }
+        private string extractString(string input, string splitter)
+        {
+            int beginning = input.IndexOf(splitter) + splitter.Length;
+            int end = input.IndexOf("&", beginning) == -1 ? input.Length - 1 : input.IndexOf("&", beginning);
+            return input.Substring(beginning, end);
 
+        }
+        private string extractString2(string[] input, string splitter)
+        {
+            foreach (string s in input) {
+                if (s.Contains(splitter)) {
+                    return s.Substring(splitter.Length);
+                }
+
+            }
+            return "";
+
+        }
 
         //PLAYERS = "*PLAYER USER NAME*,*PLAYER NAME*,*CASH*,*HAND*,*AVATAR*
         private LinkedList<player> extractPlayers(string players)
@@ -296,6 +324,7 @@ namespace BL
                 i = players.IndexOf(",", i) + 1;
                 string cards = players.Substring(i, players.IndexOf(",", i) - i);
                 i = players.IndexOf(",", i) + 1;
+
                 avatar = players.Substring(i, players.IndexOf(",", i) - i);
                 i = players.IndexOf(",", i) + 1;
 
@@ -360,13 +389,7 @@ namespace BL
             return result.ToArray();
         }
 
-        private string extractString(string input, string splitter)
-        {
-            int beginning = input.IndexOf(splitter) + splitter.Length;
-            int end = input.IndexOf("&", beginning) == -1 ? input.Length - 1 : input.IndexOf("&", beginning);
-            return input.Substring(beginning, end);
 
-        }
 
         /**
          * 	
@@ -495,15 +518,15 @@ namespace BL
                 if (isDone == 1)
                 {
                     LinkedList<string> result = new LinkedList<string>();
-
+                    if (!recived.Contains("GAMEID=")) return null;
                     String part2 = recived.Substring(recived.IndexOf("GAMEID="));
                     if (!part2.StartsWith("GAMEID=")) return null;
                     int i = 0;
-                    while (i < part2.Length - 1)
+                    while (i < part2.Length - 3)
                     {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
                         result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
-                        i = part2.IndexOf(" ENDGAME ", i);
+                        i = part2.IndexOf(" ENDGAME ", i)+" ENDGAME ".Length;
                     }
 
                     this.recived = "";
@@ -599,15 +622,15 @@ namespace BL
                 if (isDone == 1)
                 {
                     LinkedList<string> result = new LinkedList<string>();
-
+                    if (!recived.Contains("GAMEID=")) return null;
                     String part2 = recived.Substring(recived.IndexOf("GAMEID="));
                     if (!part2.StartsWith("GAMEID=")) return null;
                     int i = 0;
-                    while (i < part2.Length - 1)
+                    while (i < part2.Length - 3)
                     {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
                         result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
-                        i = part2.IndexOf(" ENDGAME ", i);
+                        i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
                     }
 
                     this.recived = "";
@@ -635,15 +658,15 @@ namespace BL
                 if (isDone == 1)
                 {
                     LinkedList<string> result = new LinkedList<string>();
-
+                    if (!recived.Contains("GAMEID=")) return null;
                     String part2 = recived.Substring(recived.IndexOf("GAMEID="));
                     if (!part2.StartsWith("GAMEID=")) return null;
                     int i = 0;
-                    while (i < part2.Length - 1)
+                    while (i < part2.Length - 3)
                     {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
                         result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
-                        i = part2.IndexOf(" ENDGAME ", i);
+                        i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
                     }
 
                     this.recived = "";

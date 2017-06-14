@@ -210,9 +210,13 @@ namespace GUI
             {
                 BL.joinGame(game_box.Text, this.user.ID);
                 BL.game choosenGame = BL.getGameByID(game_box.Text);
-                game g = new game(BL, choosenGame, user);
-                g.Show();
-                this.Close();
+                if (choosenGame != null)
+                {
+                    game g = new game(BL, choosenGame, user);
+                    g.Show();
+                    this.Close();
+                }
+                else MessageBox.Show("Can't join this game");
             }
         }
 
@@ -247,11 +251,15 @@ namespace GUI
 
               BL.spectateGame(this.user.ID, game_box.Text);
                BL.game choosenGame = BL.getGameByID(game_box.Text);
+            if (choosenGame != null)
+            {
+                game g = new game(BL, choosenGame, user);
+                g.Show();
 
-            game g = new game(BL, choosenGame, user);
-            g.Show();
-            
-            this.Close();
+                this.Close();
+            }
+            else MessageBox.Show("Can't join this game");
+
         }
     }
 }
