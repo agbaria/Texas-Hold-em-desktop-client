@@ -136,23 +136,24 @@ namespace BL
         {
             if (msg.Contains("SPECTATEGAME") && msg.Contains("DONE"))
             {
-                String part2 = msg.Substring(msg.IndexOf("DONE "));
+                String part2 = msg.Substring(msg.IndexOf("DONE ") + "DONE ".Length);
+                string[] msgs = part2.Split('&');
                 game newGame = new game();
-                string players = extractString(part2, "players=");
+                string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
-                players = extractString(part2, "activePlayers=");
+                players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
-                card[] table = extractCards(extractString(part2, "table="));
+                card[] table = extractCards(extractString2(msgs, "table="));
 
-                newGame.GameID = extractString(part2, "GameID=");
+                newGame.GameID = extractString2(msgs, "GameID=");
                 newGame.players = playerss;
                 newGame.activePlayers = activePlayers;
-                newGame.blindBit = Int32.Parse(extractString(part2, "blindBit="));
-                newGame.CurrentPlayer = extractString(part2, "CurrentPlayer=");
+                newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
+                newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                 newGame.table = table;
-                newGame.MaxPlayers = Int32.Parse(extractString(part2, "MaxPlayers="));
-                newGame.cashOnTheTable = Int32.Parse(extractString(part2, "cashOnTheTable="));
-                newGame.CurrentBet = Int32.Parse(extractString(part2, "CurrentBet="));
+                newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
+                newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
+                newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
                 this.games.AddFirst(newGame);
                 isDone = 1;
             }
@@ -212,14 +213,14 @@ namespace BL
         {
             if (msg.Contains("GAMEUPDATE"))
             {
-                String part2 = msg.Substring(msg.IndexOf("DONE ") + "DONE ".Length);
+                String part2 = msg.Substring(msg.IndexOf("GAMEUPDATE ") + "GAMEUPDATE ".Length);
                 string[] msgs = part2.Split('&');
                 game newGame;
                 string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
                 players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
-                card[] table = extractCards(extractString(part2, "table="));
+                card[] table = extractCards(extractString2(msgs, "table="));
                 newGame = getGameByID(extractString2(msgs, "GameID="));
                 if (newGame != null)
                 {
@@ -231,7 +232,7 @@ namespace BL
                     newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
                     newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
                     newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
-                    this.games.AddFirst(newGame);
+                    
                 }
 
             }
@@ -331,8 +332,8 @@ namespace BL
                 string[] cardDetil = cards.Split(' ');
                 if (!cardDetil[0].Contains("NU"))
                 {
-                    card1 = new card(Int32.Parse(cardDetil[0]), toCardType(cardDetil[1]));
-                    card2 = new card(Int32.Parse(cardDetil[2]), toCardType(cardDetil[3]));
+                    card1 = new card(Int32.Parse(cardDetil[1]), toCardType(cardDetil[0]));
+                    card2 = new card(Int32.Parse(cardDetil[3]), toCardType(cardDetil[2]));
                 }
                 player p = new player(); ;
                 if (!this.user.ID.Equals(ID))
@@ -376,7 +377,7 @@ namespace BL
             List<card> result = new List<card>();
             while (i < cards.Length - 1)
             {
-
+                
                 CardNumber = cards.Substring(i, cards.IndexOf(",", i) - i);
                 i = cards.IndexOf(",", i) + 1;
                 cardType = cards.Substring(i, cards.IndexOf(",", i) - i);
