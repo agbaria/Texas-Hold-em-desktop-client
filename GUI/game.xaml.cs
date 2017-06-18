@@ -52,7 +52,6 @@ namespace GUI
             while (Game.isWaitingForLeaving == 0)
             {
                 updateGame();
-                Console.WriteLine("----------------------------------------------" + Game.activePlayers.Count + "-------------------------------**");
                 while (Game.activePlayers.Count > 0)
                 {
                     updateGame();
@@ -263,13 +262,11 @@ namespace GUI
         private void updateGame()
         {
             this.Game = BL.getGameByID(Game.GameID);
-            Console.WriteLine("updateGame1");
             this.Dispatcher.Invoke((Action)(() =>
             {//this refer to form in WPF application 
                 updateTableCards();
                 updatePlayers();
-                Console.WriteLine("updateGame2");
-                cashOnTheTable.Text = "cash:3 " +this.Game.cashOnTheTable +"$";
+                cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
 
                 foreach (player currentPlayer in this.Game.activePlayers)
                     if (currentPlayer.user.ID == this.Game.CurrentPlayer)
@@ -285,7 +282,6 @@ namespace GUI
                     updateMyCards(myPlayer);
                     break;
                 }
-                Console.WriteLine("updateGame3");
             }));
             }
 

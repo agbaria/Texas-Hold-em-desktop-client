@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -13,6 +14,8 @@ namespace BL
     {
         string UserName;
         Socket sender;
+        NetworkStream stream;
+        TcpClient client;
         public communicationLayer()
         {
 
@@ -20,14 +23,16 @@ namespace BL
             {
                 // Establish the remote endpoint for the socket.  
                 // This example uses port 8080 on the local computer.  
-                IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
+              /*  IPHostEntry ipHostInfo = Dns.Resolve(Dns.GetHostName());
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);*/
 
+                client = new TcpClient("127.0.0.1", 8080);
+                stream = client.GetStream();
                 // Create a TCP/IP  socket.  
-                sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                /*sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sender.Connect(remoteEP);
-                Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());
+                Console.WriteLine("Socket connected to {0}", sender.RemoteEndPoint.ToString());*/
                 ThreadStart childref = new ThreadStart(StartClient);
                 Thread childThread = new Thread(childref);
                 childThread.Start();
@@ -52,61 +57,69 @@ namespace BL
             {
                 while (true)
                 {
-                    // Receive the response from the remote device.  
-                    int bytesRec = sender.Receive(bytes);
-                    Console.WriteLine("Echoed test = {0}",
-                        Encoding.ASCII.GetString(bytes, 0, bytesRec));
-                    recived = Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                    Console.WriteLine("Recived: " + recived);
-                    // Release the socket.  
-                    if (recived.Contains("LOGOUT") && recived.Contains("DONE"))
-                        UserName = null;
-                    if (recived.Contains("REG"))
-                        businessLayer.getBL().registered(recived);
-                    if (recived.Contains("LOGIN"))
-                        businessLayer.getBL().loggedin(recived);
-                    if (recived.Contains("EDITPASS"))
-                        businessLayer.getBL().edittedUserPassword(recived);
-                    if (recived.Contains("EDITUSERNAME"))
-                        businessLayer.getBL().edittedUserName(recived);
-                    if (recived.Contains("EDITUSEREMAIL"))
-                        businessLayer.getBL().edittedUserEmail(recived);
-                    if (recived.Contains("SEARCHGAMESBYPOTSIZE"))
-                        businessLayer.getBL().searchedGamesByPotSize(recived);
-                    if (recived.Contains("LISTSPECTATEABLEGAMES"))
-                        businessLayer.getBL().searchedGamesByPotSize(recived);
-                    if (recived.Contains("LISTJOINABLEGAMES"))
-                        businessLayer.getBL().searchedGamesByPotSize(recived);
-                    if (recived.Contains("JOINGAME"))
-                        businessLayer.getBL().joinedGame(recived);
-                    if (recived.Contains("SPECTATEGAME"))
-                        businessLayer.getBL().spectated(recived);
-                    if (recived.Contains("CREATEGAME"))
-                        businessLayer.getBL().createdGame(recived);
-                    if (recived.Contains("EDITUSERAVATAR"))
-                        businessLayer.getBL().edittedUserAvatar(recived);
-                    if (recived.Contains("ACTION"))
-                        businessLayer.getBL().ActionMakedd(recived);
-                    if (recived.Contains("CHATMSG"))
-                        businessLayer.getBL().reciveMsgToChat(recived);
-                    if (recived.Contains("LEAVEGAME"))
-                        businessLayer.getBL().leavedGame(recived);
-                    if (recived.Contains("GAMEUPDATE"))
-                        businessLayer.getBL().gameUpdated(recived);
-                    if (recived.Contains("TAKEACTION"))
-                        businessLayer.getBL().takeAction(recived);
-                    else Console.WriteLine("ERROR BAD INSTRUCTION:" + recived);
-                    
 
-                    
+                    using (StreamReader reader = new StreamReader(stream, Encoding.ASCII))
+                    {
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            // do something with line
 
+                            // Receive the response from the remote device.  
+                            // int bytesRec = sender.Receive(bytes);
+                            Console.WriteLine("Echoed test = {0}",
+                                line);
+                            recived = line+"\r\n";
+                            Console.WriteLine("Recived: " + recived);
+                            // Release the socket.  
+                            if (recived.Contains("LOGOUT") && recived.Contains("DONE"))
+                                UserName = null;
+                            else if (recived.Contains("REG"))
+                                businessLayer.getBL().registered(recived);
+                            else if (recived.Contains("LOGIN"))
+                                businessLayer.getBL().loggedin(recived);
+                            else if (recived.Contains("EDITPASS"))
+                                businessLayer.getBL().edittedUserPassword(recived);
+                            else if (recived.Contains("EDITUSERNAME"))
+                                businessLayer.getBL().edittedUserName(recived);
+                            else if (recived.Contains("EDITUSEREMAIL"))
+                                businessLayer.getBL().edittedUserEmail(recived);
+                            else if (recived.Contains("SEARCHGAMESBYPOTSIZE"))
+                                businessLayer.getBL().searchedGamesByPotSize(recived);
+                            else if (recived.Contains("LISTSPECTATEABLEGAMES"))
+                                businessLayer.getBL().searchedGamesByPotSize(recived);
+                            else if (recived.Contains("LISTJOINABLEGAMES"))
+                                businessLayer.getBL().searchedGamesByPotSize(recived);
+                            else if (recived.Contains("JOINGAME"))
+                                businessLayer.getBL().joinedGame(recived);
+                            else if (recived.Contains("SPECTATEGAME"))
+                                businessLayer.getBL().spectated(recived);
+                            else if (recived.Contains("CREATEGAME"))
+                                businessLayer.getBL().createdGame(recived);
+                            else if (recived.Contains("EDITUSERAVATAR"))
+                                businessLayer.getBL().edittedUserAvatar(recived);
+                            else if (recived.Contains("TAKEACTION"))
+                                businessLayer.getBL().takeAction(recived);
+                            else if (recived.Contains("ACTION"))
+                                businessLayer.getBL().ActionMakedd(recived);
+                            else if (recived.Contains("CHATMSG"))
+                                businessLayer.getBL().reciveMsgToChat(recived);
+                            else if (recived.Contains("LEAVEGAME"))
+                                businessLayer.getBL().leavedGame(recived);
+                            else if (recived.Contains("GAMEUPDATE"))
+                                businessLayer.getBL().gameUpdated(recived);
+                            else Console.WriteLine("ERROR BAD INSTRUCTION:" + recived);
+
+
+
+                        }
+                    }
 
 
 
 
                 }
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
+                client.Close();
 
             }
             catch (ArgumentNullException ane)
@@ -122,19 +135,23 @@ namespace BL
             {
                 Console.WriteLine("Unexpected exception : {0}", e.ToString());
             }
+            finally { client.Close(); }
 
         }
 
         public bool send(string msg)
         {
             byte[] bytes = new byte[4096];
+            StreamWriter writer = new StreamWriter(stream, Encoding.ASCII);
+            writer.AutoFlush = true;
             try
             { // Encode the data string into a byte array.  
-                bytes = Encoding.ASCII.GetBytes(msg);
+             //   bytes = Encoding.ASCII.GetBytes(msg);
                 Console.WriteLine("Sending: " + msg);
                 // Send the data through the socket.  
-                int bytesSent = sender.Send(bytes);
-                Console.WriteLine("number of bytes send: " + bytesSent);
+                //  int bytesSent = sender.Send(bytes);
+                writer.Write(msg);
+                //Console.WriteLine("number of bytes send: " + bytesSent);
                 return true;
             }
             catch (Exception e)
