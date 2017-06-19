@@ -29,6 +29,10 @@ namespace BL
         public int isWaitingForLeaving;
         public Queue<string> chat;
         public bool isWaitingForUpdate;
+        public bool isGotNewPublicMessage;
+        public bool isGotNewPrivateMessage;
+        public String incomingPublicMessage;
+        public String incomingPrivateMessage;
 
         /**
 

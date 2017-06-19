@@ -850,6 +850,15 @@ namespace BL
             return Action(userID, gameID, "BET", money);
         }
 
+        public bool sendPublicMessage(String message)
+        {
+            return true;
+        }
+
+        public bool sendPrivateMessage(String receiverID, String message)
+        {
+            return true;
+        }
 
     }
 }

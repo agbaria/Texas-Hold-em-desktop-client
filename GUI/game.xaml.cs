@@ -32,6 +32,7 @@ namespace GUI
         Border[] playerAvatar = new Border[8];
         Label[] playerName = new Label[8];
         Label[] playerCash = new Label[8];
+        Button[] messages = new Button[8];
 
         public game(businessLayer bl, BL.game Game, User user)
         {
@@ -112,6 +113,15 @@ namespace GUI
             playerCash[5] = player6_cash;
             playerCash[6] = player7_cash;
             playerCash[7] = player8_cash;
+
+            messages[0] = message1;
+            messages[1] = message2;
+            messages[2] = message3;
+            messages[3] = message4;
+            messages[4] = message5;
+            messages[5] = message6;
+            messages[6] = message7;
+            messages[7] = message8;
         }
 
         private void InitializeCardsImages()
@@ -226,30 +236,23 @@ namespace GUI
 
 
         public void updatePlayers()
-        {
-            player1_name.Visibility = System.Windows.Visibility.Hidden;
-            player1_cash.Visibility = System.Windows.Visibility.Hidden;
-            player2_name.Visibility = System.Windows.Visibility.Hidden;
-            player2_cash.Visibility = System.Windows.Visibility.Hidden;
-            player3_name.Visibility = System.Windows.Visibility.Hidden;
-            player3_cash.Visibility = System.Windows.Visibility.Hidden;
-            player4_name.Visibility = System.Windows.Visibility.Hidden;
-            player4_cash.Visibility = System.Windows.Visibility.Hidden;
-            player5_name.Visibility = System.Windows.Visibility.Hidden;
-            player5_cash.Visibility = System.Windows.Visibility.Hidden;
-            player6_name.Visibility = System.Windows.Visibility.Hidden;
-            player6_cash.Visibility = System.Windows.Visibility.Hidden;
-            player7_name.Visibility = System.Windows.Visibility.Hidden;
-            player7_cash.Visibility = System.Windows.Visibility.Hidden;
-            player8_name.Visibility = System.Windows.Visibility.Hidden;
-            player8_cash.Visibility = System.Windows.Visibility.Hidden;
-
+        { 
             int numOfPlayers = Game.activePlayers.Count;
-  
-            for (int i = 0; i < 8; i++)
-                playerAvatar[i].Background = new ImageBrush();
+            bool itIsMyTurn = false;
 
-            for (int i = 0; i < numOfPlayers; i++)
+            for (int i = 0; i < 8; i++)
+            {
+                playerAvatar[i].Background = new ImageBrush();
+                messages[i].Visibility = System.Windows.Visibility.Hidden;
+                playerName[i].Visibility = System.Windows.Visibility.Hidden;
+                playerCash[i].Visibility = System.Windows.Visibility.Hidden;
+            }
+
+
+            if (this.user.ID.Equals(Game.CurrentPlayer))
+                itIsMyTurn = true;
+
+                for (int i = 0; i < numOfPlayers; i++)
             {
                if(Game.activePlayers.ElementAt(i).user.avatar.Equals("avatar1"))
                 playerAvatar[i].Background = new ImageBrush(avatars[0]);
@@ -265,6 +268,26 @@ namespace GUI
 
                 playerCash[i].Visibility = System.Windows.Visibility.Visible;
                 playerCash[i].Content ="      $ "+Game.activePlayers.ElementAt(i).user.totalCash;
+
+                if (!Game.activePlayers.ElementAt(i).user.ID.Equals(this.user.ID))
+                    messages[i].Visibility = System.Windows.Visibility.Visible;
+
+                if (itIsMyTurn)
+                {
+                    if (Game.activePlayers.ElementAt(i).user.ID.Equals(this.user.ID))
+                    {
+                        playerName[i].Background = Brushes.Blue;
+                        playerCash[i].Background = Brushes.Blue;
+                    }
+                }
+                else
+                {
+                    if (Game.activePlayers.ElementAt(i).user.ID.Equals(this.user.ID))
+                    {
+                        playerName[i].Background = Brushes.DarkGray;
+                        playerCash[i].Background = Brushes.DarkGray;
+                    }
+                }
             }
         }
 
@@ -276,6 +299,12 @@ namespace GUI
                 updateTableCards();
                 updatePlayers();
                 cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
+
+                if(this.Game.isGotNewPublicMessage)
+                    publicMessagesBox.Text += this.Game.incomingPublicMessage;
+
+                if (this.Game.isGotNewPrivateMessage)
+                    privateMessagesBox.Text += this.Game.incomingPrivateMessage;
 
                 foreach (player currentPlayer in this.Game.activePlayers)
                     if (currentPlayer.user.ID == this.Game.CurrentPlayer)
@@ -417,5 +446,63 @@ namespace GUI
 
         }
 
+        private void clearButton_Click(object sender, RoutedEventArgs e)
+        {
+            publicWriteMessageBox.Clear();
+        }
+
+        private void sendMessageButton_Click(object sender, RoutedEventArgs e)
+        {
+            String message= this.user.UserName + " say: " + publicWriteMessageBox.Text + "\n";
+            this.BL.sendPublicMessage(message);
+        }
+
+        private void message1_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(0).user.ID, Game.activePlayers.ElementAt(0).user.UserName);
+            PM.Show();
+        }
+
+        private void message2_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(1).user.ID, Game.activePlayers.ElementAt(1).user.UserName);
+            PM.Show();
+        }
+
+        private void message3_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(2).user.ID, Game.activePlayers.ElementAt(2).user.UserName);
+            PM.Show();
+        }
+
+        private void message4_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(3).user.ID, Game.activePlayers.ElementAt(3).user.UserName);
+            PM.Show();
+        }
+
+        private void message5_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(4).user.ID, Game.activePlayers.ElementAt(4).user.UserName);
+            PM.Show();
+        }
+
+        private void message6_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(5).user.ID, Game.activePlayers.ElementAt(5).user.UserName);
+            PM.Show();
+        }
+
+        private void message7_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(6).user.ID, Game.activePlayers.ElementAt(6).user.UserName);
+            PM.Show();
+        }
+
+        private void message8_Click(object sender, RoutedEventArgs e)
+        {
+            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(7).user.ID, Game.activePlayers.ElementAt(7).user.UserName);
+            PM.Show();
+        }
     }
 }
