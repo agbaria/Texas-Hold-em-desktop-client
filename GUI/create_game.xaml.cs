@@ -28,7 +28,6 @@ namespace GUI
             InitializeComponent();
             this.BL = bl;
             this.user = user;
-            MessageBox.Show(user.UserName);
         }
 
         private void cancel_button_Click(object sender, RoutedEventArgs e)
