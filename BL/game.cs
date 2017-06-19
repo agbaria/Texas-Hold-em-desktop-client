@@ -20,6 +20,7 @@ namespace BL
         public String CurrentPlayer;
         public int cardsOnTable;
         public card[] table;
+
         public int MaxPlayers;
         public int cashOnTable;
         public int CurrentBet;
@@ -27,7 +28,7 @@ namespace BL
         public bool isWaitingForYourAction;
         public int isWaitingForLeaving;
         public Queue<string> chat;
-
+        public bool isWaitingForUpdate;
 
         /**
 
@@ -47,6 +48,7 @@ namespace BL
             chat = new Queue<string>();
             isWaitingForYourAction = false;
             isWaitingForLeaving = 0;
+            isWaitingForUpdate = true;
         }
 
         public string getNewMsgInChat()

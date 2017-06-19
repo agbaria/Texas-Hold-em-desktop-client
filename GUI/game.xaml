@@ -62,10 +62,11 @@
         <Slider x:Name="slider" Visibility="Hidden" IsSnapToTickEnabled="True" TickFrequency="1"  HorizontalAlignment="Left" Margin="688,488,0,0"  VerticalAlignment="Top" Width="102" Background="#FF113E9E"/>
         <TextBlock x:Name="raiseBet" Visibility="Hidden" Text="{Binding ElementName=slider,Path=Value}" HorizontalAlignment="Left" Margin="750,465,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="61" Height="20" Foreground="#FFFDFAFA"/>
         <TextBlock x:Name="Raise_to" Visibility="Hidden" HorizontalAlignment="Left" Margin="690,464,0,0" TextWrapping="Wrap" Text="Raise to:" VerticalAlignment="Top" Foreground="#FFF9F7F7" FontWeight="Bold"/>
-        <TextBlock x:Name="now_playing" HorizontalAlignment="Left" Margin="404,431,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="179" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run Text="now playing: "/></TextBlock>
+        <TextBlock x:Name="now_playing" HorizontalAlignment="Left" Margin="203,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="49" Width="179" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run Text="now playing: "/></TextBlock>
         <TextBlock x:Name="cashOnTheTable" HorizontalAlignment="Left" Margin="440,212,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="179" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run Text="cash: 0$"/></TextBlock>
         <Border x:Name="my_first_card"  BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="92" Margin="415,581,0,0" VerticalAlignment="Top" Width="69"/>
         <Border x:Name="my_second_card"  BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="92" Margin="514,581,0,0" VerticalAlignment="Top" Width="69"/>
         <TextBlock x:Name="your_cards" HorizontalAlignment="Left" Margin="456,545,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="93" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run FlowDirection="RightToLeft" Text="your cards"/><Run Text=": "/></TextBlock>
+        <Label x:Name="labelName" Content="Label" HorizontalAlignment="Left" Height="36" Margin="28,19,0,0" VerticalAlignment="Top" Width="141"/>
     </Grid>
 </Window>

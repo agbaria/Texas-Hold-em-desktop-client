@@ -63,5 +63,6 @@
             <ComboBoxItem Content="show all spectatable games" HorizontalAlignment="Left" Width="157" Name="spectatable_list"/>
         </ComboBox>
         <Button x:Name="spectate_button" Visibility="Hidden" Content="spectate" HorizontalAlignment="Left" Margin="409,406,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="spectate_button_Click"/>
+        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="621,79,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>
