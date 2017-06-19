@@ -29,6 +29,7 @@ namespace BL
 
 
         public void registered(string msg){
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("REG") && msg.Contains("DONE"))
                 isDone = 1;
             else isDone = 2;
@@ -40,6 +41,7 @@ namespace BL
          */
         public void loggedin(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("LOGIN") && msg.Contains("DONE"))
             {
                 string[] parts = msg.Split(' ');
@@ -57,6 +59,7 @@ namespace BL
 */
         public void edittedUserPassword(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("EDITPASS") && msg.Contains("DONE"))
             {
                 isDone = 1;
@@ -67,8 +70,9 @@ namespace BL
 
         public void takeAction(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             string[] msgs = msg.Split(' ');
-            if (msg.Contains("takeAction"))
+            if (msg.Contains("TAKEACTION"))
             {
                 getGameByID(msgs[1]).isWaitingForYourAction = true;
                
@@ -77,6 +81,7 @@ namespace BL
 
         public void edittedUserName(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("EDITUSERNAME") && msg.Contains("DONE"))
             {
                 isDone = 1;
@@ -88,6 +93,7 @@ namespace BL
 
         public void edittedUserEmail(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("EDITUSEREMAIL") && msg.Contains("DONE"))
             {
                 isDone = 1;
@@ -98,6 +104,7 @@ namespace BL
 
         public void edittedUserAvatar(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("EDITUSERAVATAR") && msg.Contains("DONE"))
             {
                 isDone = 1;
@@ -114,6 +121,7 @@ namespace BL
   */
         public void searchedGamesByPotSize(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("DONE"))
             {
                 this.recived = msg;
@@ -134,6 +142,7 @@ namespace BL
 */
         public void spectated(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("SPECTATEGAME") && msg.Contains("DONE"))
             {
                 String part2 = msg.Substring(msg.IndexOf("DONE ") + "DONE ".Length);
@@ -151,6 +160,9 @@ namespace BL
                 newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
                 newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                 newGame.table = table;
+                if (table != null)
+                    newGame.cardsOnTable = table.Length;
+                else newGame.cardsOnTable = 0;
                 newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
                 newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
                 newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
@@ -172,6 +184,7 @@ namespace BL
      */
         public void joinedGame(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("JOINGAME") && msg.Contains("DONE"))
             {
                 String part2 = msg.Substring(msg.IndexOf("DONE ") + "DONE ".Length);
@@ -189,6 +202,9 @@ namespace BL
                 newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
                 newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                 newGame.table = table;
+                if (table != null)
+                    newGame.cardsOnTable = table.Length;
+                else newGame.cardsOnTable = 0;
                 newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
                 newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
                 newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
@@ -211,6 +227,7 @@ namespace BL
 */
         public void gameUpdated(string msg)
         {
+            msg = msg.Substring(0, msg.Length - 2);
             if (msg.Contains("GAMEUPDATE"))
             {
                 String part2 = msg.Substring(msg.IndexOf("GAMEUPDATE ") + "GAMEUPDATE ".Length);
@@ -221,6 +238,7 @@ namespace BL
                 players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
                 card[] table = extractCards(extractString2(msgs, "table="));
+
                 newGame = getGameByID(extractString2(msgs, "GameID="));
                 if (newGame != null)
                 {
@@ -229,10 +247,13 @@ namespace BL
                     newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
                     newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                     newGame.table = table;
+                    if (table != null)
+                        newGame.cardsOnTable = table.Length;
+                    else newGame.cardsOnTable = 0;
                     newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
                     newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
                     newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
-                    
+                    newGame.isWaitingForUpdate = true;
                 }
 
             }
@@ -270,6 +291,9 @@ namespace BL
                 newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
                 newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                 newGame.table = table;
+                if (table != null)
+                    newGame.cardsOnTable = table.Length;
+                else newGame.cardsOnTable = 0;
                 blindBitS = extractString2(msgs, "MaxPlayers=");
                 newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
                 blindBitS = extractString2(msgs, "cashOnTheTable=");
@@ -722,10 +746,9 @@ namespace BL
             toSend += "\n";
             if (CL.send(toSend))
             {
-                while (value == 0)
-                {
-                    isActionMaked.TryGetValue(GameID, out value);
-                }
+                while (isActionMaked[GameID] == 0) ;
+                value = isActionMaked[GameID];
+                isActionMaked.Remove(GameID);
                 if (value == 1) return true;
                 return false;
             }
@@ -744,9 +767,9 @@ namespace BL
             if (msg.Contains("ACTION") && msg.Contains("DONE"))
             {
 
-                Console.WriteLine(msg.ToString());
-                this.isActionMaked[parts[2]] = 1;
+                Console.WriteLine(msg.ToString());   
                 getGameByID(parts[2]).isWaitingForYourAction = false;
+                this.isActionMaked[parts[2]] = 1;
 
             }
 

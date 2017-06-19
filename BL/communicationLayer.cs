@@ -150,7 +150,7 @@ namespace BL
                 Console.WriteLine("Sending: " + msg);
                 // Send the data through the socket.  
                 //  int bytesSent = sender.Send(bytes);
-                writer.Write(msg);
+                writer.WriteLine(msg.Substring(0,msg.Length-1));
                 //Console.WriteLine("number of bytes send: " + bytesSent);
                 return true;
             }

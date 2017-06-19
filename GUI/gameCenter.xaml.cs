@@ -28,6 +28,7 @@ namespace GUI
             InitializeComponent();
             this.BL = bl;
             this.user = user;
+            this.userName.Content = this.user.UserName;
         }
 
         private void logout_button_Click(object sender, RoutedEventArgs e)
