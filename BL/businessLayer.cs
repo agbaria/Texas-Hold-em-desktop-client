@@ -246,6 +246,7 @@ namespace BL
                     newGame.activePlayers = activePlayers;
                     newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
                     newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
+                    newGame.table = new card[0];
                     newGame.table = table;
                     if (table != null)
                         newGame.cardsOnTable = table.Length;

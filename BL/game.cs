@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,10 +30,6 @@ namespace BL
         public int isWaitingForLeaving;
         public Queue<string> chat;
         public bool isWaitingForUpdate;
-        public bool isGotNewPublicMessage;
-        public bool isGotNewPrivateMessage;
-        public String incomingPublicMessage;
-        public String incomingPrivateMessage;
 
         /**
 
@@ -55,13 +52,15 @@ namespace BL
             isWaitingForUpdate = true;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public string getNewMsgInChat()
         {
-
+            if(chat.Count>0)
             return chat.Dequeue();
-
+            return null;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void addMsg(string msg)
         {
             chat.Enqueue(msg);

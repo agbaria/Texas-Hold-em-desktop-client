@@ -53,6 +53,7 @@ namespace GUI
         {
             while (Game.isWaitingForLeaving == 0)
             {
+                updateChat();
                 if (Game.isWaitingForUpdate)
                 {
                     updateGame();
@@ -60,6 +61,7 @@ namespace GUI
                 }
                 while (Game.activePlayers.Count > 0)
                 {
+                    updateChat();
                     if (Game.isWaitingForUpdate)
                     {
                         updateGame();
@@ -73,6 +75,8 @@ namespace GUI
                 }
             }
         }
+
+
 
         private void InitializeAvatrsImages()
         {
@@ -149,7 +153,23 @@ namespace GUI
                 cards[i + 39] = new BitmapImage(new Uri(royalFamily[i - 10] + "_of_spades.png", UriKind.Relative));
             }
         }
+        private void updateChat()
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
 
+                bool isEmptyChat = false;
+                while (!isEmptyChat)
+                {
+                    string msgg = this.Game.getNewMsgInChat();
+                    if (msgg != null)
+                        publicMessagesBox.Text += msgg;
+                    else isEmptyChat = true;
+                }
+            }));
+
+            
+        }
         private void updateTableCards()
         {
             int numOfCards = Game.cardsOnTable;
@@ -167,9 +187,9 @@ namespace GUI
                    cardIndex[i] = Game.table[i].number - 1 + 39;
             }
 
-            if (numOfCards>0)
+            if (numOfCards > 0)
             {
-                    if (numOfCards==1)
+                if (numOfCards == 1)
                 {
                     card1.Background = new ImageBrush(cards[cardIndex[0]]);
                     card2.Background = new ImageBrush();
@@ -210,6 +230,13 @@ namespace GUI
                     card5.Background = new ImageBrush(cards[cardIndex[4]]);
                 }
             }
+            else {
+                card1.Background = new ImageBrush();
+                card2.Background = new ImageBrush();
+                card3.Background = new ImageBrush();
+                card4.Background = new ImageBrush();
+                card5.Background = new ImageBrush();
+            }
         }
 
         private void updateMyCards(player myPlayer)
@@ -231,6 +258,12 @@ namespace GUI
                 }
                 my_first_card.Background = new ImageBrush(cards[cardIndex[0]]);
                 my_second_card.Background = new ImageBrush(cards[cardIndex[1]]);
+            }
+            else
+            {
+                my_first_card.Background = new ImageBrush();
+                my_second_card.Background = new ImageBrush();
+
             }
         }
 
@@ -299,12 +332,9 @@ namespace GUI
                 updateTableCards();
                 updatePlayers();
                 cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
-
-                if(this.Game.isGotNewPublicMessage)
-                    publicMessagesBox.Text += this.Game.incomingPublicMessage;
-
-                if (this.Game.isGotNewPrivateMessage)
-                    privateMessagesBox.Text += this.Game.incomingPrivateMessage;
+                updateChat();
+          /*      if (this.Game.isGotNewPrivateMessage)
+                    privateMessagesBox.Text += this.Game.incomingPrivateMessage;*/
 
                 foreach (player currentPlayer in this.Game.activePlayers)
                     if (currentPlayer.user.ID == this.Game.CurrentPlayer)
@@ -453,8 +483,11 @@ namespace GUI
 
         private void sendMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            String message= this.user.UserName + " say: " + publicWriteMessageBox.Text + "\n";
-            this.BL.sendPublicMessage(message);
+
+            BL.sendMsgToChar(publicWriteMessageBox.Text + "\n", this.Game.GameID, this.user.ID);
+            publicWriteMessageBox.Text = "";
+
+
         }
 
         private void message1_Click(object sender, RoutedEventArgs e)
