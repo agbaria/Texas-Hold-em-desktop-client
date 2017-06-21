@@ -68,9 +68,27 @@
         <Border x:Name="my_second_card"  BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="92" Margin="514,581,0,0" VerticalAlignment="Top" Width="69"/>
         <TextBlock x:Name="your_cards" HorizontalAlignment="Left" Margin="456,545,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="36" Width="93" Foreground="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" FontWeight="Bold" FontSize="16"><Run FlowDirection="RightToLeft" Text="your cards"/><Run Text=": "/></TextBlock>
         <Label x:Name="labelName" Content="Label" HorizontalAlignment="Left" Height="36" Margin="28,19,0,0" VerticalAlignment="Top" Width="141"/>
-        <TextBox x:Name="publicMessagesBox" HorizontalAlignment="Left" Height="227" Margin="1008,55,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="334" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+        <TextBox x:Name="publicMessagesBox" HorizontalAlignment="Left" Height="227" Margin="1008,55,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="334" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" FontFamily="Times New Roman" FontSize="18"/>
         <Button x:Name="sendMessageButton" Content="Send message" HorizontalAlignment="Left" Margin="1008,360,0,0" VerticalAlignment="Top" Width="114" Height="27" Click="sendMessageButton_Click"/>
-        <TextBox x:Name="publicWriteMessageBox" HorizontalAlignment="Left" Height="23" Margin="1008,315,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="334"/>
+        <TextBox x:Name="publicWriteMessageBox" HorizontalAlignment="Left" Height="23" Margin="1008,315,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="334" AutomationProperties.HelpText="Put your message here" RenderTransformOrigin="0.5,0.5">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-5"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+            <TextBox.Effect>
+                <DropShadowEffect Color="#FF2C4D19" Direction="200" ShadowDepth="15"/>
+            </TextBox.Effect>
+            <TextBox.CaretBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.CaretBrush>
+        </TextBox>
         <Button x:Name="clearButton" Content="Clear" HorizontalAlignment="Left" Margin="1144,360,0,0" VerticalAlignment="Top" Width="86" Height="27" Click="clearButton_Click"/>
         <Label x:Name="publicChatLabel" Content="Public chat" HorizontalAlignment="Left" Margin="1008,21,0,0" VerticalAlignment="Top" Height="38" Width="171" FontWeight="Bold" FontSize="14" Foreground="#FF0A0AEC"/>
         <Label x:Name="privateChatLabel" Content="Private chat" HorizontalAlignment="Left" Margin="1008,453,0,0" VerticalAlignment="Top" Height="38" Width="171" FontWeight="Bold" FontSize="14" Foreground="#FF0A0AEC"/>

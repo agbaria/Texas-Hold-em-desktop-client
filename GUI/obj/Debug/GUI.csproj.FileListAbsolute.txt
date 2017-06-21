@@ -166,3 +166,5 @@ C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI.Properties.Resources.resource
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI.csproj.GenerateResource.Cache
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.g.cs
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.baml
+C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\privateMessage.g.cs
+C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\privateMessage.baml
