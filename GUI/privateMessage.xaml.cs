@@ -37,6 +37,7 @@ namespace GUI
         {
             String message = myName + " say: "+ messageBox.Text+"\n";
             this.BL.sendPrivateMessage(ReceieverID, message);
+            this.Close();
         }
 
         private void closeButton_Click(object sender, RoutedEventArgs e)

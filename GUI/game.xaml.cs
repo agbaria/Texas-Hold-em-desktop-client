@@ -230,7 +230,8 @@ namespace GUI
                     card5.Background = new ImageBrush(cards[cardIndex[4]]);
                 }
             }
-            else {
+            else
+            {
                 card1.Background = new ImageBrush();
                 card2.Background = new ImageBrush();
                 card3.Background = new ImageBrush();
@@ -333,13 +334,14 @@ namespace GUI
                 updatePlayers();
                 cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
                 updateChat();
-          /*      if (this.Game.isGotNewPrivateMessage)
-                    privateMessagesBox.Text += this.Game.incomingPrivateMessage;*/
 
                 foreach (player currentPlayer in this.Game.activePlayers)
                     if (currentPlayer.user.ID == this.Game.CurrentPlayer)
                     {
-                        now_playing.Text = "now playing: " + currentPlayer.user.UserName;
+                        if (currentPlayer.user.ID !=user.ID)
+                          now_playing.Text = "now playing: " + currentPlayer.user.UserName;
+                        else
+                          now_playing.Text = "now playing: Me";
                         break;
                     }
 
@@ -485,7 +487,7 @@ namespace GUI
         {
 
             BL.sendMsgToChar(publicWriteMessageBox.Text + "\n", this.Game.GameID, this.user.ID);
-            publicWriteMessageBox.Text = "";
+            publicWriteMessageBox.Clear();
 
 
         }

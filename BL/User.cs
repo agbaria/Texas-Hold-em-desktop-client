@@ -22,6 +22,7 @@ namespace BL
             this.totalCash = totalCash;
             this.score = score;
             this.league = league;
+            this.avatar = avatar;
             hand = new card[2];
         }
 

@@ -29,7 +29,21 @@ namespace GUI
             this.BL = bl;
             this.user = user;
             this.userName.Content = this.user.UserName;
+            showAvatar();
         }
+
+        public void showAvatar()
+        {
+                if (this.user.avatar.Equals("avatar1"))
+                userAvatar.Background = new ImageBrush(new BitmapImage(new Uri("avatar1.jpg", UriKind.Relative)));
+                if (this.user.avatar.Equals("avatar2"))
+                userAvatar.Background = new ImageBrush(new BitmapImage(new Uri("avatar2.png", UriKind.Relative)));
+                if (this.user.avatar.Equals("avatar3"))
+                userAvatar.Background = new ImageBrush(new BitmapImage(new Uri("avatar3.jpg", UriKind.Relative)));
+                if (this.user.avatar.Equals("avatar4"))
+                userAvatar.Background = new ImageBrush(new BitmapImage(new Uri("avatar4.jpg", UriKind.Relative)));
+        }
+
 
         private void logout_button_Click(object sender, RoutedEventArgs e)
         {
@@ -132,7 +146,12 @@ namespace GUI
                 if (!result)
                     MessageBox.Show("an error was occurred, \n please enter valid parameters");
                 else
-                MessageBox.Show("success! \n the profile was changed");
+                {
+                    MessageBox.Show("success! \n the profile was changed");
+                    this.user = BL.getUser(user.ID);
+                    this.userName.Content = this.user.UserName;
+                    showAvatar();
+                }
             }
         }
 

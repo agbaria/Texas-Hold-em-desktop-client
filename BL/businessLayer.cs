@@ -498,7 +498,11 @@ namespace BL
             if (CL.send("EDITUSERNAME " + userID + " " + newName + "\n"))
             {
                 while (isDone == 0) ;
-                if (isDone == 1) return true;
+                if (isDone == 1)
+                {
+                    user.UserName = newName;
+                    return true;
+                }
                 return false;
             }
             return false;
@@ -524,7 +528,11 @@ namespace BL
             if (CL.send("EDITUSERAVATAR " + userID + " " + avatar + "\n"))
             {
                 while (isDone == 0) ;
-                if (isDone == 1) return true;
+                if (isDone == 1)
+                {
+                    user.avatar = avatar;
+                    return true;
+                }
                 return false;
             }
             return false;
@@ -786,9 +794,15 @@ namespace BL
         public void reciveMsgToChat(string msg)
         {
             string[] partsMsg = msg.Split(' ');
-            getGameByID(partsMsg[1]).addMsg(partsMsg[2] + ": " + appendArray(partsMsg, 3));
 
-
+            foreach (player p in getGameByID(partsMsg[1]).activePlayers)
+            {
+                if (p.user.ID == partsMsg[2])
+                {
+                    getGameByID(partsMsg[1]).addMsg(p.user.UserName + ": " + appendArray(partsMsg, 3));
+                    break;
+                }
+            }
         }
 
         private string appendArray(string[] partsMsg, int startIndex)

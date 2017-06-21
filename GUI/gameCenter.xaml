@@ -13,7 +13,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="pictures/as-holdem.jpg"/>
         </Grid.Background>
-        <Button x:Name="logout_button" Content="Logout" HorizontalAlignment="Left" Margin="621,24,0,0" VerticalAlignment="Top" Width="100" Click="logout_button_Click" Height="30"/>
+        <Button x:Name="logout_button" Content="Logout" HorizontalAlignment="Left" Margin="619,14,0,0" VerticalAlignment="Top" Width="100" Click="logout_button_Click" Height="30"/>
         <Button x:Name="edit_profile_button" Content="Edit profile" HorizontalAlignment="Left" Margin="22,34,0,0" VerticalAlignment="Top" Width="100" Click="edit_profile_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
         <ComboBox x:Name="comboBox" Visibility="Hidden" HorizontalAlignment="Left" Margin="22,89,0,0" VerticalAlignment="Top" Width="223" Height="28" SelectionChanged="comboBox_SelectionChanged">
             <ComboBoxItem Content="change password" HorizontalAlignment="Left" Width="221" Name="change_pass_selected" />
@@ -63,6 +63,7 @@
             <ComboBoxItem Content="show all spectatable games" HorizontalAlignment="Left" Width="157" Name="spectatable_list"/>
         </ComboBox>
         <Button x:Name="spectate_button" Visibility="Hidden" Content="spectate" HorizontalAlignment="Left" Margin="409,406,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="spectate_button_Click"/>
-        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="621,79,0,0" VerticalAlignment="Top" Width="100"/>
+        <Border x:Name="userAvatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="623,101,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="619,70,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontWeight="Bold"/>
     </Grid>
 </Window>
