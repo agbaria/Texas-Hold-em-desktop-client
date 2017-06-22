@@ -303,7 +303,16 @@ namespace GUI
                 playerCash[i].Visibility = System.Windows.Visibility.Visible;
                 playerCash[i].Content ="      $ "+Game.activePlayers.ElementAt(i).user.totalCash;
 
-                if (!Game.activePlayers.ElementAt(i).user.ID.Equals(this.user.ID))
+                bool isSpectator = true;
+                foreach (player p in Game.activePlayers)
+                    if (p.user.ID == user.ID)
+                    {
+                        isSpectator = false;
+                        break;
+                    }
+
+
+                if (!Game.activePlayers.ElementAt(i).user.ID.Equals(this.user.ID) && !isSpectator)
                     messages[i].Visibility = System.Windows.Visibility.Visible;
 
                 if (itIsMyTurn)
