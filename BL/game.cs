@@ -27,10 +27,12 @@ namespace BL
         public int CurrentBet;
         public int cashOnTheTable = 0;
         public bool isWaitingForYourAction;
+        public int minimumBet;
         public int isWaitingForLeaving;
         public Queue<string> chat;
         public bool isWaitingForUpdate;
-
+        public bool isThereWinners;
+        public Dictionary<player, int> winnersToAmount;
         /**
 
 * PLAYERS = "*PLAYER USER NAME*,*Player Name*,"{0,n} 
@@ -50,6 +52,9 @@ namespace BL
             isWaitingForYourAction = false;
             isWaitingForLeaving = 0;
             isWaitingForUpdate = true;
+            isThereWinners = false;
+            winnersToAmount = new Dictionary<player, int>();
+            minimumBet = 0;
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

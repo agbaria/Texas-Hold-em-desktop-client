@@ -339,6 +339,17 @@ namespace GUI
             this.Game = BL.getGameByID(Game.GameID);
             this.Dispatcher.Invoke((Action)(() =>
             {//this refer to form in WPF application 
+                if (this.Game.isThereWinners) {
+                    string messageWinner = "";
+                    int i = 1;
+                    foreach(KeyValuePair<player,int> p in Game.winnersToAmount) {
+                        messageWinner += i + ": " + p.Key.user.ID + " Got: " + p.Value + "$\n";
+                        i++;
+                    }
+                    MessageBox.Show(messageWinner,"We Have Winners", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Game.isThereWinners = false;
+                    Game.winnersToAmount = new Dictionary<player, int>();
+                }
                 updateTableCards();
                 updatePlayers();
                 cashOnTheTable.Text = "cash: " +this.Game.cashOnTheTable +"$";
@@ -369,7 +380,8 @@ namespace GUI
             this.Dispatcher.Invoke((Action)(() =>
             {//this refer to form in WPF application 
             fold_button.Visibility = System.Windows.Visibility.Visible;
-            check_button.Visibility = System.Windows.Visibility.Visible;
+            if(this.Game.minimumBet ==0)
+                 check_button.Visibility = System.Windows.Visibility.Visible;
             call_button.Visibility = System.Windows.Visibility.Visible;
             raise_button.Visibility = System.Windows.Visibility.Visible;
             Raise_to.Visibility = System.Windows.Visibility.Visible;
@@ -377,7 +389,7 @@ namespace GUI
             slider.Visibility = System.Windows.Visibility.Visible;
             
 
-            slider.Minimum = this.Game.CurrentBet;
+            slider.Minimum = this.Game.minimumBet;
             foreach (player myPlayer in this.Game.activePlayers)
                 if (myPlayer.user.ID == this.user.ID)
                 {
@@ -440,7 +452,7 @@ namespace GUI
 
         private void call_button_Click(object sender, RoutedEventArgs e)
         {
-            int bet=this.Game.CurrentBet;
+            int bet=this.Game.minimumBet;
 
             foreach (player myPlayer in this.Game.activePlayers)
                 if (myPlayer.user.ID == this.user.ID)

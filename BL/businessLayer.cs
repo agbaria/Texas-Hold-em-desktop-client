@@ -75,7 +75,8 @@ namespace BL
             if (msg.Contains("TAKEACTION"))
             {
                 getGameByID(msgs[1]).isWaitingForYourAction = true;
-               
+                getGameByID(msgs[1]).minimumBet = Int32.Parse(msgs[2]);
+
             }
         }
 
@@ -243,7 +244,7 @@ namespace BL
                 if (newGame != null)
                 {
                     newGame.players = playerss;
-                    newGame.activePlayers = activePlayers;
+
                     newGame.blindBit = Int32.Parse(extractString2(msgs, "blindBit="));
                     newGame.CurrentPlayer = extractString2(msgs, "CurrentPlayer=");
                     newGame.table = new card[0];
@@ -252,7 +253,22 @@ namespace BL
                         newGame.cardsOnTable = table.Length;
                     else newGame.cardsOnTable = 0;
                     newGame.MaxPlayers = Int32.Parse(extractString2(msgs, "MaxPlayers="));
+
+                    int PrevcashonTable = newGame.cashOnTheTable;
                     newGame.cashOnTheTable = Int32.Parse(extractString2(msgs, "cashOnTheTable="));
+                    //find winners if there
+                    if (PrevcashonTable > newGame.cashOnTheTable && newGame.cashOnTheTable == 0) {
+                        newGame.isThereWinners = true;
+                        foreach (player p in activePlayers) {
+                            foreach (player prev in newGame.activePlayers) {
+                                if (p.user.ID.Equals(prev.user.ID) && (p.user.totalCash > prev.user.totalCash)) {
+
+                                    newGame.winnersToAmount.Add(p, p.user.totalCash - prev.user.totalCash);
+                                        }
+                                }
+                                }
+                    }
+                    newGame.activePlayers = activePlayers;
                     newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
                     newGame.isWaitingForUpdate = true;
                 }
