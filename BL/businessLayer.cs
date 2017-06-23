@@ -233,6 +233,7 @@ namespace BL
             {
                 String part2 = msg.Substring(msg.IndexOf("GAMEUPDATE ") + "GAMEUPDATE ".Length);
                 string[] msgs = part2.Split('&');
+                int myPrevTotalCash = user.totalCash;
                 game newGame;
                 string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
@@ -261,10 +262,11 @@ namespace BL
                         newGame.isThereWinners = true;
                         foreach (player p in activePlayers) {
                             foreach (player prev in newGame.activePlayers) {
-                                if (p.user.ID.Equals(prev.user.ID) && (p.user.totalCash > prev.user.totalCash)) {
+                                if (p.user.ID.Equals(prev.user.ID) && (p.user.totalCash > prev.user.totalCash)) 
                                     newGame.winnersToAmount.Add(p, p.user.totalCash - prev.user.totalCash);
-                                        }
-                                }
+                                else if (p.user.ID.Equals(prev.user.ID) && p.user.ID.Equals(user.ID) && (p.user.totalCash > myPrevTotalCash))
+                                    newGame.winnersToAmount.Add(p, p.user.totalCash - myPrevTotalCash);
+                            }
                                 }
                     }
                     newGame.activePlayers = activePlayers;
