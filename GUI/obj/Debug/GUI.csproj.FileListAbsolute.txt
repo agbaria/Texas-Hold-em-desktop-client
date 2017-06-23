@@ -156,17 +156,17 @@ C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\signUp.g.cs
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\App.g.cs
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI_MarkupCompile.cache
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI_MarkupCompile.lref
-C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\create_game.baml
-C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\game.baml
-C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\gameCenter.baml
-C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\MainWindow.baml
-C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\signUp.baml
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI.g.resources
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI.Properties.Resources.resources
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\GUI.csproj.GenerateResource.Cache
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.g.cs
-C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.baml
 C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\privateMessage.g.cs
 C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\privateMessage.baml
 C:\Users\hom\Desktop\poker\GUI\obj\Debug\privateMessage.g.cs
 C:\Users\hom\Desktop\poker\GUI\obj\Debug\privateMessage.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\create_game.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\game.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\gameCenter.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\MainWindow.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\signUp.baml

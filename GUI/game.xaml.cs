@@ -343,7 +343,7 @@ namespace GUI
                     string messageWinner = "";
                     int i = 1;
                     foreach(KeyValuePair<player,int> p in Game.winnersToAmount) {
-                        messageWinner += i + ": " + p.Key.user.ID + " Got: " + p.Value + "$\n";
+                        messageWinner += i + ": " + p.Key.user.UserName + " Got: " + p.Value + "$\n";
                         i++;
                     }
                     MessageBox.Show(messageWinner,"We Have Winners", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -380,22 +380,28 @@ namespace GUI
             this.Dispatcher.Invoke((Action)(() =>
             {//this refer to form in WPF application 
             fold_button.Visibility = System.Windows.Visibility.Visible;
-            if(this.Game.minimumBet ==0)
-                 check_button.Visibility = System.Windows.Visibility.Visible;
+            check_button.Visibility = System.Windows.Visibility.Visible;
             call_button.Visibility = System.Windows.Visibility.Visible;
             raise_button.Visibility = System.Windows.Visibility.Visible;
             Raise_to.Visibility = System.Windows.Visibility.Visible;
             raiseBet.Visibility = System.Windows.Visibility.Visible;
             slider.Visibility = System.Windows.Visibility.Visible;
-            
 
-            slider.Minimum = this.Game.minimumBet;
-            foreach (player myPlayer in this.Game.activePlayers)
-                if (myPlayer.user.ID == this.user.ID)
-                {
-                    slider.Maximum = myPlayer.user.totalCash;
-                    break;
-                }
+                call_button.IsEnabled = true;
+                check_button.IsEnabled = true;
+                if (this.Game.CurrentBet == 0)
+                    call_button.IsEnabled = false;
+                if (this.Game.CurrentBet > 0)
+                    check_button.IsEnabled = false;
+
+                slider.Minimum = this.Game.minimumBet;
+            int maxPossibleBet=this.user.totalCash;
+
+            foreach (player p in this.Game.activePlayers)
+                if (p.user.totalCash< maxPossibleBet)
+                        maxPossibleBet = p.user.totalCash;
+                  
+                slider.Maximum = maxPossibleBet;
             }));
         }
 

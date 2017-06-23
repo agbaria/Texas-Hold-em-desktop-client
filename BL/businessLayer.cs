@@ -262,7 +262,6 @@ namespace BL
                         foreach (player p in activePlayers) {
                             foreach (player prev in newGame.activePlayers) {
                                 if (p.user.ID.Equals(prev.user.ID) && (p.user.totalCash > prev.user.totalCash)) {
-
                                     newGame.winnersToAmount.Add(p, p.user.totalCash - prev.user.totalCash);
                                         }
                                 }
