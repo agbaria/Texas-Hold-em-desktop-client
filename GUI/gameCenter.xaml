@@ -64,6 +64,6 @@
         </ComboBox>
         <Button x:Name="spectate_button" Visibility="Hidden" Content="spectate" HorizontalAlignment="Left" Margin="409,406,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="spectate_button_Click"/>
         <Border x:Name="userAvatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="623,101,0,0" VerticalAlignment="Top" Width="96"/>
-        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="619,70,0,0" VerticalAlignment="Top" Width="100" FontSize="14" FontWeight="Bold"/>
+        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="600,70,0,0" VerticalAlignment="Top" Width="132" FontSize="14" FontWeight="Bold"/>
     </Grid>
 </Window>

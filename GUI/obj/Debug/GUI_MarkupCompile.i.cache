@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\hom\Desktop\poker\GUI\obj\Debug\
+C:\Users\ahmad\Source\Repos\fixes\GUI\obj\Debug\
 GUI
 none
 false
 DEBUG;TRACE
-C:\Users\hom\Desktop\poker\GUI\App.xaml
+C:\Users\ahmad\Source\Repos\fixes\GUI\App.xaml
 61255174201
 
-14-529131090
-14-88555387
+141800728218
+14-734690516
 create_game.xaml;game.xaml;gameCenter.xaml;MainWindow.xaml;privateMessage.xaml;signUp.xaml;
 
-False
+True
 
