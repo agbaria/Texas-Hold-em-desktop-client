@@ -402,6 +402,7 @@ namespace GUI
                         maxPossibleBet = p.user.totalCash;
                   
                 slider.Maximum = maxPossibleBet;
+                slider.Value = slider.Minimum;
             }));
         }
 
