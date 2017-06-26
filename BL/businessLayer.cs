@@ -439,7 +439,7 @@ namespace BL
          * @param request is string That has this format: "REG *USER NAME* *PASSWORD* *NAME* *EMAIL* *AVATAR*"
          * @return "REG DONE" if the registration done, "REG FAILED" else
          */
-        public bool register(String ID, String password, String name, String email, String avatar)              ///////////////////////////////add support for avatar in CL.send="REG"
+        public bool register(String ID, String password, String name, String email, String avatar)              
         {
 
             isDone = 0;
@@ -817,6 +817,26 @@ namespace BL
                 if (p.user.ID == partsMsg[2])
                 {
                     getGameByID(partsMsg[1]).addMsg(p.user.UserName + ": " + appendArray(partsMsg, 3));
+                    break;
+                }
+            }
+        }
+
+        public void sendWhisper(string msg, string GameID, string UserID, string receiverID)
+        {
+            CL.send("WHISPERMSG " + GameID + " " + UserID + " " + receiverID + " " + msg);
+
+        }
+
+        public void reciveWhisper(string msg)
+        {
+            string[] partsMsg = msg.Split(' ');
+
+            foreach (player p in getGameByID(partsMsg[1]).activePlayers)
+            {
+                if (p.user.ID == partsMsg[2])
+                {
+                    getGameByID(partsMsg[1]).addWhisper(p.user.UserName + ": " + appendArray(partsMsg, 4));
                     break;
                 }
             }

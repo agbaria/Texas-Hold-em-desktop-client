@@ -53,7 +53,7 @@ namespace GUI
         {
             while (Game.isWaitingForLeaving == 0)
             {
-                updateChat();
+                updateChat(); updatePrivateChat();
                 if (Game.isWaitingForUpdate)
                 {
                     updateGame();
@@ -61,7 +61,7 @@ namespace GUI
                 }
                 while (Game.activePlayers.Count > 0)
                 {
-                    updateChat();
+                    updateChat(); updatePrivateChat();
                     if (Game.isWaitingForUpdate)
                     {
                         updateGame();
@@ -167,9 +167,26 @@ namespace GUI
                     else isEmptyChat = true;
                 }
             }));
-
-            
+  
         }
+
+        private void updatePrivateChat()
+        {
+            this.Dispatcher.Invoke((Action)(() =>
+            {
+
+                bool isEmptyChat = false;
+                while (!isEmptyChat)
+                {
+                    string msgg = this.Game.getNewMsgInPrivateChat();
+                    if (msgg != null)
+                        privateMessagesBox.Text += msgg;
+                    else isEmptyChat = true;
+                }
+            }));
+
+        }
+
         private void updateTableCards()
         {
             int numOfCards = Game.cardsOnTable;
@@ -522,49 +539,49 @@ namespace GUI
 
         private void message1_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(0).user.ID, Game.activePlayers.ElementAt(0).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(0).user.ID, Game.activePlayers.ElementAt(0).user.UserName);
             PM.Show();
         }
 
         private void message2_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(1).user.ID, Game.activePlayers.ElementAt(1).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(1).user.ID, Game.activePlayers.ElementAt(1).user.UserName);
             PM.Show();
         }
 
         private void message3_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(2).user.ID, Game.activePlayers.ElementAt(2).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(2).user.ID, Game.activePlayers.ElementAt(2).user.UserName);
             PM.Show();
         }
 
         private void message4_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(3).user.ID, Game.activePlayers.ElementAt(3).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(3).user.ID, Game.activePlayers.ElementAt(3).user.UserName);
             PM.Show();
         }
 
         private void message5_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(4).user.ID, Game.activePlayers.ElementAt(4).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(4).user.ID, Game.activePlayers.ElementAt(4).user.UserName);
             PM.Show();
         }
 
         private void message6_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(5).user.ID, Game.activePlayers.ElementAt(5).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(5).user.ID, Game.activePlayers.ElementAt(5).user.UserName);
             PM.Show();
         }
 
         private void message7_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(6).user.ID, Game.activePlayers.ElementAt(6).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(6).user.ID, Game.activePlayers.ElementAt(6).user.UserName);
             PM.Show();
         }
 
         private void message8_Click(object sender, RoutedEventArgs e)
         {
-            privateMessage PM = new privateMessage(this.BL, this.user.UserName, Game.activePlayers.ElementAt(7).user.ID, Game.activePlayers.ElementAt(7).user.UserName);
+            privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(7).user.ID, Game.activePlayers.ElementAt(7).user.UserName);
             PM.Show();
         }
     }

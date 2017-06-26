@@ -104,6 +104,8 @@ namespace BL
                                 businessLayer.getBL().ActionMakedd(recived);
                             else if (recived.Contains("CHATMSG"))
                                 businessLayer.getBL().reciveMsgToChat(recived);
+                            else if (recived.Contains("WHISPERMSG"))
+                                businessLayer.getBL().reciveWhisper(recived);
                             else if (recived.Contains("LEAVEGAME"))
                                 businessLayer.getBL().leavedGame(recived);
                             else if (recived.Contains("GAMEUPDATE"))

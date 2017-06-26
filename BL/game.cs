@@ -30,6 +30,7 @@ namespace BL
         public int minimumBet;
         public int isWaitingForLeaving;
         public Queue<string> chat;
+        public Queue<string> privateChat;
         public bool isWaitingForUpdate;
         public bool isThereWinners;
         public Dictionary<player, int> winnersToAmount;
@@ -49,6 +50,7 @@ namespace BL
             activePlayers = new LinkedList<player>();
             table = new card[5];
             chat = new Queue<string>();
+            privateChat = new Queue<string>();
             isWaitingForYourAction = false;
             isWaitingForLeaving = 0;
             isWaitingForUpdate = true;
@@ -69,6 +71,20 @@ namespace BL
         public void addMsg(string msg)
         {
             chat.Enqueue(msg);
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public string getNewMsgInPrivateChat()
+        {
+            if (privateChat.Count > 0)
+                return privateChat.Dequeue();
+            return null;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void addWhisper(string msg)
+        {
+            privateChat.Enqueue(msg);
         }
     }
 

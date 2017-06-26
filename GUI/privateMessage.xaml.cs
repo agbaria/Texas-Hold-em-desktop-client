@@ -21,13 +21,14 @@ namespace GUI
     public partial class privateMessage : Window
     {
         businessLayer BL;
-        String myName, ReceieverID, ReceiverName;
+        String  ReceieverID, ReceiverName, gameID, myID;
 
-        public privateMessage(businessLayer bl, String myName, String ReceieverID, String ReceiverName)
+        public privateMessage(businessLayer bl, String gameID, String myID, String ReceieverID, String ReceiverName)
         {
             InitializeComponent();
             this.BL = bl;
-            this.myName = myName;
+            this.gameID = gameID;
+            this.myID = myID;
             this.ReceiverName = ReceiverName;
             this.ReceieverID = ReceieverID;
             this.label.Content = "write your private message for " + ReceiverName;
@@ -35,8 +36,8 @@ namespace GUI
 
         private void sendButton_Click(object sender, RoutedEventArgs e)
         {
-            String message = myName + " say: "+ messageBox.Text+"\n";
-            this.BL.sendPrivateMessage(ReceieverID, message);
+            String message =messageBox.Text+"\n";
+            this.BL.sendWhisper(message, gameID, myID, ReceieverID);
             this.Close();
         }
 

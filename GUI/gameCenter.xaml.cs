@@ -23,6 +23,7 @@ namespace GUI
     {
         businessLayer BL;
         User user;
+
         public gameCenter(businessLayer bl, User user)
         {
             InitializeComponent();
@@ -123,13 +124,13 @@ namespace GUI
 
                 bool result=false;
                 if (change_pass_selected.IsSelected)
-                    result=BL.editUserPassword(this.user.ID, change_box.Text);
+                    result = BL.editUserPassword(this.user.ID, change_box.Text);
                 else if (change_name_selected.IsSelected)
                     result = BL.editUserName(this.user.ID, change_box.Text);
                 else if (change_email_selected.IsSelected)
                     result = BL.editUserEmail(this.user.ID, change_box.Text);
                 else //change avatar is selected
-                 {
+                {
                     string avatar = "";
 
                     if (avatar1.IsChecked == true)
@@ -141,7 +142,7 @@ namespace GUI
                     if (avatar4.IsChecked == true)
                         avatar = "avatar4";
                     result = BL.editUserAvatar(this.user.ID, avatar);
-                 }
+                }
 
                 if (!result)
                     MessageBox.Show("an error was occurred, \n please enter valid parameters");
@@ -152,6 +153,7 @@ namespace GUI
                     this.userName.Content = this.user.UserName;
                     showAvatar();
                 }
+               
             }
         }
 
@@ -211,7 +213,6 @@ namespace GUI
                     can_join = BL.listOfJoinableGames(this.user.ID);
                 else if (spectatable_list.IsSelected)
                     can_join = BL.listOfSpectatableGames();
-
 
                 if (can_join == null)
                         MessageBox.Show("Can't find any games");
