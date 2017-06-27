@@ -165,6 +165,8 @@ namespace GUI
             game_box.Visibility = System.Windows.Visibility.Hidden;
             game_label.Visibility = System.Windows.Visibility.Hidden;
             spectate_button.Visibility = System.Windows.Visibility.Hidden;
+            replay_button.Visibility = System.Windows.Visibility.Hidden;
+            games_table.Visibility = System.Windows.Visibility.Hidden;
 
             game_label.Content = "please enter pot size:";
             ok_button.Content = "search";
@@ -178,6 +180,8 @@ namespace GUI
             game_label.Visibility = System.Windows.Visibility.Visible;
             spectate_button.Visibility = System.Windows.Visibility.Visible;
             serachGame_comboBox.Visibility = System.Windows.Visibility.Hidden;
+            replay_button.Visibility = System.Windows.Visibility.Hidden;
+            games_table.Visibility = System.Windows.Visibility.Hidden;
 
             game_label.Content = "please enter game id:";
             ok_button.Content = "join";
@@ -201,6 +205,8 @@ namespace GUI
 
                     //create table dynamically
                     dt.Columns.Add("game id", typeof(string));
+                    dt.Columns.Add("buy in", typeof(string));
+                    dt.Columns.Add("avilable sets", typeof(string));
 
 
                 if (search_by_pot_size.IsSelected)
@@ -218,11 +224,19 @@ namespace GUI
                         MessageBox.Show("Can't find any games");
                     else
                     {
+                    string[] oneRow = new string[3];
+                    int index = 0;
                         //add rows
                         foreach (string i_game in can_join)
                         {
-                            dt.Rows.Add(i_game);
-                        }
+                          oneRow[index] = i_game;
+                          index++;
+                          if (index > 2)
+                          {
+                            index = 0;
+                            dt.Rows.Add(oneRow[0], oneRow[1], oneRow[2]);
+                          }
+                    }
                     }
 
                 games_table.ItemsSource = dt.DefaultView;
@@ -250,6 +264,7 @@ namespace GUI
             game_label.Visibility = System.Windows.Visibility.Hidden;
             serachGame_comboBox.Visibility = System.Windows.Visibility.Hidden;
             spectate_button.Visibility = System.Windows.Visibility.Hidden;
+            replay_button.Visibility = System.Windows.Visibility.Hidden;
         }
 
         private void serachGame_comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -281,6 +296,32 @@ namespace GUI
             }
             else MessageBox.Show("Can't join this game");
 
+        }
+
+        private void replay_game_button_Click(object sender, RoutedEventArgs e)
+        {
+            replay_button.Visibility = System.Windows.Visibility.Visible;
+            game_box.Visibility = System.Windows.Visibility.Visible;
+            cancel_game_button.Visibility = System.Windows.Visibility.Visible;
+            game_label.Visibility = System.Windows.Visibility.Visible;
+            spectate_button.Visibility = System.Windows.Visibility.Hidden;
+            serachGame_comboBox.Visibility = System.Windows.Visibility.Hidden;
+            ok_button.Visibility = System.Windows.Visibility.Hidden;
+            games_table.Visibility = System.Windows.Visibility.Hidden;
+
+            game_label.Content = "please enter game id:";
+        }
+
+        private void replay_button_Click(object sender, RoutedEventArgs e)
+        {
+            String gameDescription = BL.gameReplay(game_box.Text);
+            if (gameDescription != null)
+            {
+                replayedGame RG = new replayedGame(BL, this.user, gameDescription);
+                RG.Show();
+                this.Close();
+            }
+            else MessageBox.Show("Can't replay this game");
         }
     }
 }

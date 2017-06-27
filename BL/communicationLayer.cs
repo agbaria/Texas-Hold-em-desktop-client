@@ -110,6 +110,8 @@ namespace BL
                                 businessLayer.getBL().leavedGame(recived);
                             else if (recived.Contains("GAMEUPDATE"))
                                 businessLayer.getBL().gameUpdated(recived);
+                            else if (recived.Contains("GAMEREPLAY"))
+                                businessLayer.getBL().gameReplayed(recived);
                             else Console.WriteLine("ERROR BAD INSTRUCTION:" + recived);
 
 

@@ -14,7 +14,7 @@ namespace BL
         communicationLayer CL;
         int isDone;
         User user;
-        string recived;
+        string recived, gameReview;
         LinkedList<game> games;
         Dictionary<string, int> isActionMaked;
         private businessLayer()
@@ -576,8 +576,14 @@ namespace BL
                     while (i < part2.Length - 3)
                     {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
-                        result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
-                        i = part2.IndexOf(" ENDGAME ", i)+" ENDGAME ".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" BUYIN=", i) - i));
+                        i = part2.IndexOf(" BUYIN=") + " BUYIN=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" SETS=", i) - i));
+                        i = part2.IndexOf(" SETS=") + " SETS=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
+                        i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
+                        part2 = part2.Substring(part2.IndexOf(" ENDGAME ") + " ENDGAME ".Length);
+                        i = 0;
                     }
 
                     this.recived = "";
@@ -680,8 +686,14 @@ namespace BL
                     while (i < part2.Length - 3)
                     {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
-                        result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" BUYIN=", i) - i));
+                        i = part2.IndexOf(" BUYIN=") + " BUYIN=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" SETS=", i) - i));
+                        i = part2.IndexOf(" SETS=") + " SETS=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
                         i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
+                        part2 = part2.Substring(part2.IndexOf(" ENDGAME ")+ " ENDGAME ".Length);
+                        i = 0;
                     }
 
                     this.recived = "";
@@ -716,8 +728,14 @@ namespace BL
                     while (i < part2.Length - 3)
                     {
                         i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
-                        result.AddFirst(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" BUYIN=", i) - i));
+                        i = part2.IndexOf(" BUYIN=") + " BUYIN=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" SETS=", i) - i));
+                        i = part2.IndexOf(" SETS=") + " SETS=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
                         i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
+                        part2 = part2.Substring(part2.IndexOf(" ENDGAME ") + " ENDGAME ".Length);
+                        i = 0;
                     }
 
                     this.recived = "";
@@ -902,14 +920,29 @@ namespace BL
             return Action(userID, gameID, "BET", money);
         }
 
-        public bool sendPublicMessage(String message)
+        public void gameReplayed(string msg)
         {
-            return true;
+            msg = msg.Substring(0, msg.Length - 2);
+            if (msg.Contains("GAMEREPLAY") && msg.Contains("DONE"))
+            {
+                string[] parts = msg.Split(' ');
+                gameReview = msg.Substring(14, msg.Length-18);
+                isDone = 1;
+            }
+            else isDone = 2;
         }
 
-        public bool sendPrivateMessage(String receiverID, String message)
+        public String gameReplay(String GameID)
         {
-            return true;
+            isDone = 0;
+            if (CL.send("REPLAY " + GameID + "\n"))
+            {
+                while (isDone == 0) ;
+
+                if (isDone == 1) return gameReview;
+                return null;
+            }
+            return null;
         }
 
     }

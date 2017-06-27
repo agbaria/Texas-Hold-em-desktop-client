@@ -170,3 +170,5 @@ C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\gameCenter.baml
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\MainWindow.baml
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.baml
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\signUp.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\replayedGame.g.cs
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\replayedGame.baml

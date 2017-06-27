@@ -24,12 +24,12 @@
         <TextBox x:Name="change_box" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="22,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160" />
         <Button x:Name="cancel_button"  Visibility="Hidden" Content="cancel" HorizontalAlignment="Left" Margin="22,217,0,0" VerticalAlignment="Top" Width="64" Click="cancel_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
         <Button x:Name="change_button"  Visibility="Hidden" Content="change" HorizontalAlignment="Left" Margin="117,217,0,0" VerticalAlignment="Top" Width="65" Click="change_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
-        <Button x:Name="search_games_button" Content="search games" HorizontalAlignment="Left" Margin="22,293,0,0" VerticalAlignment="Top" Width="106" Click="search_games_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
+        <Button x:Name="search_games_button" Content="search games" HorizontalAlignment="Left" Margin="22,274,0,0" VerticalAlignment="Top" Width="106" Click="search_games_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
         <DataGrid x:Name="games_table" Visibility="Hidden" HorizontalAlignment="Left" Margin="226,89,0,0" VerticalAlignment="Top" Height="139" Width="283"/>
-        <Button x:Name="join_game_button" Content="join\ spectate&#xD;&#xA; game" HorizontalAlignment="Left" Margin="21,333,0,0" VerticalAlignment="Top" Width="106" Click="join_game_button_Click" Height="49" Background="#FFF0F005" Foreground="#FFFB1D07" FontSize="14"/>
-        <Button x:Name="create_game_button" Content="create game" HorizontalAlignment="Left" Margin="21,395,0,0" VerticalAlignment="Top" Width="106" Click="create_game_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
-        <Button x:Name="ok_button" Visibility="Hidden" Content="ok" HorizontalAlignment="Left" Margin="349,406,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14" Click="ok_button_Click"/>
-        <Button x:Name="cancel_game_button" Visibility="Hidden" Content="cancel" HorizontalAlignment="Left" Margin="469,406,0,0" VerticalAlignment="Top" Width="61"  Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14" Click="cancel_game_button_Click"/>
+        <Button x:Name="join_game_button" Content="join\ spectate&#xD;&#xA; game" HorizontalAlignment="Left" Margin="21,314,0,0" VerticalAlignment="Top" Width="106" Click="join_game_button_Click" Height="49" Background="#FFF0F005" Foreground="#FFFB1D07" FontSize="14"/>
+        <Button x:Name="create_game_button" Content="create game" HorizontalAlignment="Left" Margin="21,376,0,0" VerticalAlignment="Top" Width="106" Click="create_game_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
+        <Button x:Name="ok_button" Visibility="Hidden" Content="ok" HorizontalAlignment="Left" Margin="349,405,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14" Click="ok_button_Click"/>
+        <Button x:Name="cancel_game_button" Visibility="Hidden" Content="cancel" HorizontalAlignment="Left" Margin="469,405,0,0" VerticalAlignment="Top" Width="61"  Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14" Click="cancel_game_button_Click"/>
         <TextBox x:Name="game_box" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="359,354,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="159"/>
         <Label x:Name="game_label" Visibility="Hidden" Content="game labal" HorizontalAlignment="Left" Margin="210,354,0,0" VerticalAlignment="Top" Width="143" Foreground="#FFFF0606" FontWeight="Bold" Background="#FFF3F300"/>
         <Border x:Name="avatar_border" Visibility="Hidden" BorderBrush="Black"  BorderThickness="1" HorizontalAlignment="Left" Height="130" Margin="21,76,0,0" VerticalAlignment="Top" Width="308" Background="#FFE6E6BF"/>
@@ -62,8 +62,10 @@
             <ComboBoxItem Content="show all joinable games" HorizontalAlignment="Left" Width="157" Name="joinable_list"/>
             <ComboBoxItem Content="show all spectatable games" HorizontalAlignment="Left" Width="157" Name="spectatable_list"/>
         </ComboBox>
-        <Button x:Name="spectate_button" Visibility="Hidden" Content="spectate" HorizontalAlignment="Left" Margin="409,406,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="spectate_button_Click"/>
+        <Button x:Name="spectate_button" Visibility="Hidden" Content="spectate" HorizontalAlignment="Left" Margin="409,405,0,0" VerticalAlignment="Top" Width="60"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="spectate_button_Click"/>
         <Border x:Name="userAvatar" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="99" Margin="623,101,0,0" VerticalAlignment="Top" Width="96"/>
-        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="600,70,0,0" VerticalAlignment="Top" Width="132" FontSize="14" FontWeight="Bold"/>
+        <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="619,70,-9,0" VerticalAlignment="Top" Width="132" FontSize="14" FontWeight="Bold"/>
+        <Button x:Name="replay_button" Visibility="Hidden" Content="Replay" HorizontalAlignment="Left" Margin="349,405,0,0" VerticalAlignment="Top" Width="77"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="replay_button_Click"/>
+        <Button x:Name="replay_game_button" Content="replay game" HorizontalAlignment="Left" Margin="21,421,0,0" VerticalAlignment="Top" Width="106" Click="replay_game_button_Click" Height="30" Background="#FFF0F005" Foreground="#FFFB1D07" FontSize="14"/>
     </Grid>
 </Window>

@@ -67,6 +67,9 @@
     <Compile Include="privateMessage.xaml.cs">
       <DependentUpon>privateMessage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="replayedGame.xaml.cs">
+      <DependentUpon>replayedGame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="signUp.xaml.cs">
       <DependentUpon>signUp.xaml</DependentUpon>
     </Compile>
@@ -95,6 +98,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="privateMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="replayedGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
