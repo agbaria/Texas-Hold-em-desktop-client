@@ -17,6 +17,7 @@ namespace BL
         public string GameID;
         public LinkedList<player> players;
         public LinkedList<player> activePlayers;
+        public LinkedList<User> spectators;
         public int blindBit;
         public String CurrentPlayer;
         public int cardsOnTable;
@@ -48,6 +49,7 @@ namespace BL
         {
             players = new LinkedList<player>();
             activePlayers = new LinkedList<player>();
+            spectators = new LinkedList<User>();
             table = new card[5];
             chat = new Queue<string>();
             privateChat = new Queue<string>();

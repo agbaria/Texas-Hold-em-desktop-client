@@ -91,8 +91,8 @@
         </TextBox>
         <Button x:Name="clearButton" Content="Clear" HorizontalAlignment="Left" Margin="1144,360,0,0" VerticalAlignment="Top" Width="86" Height="27" Click="clearButton_Click"/>
         <Label x:Name="publicChatLabel" Content="Public chat" HorizontalAlignment="Left" Margin="1008,21,0,0" VerticalAlignment="Top" Height="38" Width="171" FontWeight="Bold" FontSize="14" Foreground="#FF0A0AEC"/>
-        <Label x:Name="privateChatLabel" Content="Private chat" HorizontalAlignment="Left" Margin="1008,453,0,0" VerticalAlignment="Top" Height="38" Width="171" FontWeight="Bold" FontSize="14" Foreground="#FF0A0AEC"/>
-        <TextBox x:Name="privateMessagesBox" HorizontalAlignment="Left" Height="153" Margin="1008,488,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="334" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+        <Label x:Name="privateChatLabel" Content="Private chat" HorizontalAlignment="Left" Margin="1008,442,0,0" VerticalAlignment="Top" Height="38" Width="171" FontWeight="Bold" FontSize="14" Foreground="#FF0A0AEC"/>
+        <TextBox x:Name="privateMessagesBox" HorizontalAlignment="Left" Height="153" Margin="1008,477,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="334" Background="{DynamicResource {x:Static SystemColors.InactiveCaptionTextBrushKey}}" Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
         <Button x:Name="message1" Visibility="Hidden" HorizontalAlignment="Left" Margin="647,145,0,0" VerticalAlignment="Top" Width="62" Height="31" Click="message1_Click">
             <Button.Background>
                 <ImageBrush ImageSource="pictures/message.png"/>
@@ -133,5 +133,6 @@
                 <ImageBrush ImageSource="pictures/message.png"/>
             </Button.Background>
         </Button>
+        <Button x:Name="whisper" Content="whisper to spectator" HorizontalAlignment="Left" Margin="1008,653,0,0" VerticalAlignment="Top" Width="130" Height="29" Click="whisper_Click"/>
     </Grid>
 </Window>

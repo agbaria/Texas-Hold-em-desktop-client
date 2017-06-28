@@ -584,5 +584,18 @@ namespace GUI
             privateMessage PM = new privateMessage(this.BL, Game.GameID, user.ID, Game.activePlayers.ElementAt(7).user.ID, Game.activePlayers.ElementAt(7).user.UserName);
             PM.Show();
         }
+
+        private void whisper_Click(object sender, RoutedEventArgs e)
+        {
+            this.Game = BL.getGameByID(Game.GameID);
+            if (Game.spectators.Count > 0)
+            {
+                spectatorMessage SM = new spectatorMessage(BL, Game.GameID, user.ID, Game.spectators);
+                SM.Show();
+            }
+            else
+                MessageBox.Show("there isn't avilable spectator in the game for chat");
+
+        }
     }
 }

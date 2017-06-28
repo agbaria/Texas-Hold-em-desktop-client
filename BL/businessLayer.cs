@@ -239,7 +239,10 @@ namespace BL
                 LinkedList<player> playerss = extractPlayers(players);
                 players = extractString2(msgs, "activePlayers=");
                 LinkedList<player> activePlayers = extractPlayers(players);
+                string spectators = extractString2(msgs, "spectators=");
+                LinkedList<User> spectatorss = extractSpectators(spectators);
                 card[] table = extractCards(extractString2(msgs, "table="));
+
 
                 newGame = getGameByID(extractString2(msgs, "GameID="));
                 if (newGame != null)
@@ -270,6 +273,7 @@ namespace BL
                                 }
                     }
                     newGame.activePlayers = activePlayers;
+                    newGame.spectators = spectatorss;
                     newGame.CurrentBet = Int32.Parse(extractString2(msgs, "CurrentBet="));
                     newGame.isWaitingForUpdate = true;
                 }
@@ -294,8 +298,8 @@ namespace BL
                 String part2 = msg.Substring(msg.IndexOf("DONE ")+"DONE ".Length);
                 string[] msgs = part2.Split('&');
                 game newGame = new game();
-                Console.WriteLine(extractString(part2, "players="));
-                Console.WriteLine(extractString2(msgs, "players="));
+            //    Console.WriteLine(extractString(part2, "players="));
+            //    Console.WriteLine(extractString2(msgs, "players="));
                 string players = extractString2(msgs, "players=");
                 LinkedList<player> playerss = extractPlayers(players);
                 players = extractString2(msgs, "activePlayers=");
@@ -397,6 +401,30 @@ namespace BL
                     p.user = this.user;
                 }
                 result.AddLast(p);
+            }
+            return result;
+        }
+
+        private LinkedList<User> extractSpectators(string spectators)
+        {
+            int i = 0;
+            string name;
+            string ID;
+
+            LinkedList<User> result = new LinkedList<User>();
+            while (i < spectators.Length - 1)
+            {
+
+                ID = spectators.Substring(i, spectators.IndexOf(",", i) - i);
+                i = spectators.IndexOf(",", i) + 1;
+                name = spectators.Substring(i, spectators.IndexOf(",", i) - i);
+                i = spectators.IndexOf(",", i) + 1;
+
+                if (ID != user.ID)
+                {
+                    User u = new User(ID, name, 0, 0, 0, null);
+                    result.AddLast(u);
+                }
             }
             return result;
         }
@@ -829,15 +857,29 @@ namespace BL
         public void reciveMsgToChat(string msg)
         {
             string[] partsMsg = msg.Split(' ');
+            bool isFound = false;
 
             foreach (player p in getGameByID(partsMsg[1]).activePlayers)
             {
                 if (p.user.ID == partsMsg[2])
                 {
                     getGameByID(partsMsg[1]).addMsg(p.user.UserName + ": " + appendArray(partsMsg, 3));
+                    isFound = true;
                     break;
                 }
             }
+            if(!isFound)
+            foreach (User u in getGameByID(partsMsg[1]).spectators)
+            {
+                if (u.ID == partsMsg[2])
+                {
+                    getGameByID(partsMsg[1]).addMsg(u.UserName + ": " + appendArray(partsMsg, 3));
+                        isFound = true;
+                        break;
+                }
+            }
+            if(!isFound && user.ID== partsMsg[2])
+                getGameByID(partsMsg[1]).addMsg(user.UserName + ": " + appendArray(partsMsg, 3));
         }
 
         public void sendWhisper(string msg, string GameID, string UserID, string receiverID)
@@ -849,12 +891,23 @@ namespace BL
         public void reciveWhisper(string msg)
         {
             string[] partsMsg = msg.Split(' ');
+            bool isPlayer = false;
 
             foreach (player p in getGameByID(partsMsg[1]).activePlayers)
             {
                 if (p.user.ID == partsMsg[2])
                 {
                     getGameByID(partsMsg[1]).addWhisper(p.user.UserName + ": " + appendArray(partsMsg, 4));
+                    isPlayer = true;
+                    break;
+                }
+            }
+            if(!isPlayer)
+            foreach (User u in getGameByID(partsMsg[1]).spectators)
+            {
+                if (u.ID == partsMsg[2])
+                {
+                    getGameByID(partsMsg[1]).addWhisper(u.UserName + ": " + appendArray(partsMsg, 4));
                     break;
                 }
             }

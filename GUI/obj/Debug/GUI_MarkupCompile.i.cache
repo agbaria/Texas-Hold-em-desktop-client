@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\hom\Desktop\texas poker\GUI\App.xaml
-7301984652
+8-547315775
 
-15-2093581398
+1663985796
 14-2064474939
-create_game.xaml;game.xaml;gameCenter.xaml;MainWindow.xaml;privateMessage.xaml;replayedGame.xaml;signUp.xaml;
+create_game.xaml;game.xaml;gameCenter.xaml;MainWindow.xaml;privateMessage.xaml;replayedGame.xaml;signUp.xaml;spectatorMessage.xaml;
 
-False
+True
 

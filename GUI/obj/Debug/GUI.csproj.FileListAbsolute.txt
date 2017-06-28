@@ -172,3 +172,5 @@ C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\privateMessage.baml
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\signUp.baml
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\replayedGame.g.cs
 C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\replayedGame.baml
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\spectatorMessage.g.cs
+C:\Users\hom\Desktop\texas poker\GUI\obj\Debug\spectatorMessage.baml
