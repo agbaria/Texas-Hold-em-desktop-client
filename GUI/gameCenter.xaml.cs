@@ -61,20 +61,33 @@ namespace GUI
             cancel_button.Visibility = System.Windows.Visibility.Visible;
             change_button.Visibility = System.Windows.Visibility.Visible;
             games_table.Visibility = System.Windows.Visibility.Hidden;
+            change_box.Clear();
+            comboBox.SelectedValue = null;
         }
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (change_pass_selected.IsSelected)
-                change_box.Text = "enter new password";
+            {
+                change_password_box.Visibility = System.Windows.Visibility.Visible;
+                change_box.Text = "enter your old password";
+                change_password_box.Text = "enter new password";
+            }
             if (change_name_selected.IsSelected)
+            {
+                change_password_box.Visibility = System.Windows.Visibility.Hidden;
                 change_box.Text = "enter new name";
+            }
             if (change_email_selected.IsSelected)
+            {
+                change_password_box.Visibility = System.Windows.Visibility.Hidden;
                 change_box.Text = "enter new email";
+            }
             if (change_avatar_selected.IsSelected)
             {
                 comboBox.Visibility = System.Windows.Visibility.Hidden;
                 change_box.Visibility = System.Windows.Visibility.Hidden;
+                change_password_box.Visibility = System.Windows.Visibility.Hidden;
                 canvas1.Visibility = System.Windows.Visibility.Visible;
                 canvas2.Visibility = System.Windows.Visibility.Visible;
                 canvas3.Visibility = System.Windows.Visibility.Visible;
@@ -91,6 +104,7 @@ namespace GUI
         {
             comboBox.Visibility = System.Windows.Visibility.Hidden;
             change_box.Visibility = System.Windows.Visibility.Hidden;
+            change_password_box.Visibility = System.Windows.Visibility.Hidden;
             cancel_button.Visibility = System.Windows.Visibility.Hidden;
             change_button.Visibility = System.Windows.Visibility.Hidden;
             canvas1.Visibility = System.Windows.Visibility.Hidden;
@@ -110,6 +124,7 @@ namespace GUI
             {
                 comboBox.Visibility = System.Windows.Visibility.Hidden;
                 change_box.Visibility = System.Windows.Visibility.Hidden;
+                change_password_box.Visibility = System.Windows.Visibility.Hidden;
                 cancel_button.Visibility = System.Windows.Visibility.Hidden;
                 change_button.Visibility = System.Windows.Visibility.Hidden;
                 canvas1.Visibility = System.Windows.Visibility.Hidden;
@@ -124,7 +139,7 @@ namespace GUI
 
                 bool result=false;
                 if (change_pass_selected.IsSelected)
-                    result = BL.editUserPassword(this.user.ID, change_box.Text);
+                    result = BL.editUserPassword(this.user.ID, change_box.Text, change_password_box.Text);
                 else if (change_name_selected.IsSelected)
                     result = BL.editUserName(this.user.ID, change_box.Text);
                 else if (change_email_selected.IsSelected)

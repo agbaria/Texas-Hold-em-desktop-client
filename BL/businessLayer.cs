@@ -519,10 +519,10 @@ namespace BL
  * @param request is string that has this format: "EDITPASS *USER NAME* *NEWPASSWORD*"
  * @return "EDITPASS DONE" if succeed to edit the user password, "EDITPASS FAILED *MSG*" else
  */
-        public bool editUserPassword(String userID, String newPassword)
+        public bool editUserPassword(String userID, String oldPassword,  String newPassword)
         {
             isDone = 0;
-            if (CL.send("EDITPASS " + userID + " " + newPassword + "\n"))
+            if (CL.send("EDITPASS " + userID + " " + oldPassword + " " + newPassword + "\n"))
             {
                 while (isDone == 0) ;
                 if (isDone == 1) return true;

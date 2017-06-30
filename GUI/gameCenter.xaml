@@ -21,9 +21,9 @@
             <ComboBoxItem Content="change email" HorizontalAlignment="Left" Width="221" Name="change_email_selected"/>
             <ComboBoxItem Content="change avatar" HorizontalAlignment="Left" Width="221" Name="change_avatar_selected"/>
         </ComboBox>
-        <TextBox x:Name="change_box" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="22,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160" />
-        <Button x:Name="cancel_button"  Visibility="Hidden" Content="cancel" HorizontalAlignment="Left" Margin="22,217,0,0" VerticalAlignment="Top" Width="64" Click="cancel_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
-        <Button x:Name="change_button"  Visibility="Hidden" Content="change" HorizontalAlignment="Left" Margin="117,217,0,0" VerticalAlignment="Top" Width="65" Click="change_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
+        <TextBox x:Name="change_box" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="22,145,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160" />
+        <Button x:Name="cancel_button" Visibility="Hidden"  Content="cancel" HorizontalAlignment="Left" Margin="22,217,0,0" VerticalAlignment="Top" Width="64" Click="cancel_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
+        <Button x:Name="change_button" Visibility="Hidden"  Content="change" HorizontalAlignment="Left" Margin="117,217,0,0" VerticalAlignment="Top" Width="65" Click="change_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
         <Button x:Name="search_games_button" Content="search games" HorizontalAlignment="Left" Margin="22,274,0,0" VerticalAlignment="Top" Width="106" Click="search_games_button_Click" Height="30" Background="#FFEE2020" Foreground="#FFE9F30C" FontSize="14"/>
         <DataGrid x:Name="games_table" Visibility="Hidden" HorizontalAlignment="Left" Margin="226,89,0,0" VerticalAlignment="Top" Height="139" Width="283"/>
         <Button x:Name="join_game_button" Content="join\ spectate&#xD;&#xA; game" HorizontalAlignment="Left" Margin="21,314,0,0" VerticalAlignment="Top" Width="106" Click="join_game_button_Click" Height="49" Background="#FFF0F005" Foreground="#FFFB1D07" FontSize="14"/>
@@ -67,5 +67,6 @@
         <Label x:Name="userName" Content="Label" HorizontalAlignment="Left" Height="38" Margin="619,70,-9,0" VerticalAlignment="Top" Width="132" FontSize="14" FontWeight="Bold"/>
         <Button x:Name="replay_button" Visibility="Hidden" Content="Replay" HorizontalAlignment="Left" Margin="349,405,0,0" VerticalAlignment="Top" Width="77"  Height="30" Background="#FFEEEE1A" Foreground="#FFEC210D" FontSize="14" Click="replay_button_Click"/>
         <Button x:Name="replay_game_button" Content="replay game" HorizontalAlignment="Left" Margin="21,421,0,0" VerticalAlignment="Top" Width="106" Click="replay_game_button_Click" Height="30" Background="#FFF0F005" Foreground="#FFFB1D07" FontSize="14"/>
+        <TextBox x:Name="change_password_box" Visibility="Hidden" HorizontalAlignment="Left" Height="23" Margin="21,183,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="160" />
     </Grid>
 </Window>
