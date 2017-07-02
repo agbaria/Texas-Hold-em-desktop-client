@@ -24,16 +24,54 @@ namespace GUI
         businessLayer BL;
         User user;
 
-        public gameCenter(businessLayer bl, User user)
+        public gameCenter(businessLayer bl, User user, LinkedList<string> prefsGames)
         {
             InitializeComponent();
             this.BL = bl;
             this.user = user;
             this.userName.Content = this.user.UserName;
             showAvatar();
+            if (prefsGames != null)
+            showSearchResults(prefsGames);
         }
 
-        public void showAvatar()
+        private void showSearchResults(LinkedList<string> can_join)
+        {
+            games_table.ItemsSource = null;
+            games_table.Visibility = System.Windows.Visibility.Visible;
+
+            DataTable dt = new DataTable();
+
+            //create table dynamically
+            dt.Columns.Add("game id", typeof(string));
+            dt.Columns.Add("buy in", typeof(string));
+            dt.Columns.Add("avilable sets", typeof(string));
+
+            if (can_join.Contains("none"))
+            {
+                games_table.Visibility = System.Windows.Visibility.Hidden;
+                MessageBox.Show("Can't find any games");
+            }
+            else
+            {
+                string[] oneRow = new string[3];
+                int index = 0;
+                //add rows
+                foreach (string i_game in can_join)
+                {
+                    oneRow[index] = i_game;
+                    index++;
+                    if (index > 2)
+                    {
+                        index = 0;
+                        dt.Rows.Add(oneRow[0], oneRow[1], oneRow[2]);
+                    }
+                }
+                games_table.ItemsSource = dt.DefaultView;
+            }
+        }
+
+        private void showAvatar()
         {
                 if (this.user.avatar.Equals("avatar1"))
                 userAvatar.Background = new ImageBrush(new BitmapImage(new Uri("avatar1.jpg", UriKind.Relative)));
@@ -183,7 +221,8 @@ namespace GUI
             replay_button.Visibility = System.Windows.Visibility.Hidden;
             games_table.Visibility = System.Windows.Visibility.Hidden;
 
-            game_label.Content = "please enter pot size:";
+            game_label.Content = null;
+        //    game_label.Content = "please enter pot size:";
             ok_button.Content = "search";
         }
 
@@ -204,7 +243,7 @@ namespace GUI
 
         private void create_game_button_Click(object sender, RoutedEventArgs e)
         {
-            create_game CG = new create_game(BL, user);
+            create_game CG = new create_game(BL, user, true);
             CG.Show();
             this.Close();
         }
@@ -213,6 +252,7 @@ namespace GUI
         {
             if (ok_button.Content.Equals("search"))
             {
+                games_table.ItemsSource = null;
                 games_table.Visibility = System.Windows.Visibility.Visible;
 
                 LinkedList<string> can_join = new LinkedList<string>();
@@ -229,6 +269,14 @@ namespace GUI
                     int pot_size;
                     pot_size = int.Parse(game_box.Text);
                     can_join = BL.searchGamesByPotSize(pot_size);
+                }
+                else if (search_by_player_name.IsSelected)
+                {
+                    can_join = BL.searchGamesByPlayerName(game_box.Text);
+                }
+                else if (search_by_prefs.IsSelected)
+                {
+                    can_join = null;
                 }
                 else if (joinable_list.IsSelected)
                     can_join = BL.listOfJoinableGames(this.user.ID);
@@ -258,9 +306,9 @@ namespace GUI
             }
             else if (ok_button.Content.Equals("join"))
             {
-                BL.joinGame(game_box.Text, this.user.ID);
+                bool canJoin= BL.joinGame(game_box.Text, this.user.ID);
                 BL.game choosenGame = BL.getGameByID(game_box.Text);
-                if (choosenGame != null)
+                if (choosenGame != null && canJoin)
                 {
                     game g = new game(BL, choosenGame, user);
                     g.Show();
@@ -289,6 +337,20 @@ namespace GUI
                 serachGame_comboBox.Visibility = System.Windows.Visibility.Hidden;
                 game_box.Visibility = System.Windows.Visibility.Visible;
                 game_label.Visibility = System.Windows.Visibility.Visible;
+                game_label.Content = "please enter pot size:";
+            }
+            else if(search_by_player_name.IsSelected)
+            {
+                serachGame_comboBox.Visibility = System.Windows.Visibility.Hidden;
+                game_box.Visibility = System.Windows.Visibility.Visible;
+                game_label.Visibility = System.Windows.Visibility.Visible;
+                game_label.Content = "please enter name:";
+            }
+            else if (search_by_prefs.IsSelected)
+            {
+                create_game CG = new create_game(BL, user, false);
+                CG.Show();
+                this.Close();
             }
             else
             {

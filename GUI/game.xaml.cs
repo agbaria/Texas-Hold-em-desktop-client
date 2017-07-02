@@ -428,7 +428,7 @@ namespace GUI
         {
             BL.leaveGame(Game.GameID, user.ID);
             newThread.Abort();
-            gameCenter GC = new gameCenter(BL, user);
+            gameCenter GC = new gameCenter(BL, user, null);
             GC.Show();
             this.Close();
         }

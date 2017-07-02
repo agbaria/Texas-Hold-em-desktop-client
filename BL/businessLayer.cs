@@ -624,6 +624,49 @@ namespace BL
             return null;
         }
 
+        /** 
+         *  /** 
+         *  GAMES DETAILS = "*ONE GAME DETAILS*"{0,n} 
+         *  ONE GAME DETAILS= "GAMEID=*GAME ID* ENDGAME"
+         * @param request is string that has this format: "SEARCHGAMESBYPOTSIZE *POT SIZE*"
+         * @return "SEARCHGAMESBYPOTSIZE DONE *GAMES DETAILS*", "SEARCHGAMESBYPOTSIZE FAILED"
+          */
+        public LinkedList<string> searchGamesByPlayerName(String name)
+        {
+            isDone = 0;
+            if (CL.send("SEARCHGAMESBYPLAYERNAME " + name + "\n"))
+            {
+                while (isDone == 0) ;
+                if (isDone == 1)
+                {
+                    LinkedList<string> result = new LinkedList<string>();
+                    if (!recived.Contains("GAMEID=")) return null;
+                    String part2 = recived.Substring(recived.IndexOf("GAMEID="));
+                    if (!part2.StartsWith("GAMEID=")) return null;
+                    int i = 0;
+                    while (i < part2.Length - 3)
+                    {
+                        i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" BUYIN=", i) - i));
+                        i = part2.IndexOf(" BUYIN=") + " BUYIN=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" SETS=", i) - i));
+                        i = part2.IndexOf(" SETS=") + " SETS=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
+                        i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
+                        part2 = part2.Substring(part2.IndexOf(" ENDGAME ") + " ENDGAME ".Length);
+                        i = 0;
+                    }
+
+                    this.recived = "";
+                    return result;
+                }
+                this.recived = "";
+                return null;
+            }
+            this.recived = "";
+            return null;
+        }
+
         /**
 
      * PLAYERS = "*PLAYER USER NAME*,*Player Name*,"{0,n} 
@@ -690,6 +733,63 @@ namespace BL
             }
             this.recived = "";
             return "two";
+        }
+
+        /** 
+ * PLAYERS = "*PLAYER USER NAME* "{0,n}
+ * CARDS = "*CARD NUMBER* *CARD TYPE* "{0,n}
+ * GAME FULL DETAILS= "GameID=*ID*&players=*PLAYERS*&activePlayers=*PLAYERS*&blindBit=*NUMBER*&CurrentPlayer=*PLAYER USER NAME*&
+ * table=*CARDS*&MaxPlayers=*NUMBER*&activePlayersNumber=*NUMBER*&cashOnTheTable=*NUMBER*&CurrentBet=*NUMBER*"
+ * GAME PREF = gameTypePolicy=*GAME TYPE POLICY*&potLimit=*POT LIMIT*&buyInPolicy=*BUY IN POLICY*&chipPolicy=*CHIP POLICY*&minBet=*MIN BET*&minPlayersNum=*MIN PLAY NUM*&maxPlayersNum=*MAX PLAYER NUMBER*&spectatable=*T/F*&leaguable=*T/F*&league=*NUNBER*
+ * @param request is string that has this format: "CREATEGAME *USER NAME* *GAME PREF*"
+ * @return "CREATEGAME *USER NAME* *GAME FULL DETAILS*", "CREATEGAME FAILED" else
+*/
+
+        public LinkedList<string> searchGameByPrefs(GameType type, int Limit, int buyIn, int chipPolicy, int minBet,
+              int minPlayers, int maxPlayers, bool spectatable, bool leaguable, int league)
+        {
+            isDone = 0;
+            string spect = "";
+            string leagu = "";
+            if (spectatable) spect = "T";
+            else spect = "F";
+            if (leaguable) leagu = "T";
+            else leagu = "F";
+            if (CL.send("SEARCHGAMESBYPREFS " + "gameTypePolicy=" + type + "&potLimit=" + Limit + "&buyInPolicy=" + buyIn +
+                "&chipPolicy=" + chipPolicy + "&minBet=" + minBet + "&minPlayersNum=" + minPlayers + "&maxPlayersNum=" + maxPlayers + "&spectatable=" + spect + "&leaguable=" + leagu + "&league=" + league + "\n"))
+            {
+                while (isDone == 0) ;
+                if (isDone == 1)
+                {
+
+                    LinkedList<string> result = new LinkedList<string>();
+                    if (!recived.Contains("GAMEID=")) return null;
+                    String part2 = recived.Substring(recived.IndexOf("GAMEID="));
+                    if (!part2.StartsWith("GAMEID=")) return null;
+                    int i = 0;
+                    while (i < part2.Length - 3)
+                    {
+                        i = part2.IndexOf("GAMEID=") + "GAMEID=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" BUYIN=", i) - i));
+                        i = part2.IndexOf(" BUYIN=") + " BUYIN=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" SETS=", i) - i));
+                        i = part2.IndexOf(" SETS=") + " SETS=".Length;
+                        result.AddLast(part2.Substring(i, part2.IndexOf(" ENDGAME ", i) - i));
+                        i = part2.IndexOf(" ENDGAME ", i) + " ENDGAME ".Length;
+                        part2 = part2.Substring(part2.IndexOf(" ENDGAME ") + " ENDGAME ".Length);
+                        i = 0;
+                    }
+
+                    this.recived = "";
+                    foreach (String str in result)
+                        Console.WriteLine("*******************"+str+"****************");
+                    return result;
+                }
+                this.recived = "";
+                return null;
+            }
+            this.recived = "";
+            return null;
         }
 
         /** 

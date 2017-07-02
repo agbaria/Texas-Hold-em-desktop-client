@@ -27,7 +27,7 @@ namespace BL
                 IPAddress ipAddress = ipHostInfo.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);*/
 
-                client = new TcpClient("10.0.0.7", 8080);  //("127.0.0.1", 8080);
+                client = new TcpClient("10.0.0.5", 8080);  //("127.0.0.1", 8080);
                 stream = client.GetStream();
                 // Create a TCP/IP  socket.  
                 /*sender = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -85,6 +85,10 @@ namespace BL
                             else if (recived.Contains("EDITUSEREMAIL"))
                                 businessLayer.getBL().edittedUserEmail(recived);
                             else if (recived.Contains("SEARCHGAMESBYPOTSIZE"))
+                                businessLayer.getBL().searchedGamesByPotSize(recived);
+                            else if (recived.Contains("SEARCHGAMESBYPREFS"))
+                                businessLayer.getBL().searchedGamesByPotSize(recived);
+                            else if (recived.Contains("SEARCHGAMESBYPLAYERNAME"))
                                 businessLayer.getBL().searchedGamesByPotSize(recived);
                             else if (recived.Contains("LISTSPECTATEABLEGAMES"))
                                 businessLayer.getBL().searchedGamesByPotSize(recived);

@@ -22,17 +22,23 @@ namespace GUI
     {
         businessLayer BL;
         User user;
+        bool isCreate;
 
-        public create_game(businessLayer bl, User user)
+        public create_game(businessLayer bl, User user, bool isCreate)
         {
             InitializeComponent();
             this.BL = bl;
             this.user = user;
+            this.isCreate = isCreate;
+            if (isCreate)
+                create_button.Content = "CREATE";
+            else
+                create_button.Content = "SEARCH";
         }
 
         private void cancel_button_Click(object sender, RoutedEventArgs e)
         {
-            gameCenter GC = new gameCenter(BL, user);
+            gameCenter GC = new gameCenter(BL, user, null);
             GC.Show();
             this.Close();
         }
@@ -43,13 +49,24 @@ namespace GUI
             int limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers;
             bool spectatable=false, leaguable=false;
             GameType type = GameType.POT_LIMIT;
-
-            limit =int.Parse(limit_textBox.Text);
-            buyIN = int.Parse(buyIn_textBox.Text);
-            chipPolicy = int.Parse(chipPolicy_textBox.Text);
-            minBet = int.Parse(minBet_textBox.Text);
-            minPlayers = int.Parse(minPlayers_textBox.Text);
-            MaxPlayers = int.Parse(maxPlayers_textBox.Text);
+            try
+            { limit = int.Parse(limit_textBox.Text); }
+            catch { limit = 0; }
+            try
+            { buyIN = int.Parse(buyIn_textBox.Text); }
+            catch { buyIN = 0; }
+            try
+            { chipPolicy = int.Parse(chipPolicy_textBox.Text); }
+            catch { chipPolicy = 0; }
+            try
+            { minBet = int.Parse(minBet_textBox.Text); }
+            catch { minBet = 0; }
+            try
+            { minPlayers = int.Parse(minPlayers_textBox.Text); }
+            catch { minPlayers = 2; }
+            try
+            { MaxPlayers = int.Parse(maxPlayers_textBox.Text); }
+            catch { MaxPlayers = 8; }
             if (spectatable_comboBox.SelectedIndex==0)
                 spectatable = true;
             if (leaguable_comboBox.SelectedIndex == 0)
@@ -58,15 +75,31 @@ namespace GUI
                 type = GameType.LIMIT;
             if (comboBox.SelectedIndex == 1)
                 type = GameType.NO_LIMIT;
-            
-            gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, this.user.league);
-            if(gameID==null)
-                MessageBox.Show("error \n one or more of the parameters is invalid");
-            
-            BL.game game = BL.getGameByID(gameID);
-            game g = new game(BL, game, user);
-            g.Show();
-            this.Close();
+
+            if (isCreate)
+            {
+                gameID = BL.createGame(user.ID, type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, this.user.league);
+                if (gameID == null)
+                    MessageBox.Show("error \n one or more of the parameters is invalid");
+
+                BL.game game = BL.getGameByID(gameID);
+                game g = new game(BL, game, user);
+                g.Show();
+                this.Close();
+            }
+            else
+            {
+                LinkedList<string> prefsGames;
+                prefsGames=BL.searchGameByPrefs(type, limit, buyIN, chipPolicy, minBet, minPlayers, MaxPlayers, spectatable, leaguable, this.user.league);
+                if (prefsGames == null)
+                {
+                    prefsGames = new LinkedList<string>();
+                    prefsGames.AddLast("none");
+                }
+                gameCenter GC = new gameCenter(BL, user, prefsGames);
+                GC.Show();
+                this.Close();
+            }
             
         }
     }

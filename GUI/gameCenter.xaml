@@ -57,8 +57,10 @@
         <RadioButton x:Name="avatar2"  Visibility="Hidden" Content="avatar2" HorizontalAlignment="Left" Margin="109,181,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="avatar3"  Visibility="Hidden" Content="avatar3" HorizontalAlignment="Left" Margin="182,181,0,0" VerticalAlignment="Top"/>
         <RadioButton x:Name="avatar4"  Visibility="Hidden" Content="avatar4" HorizontalAlignment="Left" Margin="258,181,0,0" VerticalAlignment="Top"/>
-        <ComboBox x:Name="serachGame_comboBox" Visibility="Hidden" HorizontalAlignment="Left" Margin="353,338,0,0" VerticalAlignment="Top" Width="174" Height="27" SelectionChanged="serachGame_comboBox_SelectionChanged">
+        <ComboBox x:Name="serachGame_comboBox" Visibility="Hidden" HorizontalAlignment="Left" Margin="349,338,0,0" VerticalAlignment="Top" Width="180" Height="27" SelectionChanged="serachGame_comboBox_SelectionChanged">
             <ComboBoxItem Content="search games by pot size" HorizontalAlignment="Left" Width="157" Name="search_by_pot_size" />
+            <ComboBoxItem Content="search games by player name" HorizontalAlignment="Left" Width="165" Name="search_by_player_name" />
+            <ComboBoxItem Content="search games by prefs" HorizontalAlignment="Left" Width="157" Name="search_by_prefs" />
             <ComboBoxItem Content="show all joinable games" HorizontalAlignment="Left" Width="157" Name="joinable_list"/>
             <ComboBoxItem Content="show all spectatable games" HorizontalAlignment="Left" Width="157" Name="spectatable_list"/>
         </ComboBox>

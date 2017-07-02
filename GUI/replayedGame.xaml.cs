@@ -42,7 +42,7 @@ namespace GUI
 
         private void return_button_Click(object sender, RoutedEventArgs e)
         {
-            gameCenter GC = new gameCenter(BL, user);
+            gameCenter GC = new gameCenter(BL, user, null);
             GC.Show();
             this.Close();
         }
