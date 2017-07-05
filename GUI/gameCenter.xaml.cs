@@ -361,10 +361,9 @@ namespace GUI
 
         private void spectate_button_Click(object sender, RoutedEventArgs e)
         {
-
-              BL.spectateGame(this.user.ID, game_box.Text);
+            Boolean isSpectable = BL.spectateGame(this.user.ID, game_box.Text);
                BL.game choosenGame = BL.getGameByID(game_box.Text);
-            if (choosenGame != null)
+            if (choosenGame != null && isSpectable)
             {
                 game g = new game(BL, choosenGame, user);
                 g.Show();

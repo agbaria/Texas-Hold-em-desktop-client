@@ -30,6 +30,7 @@ namespace GUI
         BitmapImage[] cards = new BitmapImage[52];
         BitmapImage[] avatars = new BitmapImage[4];
         Border[] playerAvatar = new Border[8];
+        Border[] tableCards = new Border[5];
         Label[] playerName = new Label[8];
         Label[] playerCash = new Label[8];
         Button[] messages = new Button[8];
@@ -99,6 +100,12 @@ namespace GUI
             playerAvatar[5] = player6_avatar;
             playerAvatar[6] = player7_avatar;
             playerAvatar[7] = player8_avatar;
+
+            tableCards[0] = card1;
+            tableCards[1] = card2;
+            tableCards[2] = card3;
+            tableCards[3] = card4;
+            tableCards[4] = card5;
 
             playerName[0] = player1_name;
             playerName[1] = player2_name;
@@ -204,57 +211,20 @@ namespace GUI
                    cardIndex[i] = Game.table[i].number - 1 + 39;
             }
 
-            if (numOfCards > 0)
+            setTableCards(numOfCards, cardIndex);
+        }
+
+        private void setTableCards(int numOfCards, int[] cardIndex)
+        {
+            int i;
+            for(i=0; i<numOfCards; i++)
+             tableCards[i].Background = new ImageBrush(cards[cardIndex[i]]);
+            while(i < 5)
             {
-                if (numOfCards == 1)
-                {
-                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
-                    card2.Background = new ImageBrush();
-                    card3.Background = new ImageBrush();
-                    card4.Background = new ImageBrush();
-                    card5.Background = new ImageBrush();
-                }
-                if (numOfCards == 2)
-                {
-                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
-                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
-                    card3.Background = new ImageBrush();
-                    card4.Background = new ImageBrush();
-                    card5.Background = new ImageBrush();
-                }
-                if (numOfCards == 3)
-                {
-                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
-                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
-                    card3.Background = new ImageBrush(cards[cardIndex[2]]);
-                    card4.Background = new ImageBrush();
-                    card5.Background = new ImageBrush();
-                }
-                if (numOfCards == 4)
-                {
-                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
-                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
-                    card3.Background = new ImageBrush(cards[cardIndex[2]]);
-                    card4.Background = new ImageBrush(cards[cardIndex[3]]);
-                    card5.Background = new ImageBrush();
-                }
-                if (numOfCards == 5)
-                {
-                    card1.Background = new ImageBrush(cards[cardIndex[0]]);
-                    card2.Background = new ImageBrush(cards[cardIndex[1]]);
-                    card3.Background = new ImageBrush(cards[cardIndex[2]]);
-                    card4.Background = new ImageBrush(cards[cardIndex[3]]);
-                    card5.Background = new ImageBrush(cards[cardIndex[4]]);
-                }
+                tableCards[i].Background = new ImageBrush();
+                i++;
             }
-            else
-            {
-                card1.Background = new ImageBrush();
-                card2.Background = new ImageBrush();
-                card3.Background = new ImageBrush();
-                card4.Background = new ImageBrush();
-                card5.Background = new ImageBrush();
-            }
+
         }
 
         private void updateMyCards(player myPlayer)
@@ -382,7 +352,8 @@ namespace GUI
                         break;
                     }
 
-
+                my_first_card.Background = new ImageBrush();
+                my_second_card.Background = new ImageBrush();
                 foreach (player myPlayer in this.Game.activePlayers)
                 if(myPlayer.user.ID==this.user.ID)
                 {
@@ -411,14 +382,19 @@ namespace GUI
                 if (this.Game.CurrentBet > 0)
                     check_button.IsEnabled = false;
 
-                slider.Minimum = this.Game.minimumBet;
             int maxPossibleBet=this.user.totalCash;
+            int minPossibleBet = this.Game.minimumBet;
 
-            foreach (player p in this.Game.activePlayers)
-                if (p.user.totalCash< maxPossibleBet)
+                foreach (player p in this.Game.activePlayers)
+                {
+                    if (p.user.totalCash < maxPossibleBet)
                         maxPossibleBet = p.user.totalCash;
+                    if (p.user.totalCash < minPossibleBet && p.user.totalCash>0)
+                        minPossibleBet = p.user.totalCash;
+                }
                   
                 slider.Maximum = maxPossibleBet;
+                slider.Minimum = minPossibleBet;
                 slider.Value = slider.Minimum;
             }));
         }
